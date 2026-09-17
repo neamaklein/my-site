@@ -1,0 +1,29 @@
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: var(--ratio, 4 / 3);
+  background: repeating-linear-gradient(
+    45deg,
+    #f0f0f0,
+    #f0f0f0 10px,
+    #e6e6e6 10px,
+    #e6e6e6 20px
+  );
+  border: 1px dashed var(--color-border);
+  color: #8a8a8a;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px;
+}
+
+.kind {
+  display: block;
+  font-weight: 500;
+  color: #5a5a5a;
+  margin-bottom: 4px;
+}
