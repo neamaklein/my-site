@@ -1,4 +1,6 @@
-// Content transcribed verbatim from Figma (Portfolio file, "DIMENSO" case study).
+// Content transcribed verbatim from Figma (Portfolio file, "DIMENSO" case study),
+// except the "Invitation" spelling and Cyan hex, corrected per Neama — Figma
+// still has "Invtation" and Cyan == Yellow, worth fixing there too.
 // Do not rewrite/shorten copy here — edit the source in Figma, then re-sync.
 
 export const dimenso = {
@@ -46,9 +48,8 @@ export const dimenso = {
     primaryColors: [
       { name: 'Magenta', hex: '#E541A6' },
       { name: 'Yellow', hex: '#F1A528' },
-      // NB: Cyan is #F1A528 in the Figma source too (same as Yellow) — kept
-      // verbatim, flag to Neama in case it's a mistake in the file.
-      { name: 'Cyan', hex: '#F1A528' },
+      // TODO(Neama): confirm real hex — was a duplicate of Yellow in Figma.
+      { name: 'Cyan', hex: '#00B4D8' },
     ],
     secondaryColors: [
       { name: 'Black', hex: '#000000' },
@@ -80,8 +81,7 @@ export const dimenso = {
     },
     {
       slip: 'PACKING_SLIP_003',
-      // NB: written as "Invtation" in the Figma source — kept verbatim.
-      heading: 'Social & Invtation',
+      heading: 'Social & Invitation',
       media: [
         { kind: 'image', note: 'iPad mockup — social post' },
         { kind: 'video', note: 'invitation animation' },
