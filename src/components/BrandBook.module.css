@@ -1,0 +1,98 @@
+.wrap {
+  padding: 48px 0;
+}
+
+.row {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.col {
+  flex: 1;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0 0 16px;
+}
+
+.fonts {
+  display: flex;
+  gap: 16px;
+}
+
+.fontCard {
+  background: #f4f4f4;
+  padding: 16px;
+  min-width: 120px;
+}
+
+.fontCard .sample {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.fontCard .name {
+  font-size: 11px;
+  color: #6a6a6a;
+}
+
+.swatches {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  min-width: 140px;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.swatch .swatchName,
+.swatch .swatchHex {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.iconGrid {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.iconTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 90px;
+}
+
+.iconTile .glyph {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #8a8a8a;
+}
+
+.iconTile .name {
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+}

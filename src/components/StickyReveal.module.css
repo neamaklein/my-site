@@ -1,0 +1,46 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  justify-content: flex-end;
+  /* Matches Figma's own py-150px on the sticky wrapper (Space Design
+     gallery) — this is what actually sets how long each item holds
+     before the next one takes over, not an arbitrary viewport unit. */
+  padding: 150px 0;
+}
+
+.item.full {
+  /* The process section's own Figma geometry is a nested fill-container
+     + sticky trick that doesn't reduce to a literal padding value — using
+     the same 150px as the verified Space Design spec for a consistent feel
+     between the two sticky sections instead of a second guessed number. */
+  padding: 150px 0;
+}
+
+.pin {
+  position: sticky;
+  top: var(--nav-height);
+  width: 65%;
+}
+
+.item.full .pin {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .pin {
+    width: 100%;
+  }
+  .row {
+    flex-direction: column;
+  }
+}

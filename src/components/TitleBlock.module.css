@@ -1,0 +1,26 @@
+.wrap {
+  padding: 64px 0 24px;
+}
+
+.tag {
+  display: block;
+  color: #8a8a8a;
+  margin-bottom: 16px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(48px, 9vw, 134px);
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  margin: 0 0 24px;
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-size: 21.6px;
+  line-height: 32px;
+  max-width: 768px;
+  margin: 0;
+}
