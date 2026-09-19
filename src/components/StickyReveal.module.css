@@ -1,0 +1,39 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  justify-content: flex-end;
+  padding: 60vh 0;
+}
+
+.item.full {
+  padding: 40vh 0;
+}
+
+.pin {
+  position: sticky;
+  top: var(--nav-height);
+  width: 65%;
+}
+
+.item.full .pin {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .pin {
+    width: 100%;
+  }
+  .row {
+    flex-direction: column;
+  }
+}

@@ -33,8 +33,29 @@ export const dimenso = {
     slip: 'PACKING_SLIP_001',
     heading: 'Strategy',
     paragraphs: [
-      "Dimensō is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.",
+      {
+        lead: 'Dimensō',
+        text: " is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.",
+      },
       "Dimenso — Creative LabBridging 2D Concept and 3D Reality through AI Integration. Dimenso is a visionary creative workspace by Adobe, designed to streamline the creative workflow. The platform seamlessly integrates Adobe’s powerful suite with advanced AI tools into a single, unified interface tailored for designers, developers, and creative professionals. Created as part of the 'Brand in a Box' course, Dimenso redefines how cross-disciplinary teams collaborate, transforming flat 2D concepts into immersive 3D realities.",
+    ],
+  },
+
+  // Unlabeled sticky-scroll section between the brand book and the Space
+  // Design gallery — a full-width cover render, then a pinned row of 3
+  // portrait AI clips. Both pin to the viewport top while scrolling, same
+  // as the Space Design gallery below.
+  process: {
+    items: [
+      { type: 'single', full: true, media: { kind: 'image', note: 'process cover render' } },
+      {
+        type: 'row',
+        media: [
+          { kind: 'video', note: 'AI render clip 1' },
+          { kind: 'video', note: 'AI render clip 2' },
+          { kind: 'video', note: 'AI render clip 3' },
+        ],
+      },
     ],
   },
 
@@ -71,6 +92,9 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Space Design',
+      // Sticky scroll-reveal in Figma: each image pins while the next
+      // scrolls over it — same as the `process` section above.
+      layout: 'sticky',
       media: [
         { kind: 'image', note: 'enhanced_Image27' },
         { kind: 'image', note: 'enhanced_Image24' },
