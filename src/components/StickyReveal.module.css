@@ -13,7 +13,11 @@
 }
 
 .item.full {
-  padding: 96px 0;
+  /* The process section's own Figma geometry is a nested fill-container
+     + sticky trick that doesn't reduce to a literal padding value — using
+     the same 150px as the verified Space Design spec for a consistent feel
+     between the two sticky sections instead of a second guessed number. */
+  padding: 150px 0;
 }
 
 .pin {
