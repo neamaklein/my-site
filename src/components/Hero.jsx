@@ -1,9 +1,11 @@
 import MediaPlaceholder from './MediaPlaceholder.jsx';
+import HeroIntro from './HeroIntro.jsx';
 import styles from './Hero.module.css';
 
 export default function Hero({ heading, subtitle, scrollLabel }) {
   return (
     <section className={styles.hero}>
+      <HeroIntro />
       <div className={styles.bg}>
         <MediaPlaceholder kind="image" note="hero background" ratio="16 / 9" />
       </div>

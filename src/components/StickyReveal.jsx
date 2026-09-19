@@ -14,7 +14,7 @@ export default function StickyReveal({ items }) {
             {item.type === 'row' ? (
               <div className={styles.row}>
                 {item.media.map((media) => (
-                  <MediaPlaceholder key={media.note} kind={media.kind} note={media.note} ratio="9 / 16" />
+                  <MediaPlaceholder key={media.note} kind={media.kind} note={media.note} ratio="3 / 4" />
                 ))}
               </div>
             ) : (

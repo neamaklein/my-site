@@ -42,18 +42,19 @@ export const dimenso = {
   },
 
   // Unlabeled sticky-scroll section between the brand book and the Space
-  // Design gallery — a full-width cover render, then a pinned row of 3
-  // portrait AI clips. Both pin to the viewport top while scrolling, same
-  // as the Space Design gallery below.
+  // Design gallery. Per the prototype recording: a full-bleed exterior
+  // photo of the physical pavilion, then 3 illustrated brand posters
+  // (not video) slide up over it in a fanned stack. Both pin to the
+  // viewport top while scrolling, same as the Space Design gallery below.
   process: {
     items: [
-      { type: 'single', full: true, media: { kind: 'image', note: 'process cover render' } },
+      { type: 'single', full: true, media: { kind: 'image', note: 'pavilion exterior photo' } },
       {
         type: 'row',
         media: [
-          { kind: 'video', note: 'AI render clip 1' },
-          { kind: 'video', note: 'AI render clip 2' },
-          { kind: 'video', note: 'AI render clip 3' },
+          { kind: 'image', note: 'brand poster 1 (teal)' },
+          { kind: 'image', note: 'brand poster 2 (orange)' },
+          { kind: 'image', note: 'brand poster 3 (magenta)' },
         ],
       },
     ],
