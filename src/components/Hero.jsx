@@ -7,7 +7,7 @@ export default function Hero({ heading, subtitle, scrollLabel }) {
     <section className={styles.hero}>
       <HeroIntro />
       <div className={styles.bg}>
-        <MediaPlaceholder kind="image" note="hero background" ratio="16 / 9" />
+        <MediaPlaceholder kind="video" note="hero background (looping video, not a still image)" ratio="16 / 9" />
       </div>
       <div className={styles.content}>
         {heading ? (
