@@ -20,7 +20,7 @@ function ColorSwatch({ name, hex }) {
   );
 }
 
-export default function BrandBook({ slip, heading, fonts, primaryColors, secondaryColors, icons }) {
+export default function BrandBook({ slip, heading, fonts, logoSrc, morphologySrc, iconsSrc, primaryColors, secondaryColors, icons }) {
   return (
     <div className={styles.wrap}>
       <SectionLabel slip={slip} heading={heading} />
@@ -42,11 +42,11 @@ export default function BrandBook({ slip, heading, fonts, primaryColors, seconda
       <div className={styles.row}>
         <div className={styles.col}>
           <h3 className={styles.label}>Logo</h3>
-          <MediaPlaceholder kind="image" note="Dimenso wordmark + icon" ratio="1 / 1" />
+          <MediaPlaceholder kind="image" note="Dimenso wordmark + icon" src={logoSrc} ratio="1 / 1" />
         </div>
         <div className={styles.col}>
           <h3 className={styles.label}>Morphology</h3>
-          <MediaPlaceholder kind="image" note="logo construction / grid" ratio="16 / 10" />
+          <MediaPlaceholder kind="image" note="logo construction / grid" src={morphologySrc} ratio="16 / 10" />
         </div>
       </div>
 
@@ -72,14 +72,18 @@ export default function BrandBook({ slip, heading, fonts, primaryColors, seconda
       <div className={styles.row}>
         <div className={styles.col}>
           <h3 className={styles.label}>Icons</h3>
-          <div className={styles.iconGrid}>
-            {icons.map((icon) => (
-              <div className={styles.iconTile} key={icon.name}>
-                <div className={styles.glyph}>icon</div>
-                <span className={styles.name}>{icon.name}</span>
-              </div>
-            ))}
-          </div>
+          {iconsSrc ? (
+            <img className={styles.iconsImage} src={iconsSrc} alt="Dimenso icon set" />
+          ) : (
+            <div className={styles.iconGrid}>
+              {icons.map((icon) => (
+                <div className={styles.iconTile} key={icon.name}>
+                  <div className={styles.glyph}>icon</div>
+                  <span className={styles.name}>{icon.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

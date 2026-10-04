@@ -1,7 +1,39 @@
 // Content transcribed verbatim from Figma (Portfolio file, "DIMENSO" case study),
-// except the "Invitation" spelling and Cyan hex, corrected per Neama — Figma
-// still has "Invtation" and Cyan == Yellow, worth fixing there too.
+// except the "Invitation" spelling, corrected per Neama — Figma still has
+// "Invtation", worth fixing there too.
+// Images below are temporary Figma-exported stills, downloaded and
+// compressed for web use, standing in until Neama hands over the
+// full-resolution originals from her local source folder.
 // Do not rewrite/shorten copy here — edit the source in Figma, then re-sync.
+
+import pavilionExterior from '../../assets/dimenso/process/pavilion-exterior.jpg';
+import posterMagenta from '../../assets/dimenso/process/poster-magenta.jpg';
+import posterOrange from '../../assets/dimenso/process/poster-orange.jpg';
+import posterCyan from '../../assets/dimenso/process/poster-cyan.jpg';
+
+import morphology from '../../assets/dimenso/brandbook/morphology.png';
+import logoIcon from '../../assets/dimenso/logo-icon.png';
+import iconsRow from '../../assets/dimenso/brandbook/icons-row.png';
+
+import space01 from '../../assets/dimenso/spacedesign/space-01.jpg';
+import space02 from '../../assets/dimenso/spacedesign/space-02.jpg';
+import space03 from '../../assets/dimenso/spacedesign/space-03.jpg';
+import space04 from '../../assets/dimenso/spacedesign/space-04.jpg';
+import space05 from '../../assets/dimenso/spacedesign/space-05.jpg';
+
+import phoneSplash from '../../assets/dimenso/social/phone-splash.jpg';
+
+import campaign01 from '../../assets/dimenso/marketing/campaign-01.jpg';
+import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
+import campaign03 from '../../assets/dimenso/marketing/campaign-03.jpg';
+import campaign04 from '../../assets/dimenso/marketing/campaign-04.jpg';
+
+import macbookStill from '../../assets/dimenso/walkthrough/macbook-still.jpg';
+
+import spatial01 from '../../assets/dimenso/spatial/spatial-01.jpg';
+import spatial02 from '../../assets/dimenso/spatial/spatial-02.jpg';
+import spatial03 from '../../assets/dimenso/spatial/spatial-03.jpg';
+import spatial04 from '../../assets/dimenso/spatial/spatial-04.jpg';
 
 export const dimenso = {
   slug: 'dimenso',
@@ -42,19 +74,22 @@ export const dimenso = {
   },
 
   // Unlabeled sticky-scroll section between the brand book and the Space
-  // Design gallery. Per the prototype recording: a full-bleed exterior
-  // photo of the physical pavilion, then 3 illustrated brand posters
-  // (not video) slide up over it in a fanned stack. Both pin to the
-  // viewport top while scrolling, same as the Space Design gallery below.
+  // Design gallery: a full-bleed exterior photo of the physical pavilion,
+  // then 3 illustrated brand posters slide up over it in a fanned stack.
+  // Both pin to the viewport top while scrolling, same as Space Design.
   process: {
     items: [
-      { type: 'single', full: true, media: { kind: 'image', note: 'pavilion exterior photo' } },
+      {
+        type: 'single',
+        full: true,
+        media: { kind: 'image', note: 'pavilion exterior photo', src: pavilionExterior },
+      },
       {
         type: 'row',
         media: [
-          { kind: 'image', note: 'brand poster 1 (teal)' },
-          { kind: 'image', note: 'brand poster 2 (orange)' },
-          { kind: 'image', note: 'brand poster 3 (magenta)' },
+          { kind: 'image', note: 'brand poster — magenta', src: posterMagenta },
+          { kind: 'image', note: 'brand poster — orange', src: posterOrange },
+          { kind: 'image', note: 'brand poster — cyan', src: posterCyan },
         ],
       },
     ],
@@ -67,11 +102,13 @@ export const dimenso = {
       { name: 'Brandon Grotesque' },
       { name: 'Adobe Clean' },
     ],
+    logoSrc: logoIcon,
+    morphologySrc: morphology,
+    iconsSrc: iconsRow,
     primaryColors: [
       { name: 'Magenta', hex: '#E541A6' },
       { name: 'Yellow', hex: '#F1A528' },
-      // TODO(Neama): confirm real hex — was a duplicate of Yellow in Figma.
-      { name: 'Cyan', hex: '#00B4D8' },
+      { name: 'Cyan', hex: '#47E1E3' },
     ],
     secondaryColors: [
       { name: 'Black', hex: '#000000' },
@@ -87,8 +124,6 @@ export const dimenso = {
   },
 
   // Result galleries, in the order they appear on the Figma canvas.
-  // `media` is a placeholder count — swap for real files from the
-  // /portfolio-source/dimenso/ folder.
   galleries: [
     {
       slip: 'PACKING_SLIP_003',
@@ -97,18 +132,18 @@ export const dimenso = {
       // scrolls over it — same as the `process` section above.
       layout: 'sticky',
       media: [
-        { kind: 'image', note: 'enhanced_Image27' },
-        { kind: 'image', note: 'enhanced_Image24' },
-        { kind: 'image', note: 'enhanced_Image18_000' },
-        { kind: 'image', note: 'enhanced_Image15' },
-        { kind: 'image', note: 'enhanced_Image16' },
+        { kind: 'image', note: 'enhanced_Image27', src: space01 },
+        { kind: 'image', note: 'enhanced_Image24', src: space02 },
+        { kind: 'image', note: 'enhanced_Image18_000', src: space03 },
+        { kind: 'image', note: 'enhanced_Image15', src: space04 },
+        { kind: 'image', note: 'enhanced_Image16', src: space05 },
       ],
     },
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Social & Invitation',
       media: [
-        { kind: 'image', note: 'iPad mockup — social post' },
+        { kind: 'image', note: 'phone splash screen — social post', src: phoneSplash },
         { kind: 'video', note: 'invitation animation' },
       ],
     },
@@ -116,22 +151,24 @@ export const dimenso = {
       slip: 'PACKING_SLIP_003',
       heading: 'Marketing Campaign',
       media: [
-        { kind: 'image', note: 'campaign visual 1' },
-        { kind: 'image', note: 'campaign visual 2' },
-        { kind: 'video', note: 'campaign motion 1' },
-        { kind: 'video', note: 'campaign motion 2' },
+        { kind: 'image', note: 'interactive AR installation', src: campaign01 },
+        { kind: 'image', note: 'billboard', src: campaign02 },
+        { kind: 'image', note: 'AR bench installation', src: campaign03 },
+        { kind: 'image', note: 'light-projection street installation', src: campaign04 },
       ],
     },
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Walkthrough Video',
-      media: [{ kind: 'video', note: 'MacBook mockup — walkthrough' }],
+      // This is a still frame standing in for the actual walkthrough video.
+      media: [{ kind: 'image', note: 'MacBook mockup — walkthrough (video still)', src: macbookStill }],
     },
   ],
 
   spatialRenders: {
     note: 'Interior renders — physical application of the Dimenso identity (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
     count: 30,
+    images: [spatial01, spatial02, spatial03, spatial04],
   },
 
   footer: {

@@ -59,6 +59,12 @@
   font-size: 12px;
 }
 
+.iconsImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 .iconGrid {
   display: flex;
   gap: 32px;

@@ -27,3 +27,10 @@
   color: #5a5a5a;
   margin-bottom: 4px;
 }
+
+.media {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ratio, auto);
+  object-fit: cover;
+}

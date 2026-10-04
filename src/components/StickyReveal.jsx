@@ -14,11 +14,16 @@ export default function StickyReveal({ items }) {
             {item.type === 'row' ? (
               <div className={styles.row}>
                 {item.media.map((media) => (
-                  <MediaPlaceholder key={media.note} kind={media.kind} note={media.note} ratio="3 / 4" />
+                  <MediaPlaceholder key={media.note} kind={media.kind} note={media.note} src={media.src} ratio="3 / 4" />
                 ))}
               </div>
             ) : (
-              <MediaPlaceholder kind={item.media.kind} note={item.media.note} ratio={item.full ? '16 / 9' : '4 / 3'} />
+              <MediaPlaceholder
+                kind={item.media.kind}
+                note={item.media.note}
+                src={item.media.src}
+                ratio={item.full ? '16 / 9' : '4 / 3'}
+              />
             )}
           </div>
         </div>

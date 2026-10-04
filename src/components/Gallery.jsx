@@ -12,7 +12,7 @@ export default function Gallery({ slip, heading, media, layout = 'grid' }) {
       ) : (
         <div className={styles.grid}>
           {media.map((item) => (
-            <MediaPlaceholder key={item.note} kind={item.kind} note={item.note} />
+            <MediaPlaceholder key={item.note} kind={item.kind} note={item.note} src={item.src} />
           ))}
         </div>
       )}
