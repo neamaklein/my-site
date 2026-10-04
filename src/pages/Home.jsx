@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { comingSoon } from '../data/projects/index.js';
 import styles from './Home.module.css';
 
 export default function Home({ projects }) {
@@ -14,6 +15,12 @@ export default function Home({ projects }) {
               DISPATCH № {project.dispatchNumber} // {project.category}
             </span>
           </Link>
+        ))}
+        {comingSoon.map((item) => (
+          <div key={item.dispatchNumber} className={`${styles.row} ${styles.pending}`}>
+            <span>— — — —</span>
+            <span className={styles.meta}>DISPATCH № {item.dispatchNumber} // COMING_SOON</span>
+          </div>
         ))}
       </div>
     </main>

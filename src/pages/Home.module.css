@@ -46,3 +46,12 @@
   text-transform: uppercase;
   color: #8a8a8a;
 }
+
+.pending {
+  cursor: default;
+  color: #c2c2c2;
+}
+
+.pending:hover {
+  opacity: 1;
+}
