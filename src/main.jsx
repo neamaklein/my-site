@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import App from './App.jsx';
+import { ReviewProvider } from './review/ReviewProvider.jsx';
 import './styles/global.css';
 
 // GitHub Pages uses real URLs under /my-site/. The review copy published
@@ -14,7 +15,9 @@ const routerProps = useHash ? {} : { basename: '/my-site/' };
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router {...routerProps}>
-      <App />
+      <ReviewProvider>
+        <App />
+      </ReviewProvider>
     </Router>
   </React.StrictMode>
 );
