@@ -34,6 +34,16 @@ import spatial01 from '../../assets/dimenso/spatial/spatial-01.jpg';
 import spatial02 from '../../assets/dimenso/spatial/spatial-02.jpg';
 import spatial03 from '../../assets/dimenso/spatial/spatial-03.jpg';
 import spatial04 from '../../assets/dimenso/spatial/spatial-04.jpg';
+import spatial05 from '../../assets/dimenso/spatial/spatial-05.jpg';
+import spatial06 from '../../assets/dimenso/spatial/spatial-06.jpg';
+import spatial07 from '../../assets/dimenso/spatial/spatial-07.jpg';
+import spatial08 from '../../assets/dimenso/spatial/spatial-08.jpg';
+import spatial09 from '../../assets/dimenso/spatial/spatial-09.jpg';
+import spatial10 from '../../assets/dimenso/spatial/spatial-10.jpg';
+import spatial11 from '../../assets/dimenso/spatial/spatial-11.jpg';
+import spatial12 from '../../assets/dimenso/spatial/spatial-12.jpg';
+import spatial13 from '../../assets/dimenso/spatial/spatial-13.jpg';
+import spatial14 from '../../assets/dimenso/spatial/spatial-14.jpg';
 
 export const dimenso = {
   slug: 'dimenso',
@@ -80,20 +90,11 @@ export const dimenso = {
   // then 3 illustrated brand posters slide up over it in a fanned stack.
   // Both pin to the viewport top while scrolling, same as Space Design.
   process: {
-    items: [
-      {
-        type: 'single',
-        full: true,
-        media: { kind: 'image', note: 'pavilion exterior photo', src: pavilionExterior },
-      },
-      {
-        type: 'row',
-        media: [
-          { kind: 'image', note: 'brand poster — magenta', src: posterMagenta },
-          { kind: 'image', note: 'brand poster — orange', src: posterOrange },
-          { kind: 'image', note: 'brand poster — cyan', src: posterCyan },
-        ],
-      },
+    cover: { kind: 'image', note: 'pavilion exterior photo', src: pavilionExterior },
+    row: [
+      { kind: 'image', note: 'brand poster — magenta', src: posterMagenta },
+      { kind: 'image', note: 'brand poster — orange', src: posterOrange },
+      { kind: 'image', note: 'brand poster — cyan', src: posterCyan },
     ],
   },
 
@@ -130,9 +131,8 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Space Design',
-      // Sticky scroll-reveal in Figma: each image pins while the next
-      // scrolls over it — same as the `process` section above.
-      layout: 'sticky',
+      // Sticky in Figma: each image pins while the next slides over it.
+      layout: 'stack',
       media: [
         { kind: 'image', note: 'enhanced_Image27', src: space01 },
         { kind: 'image', note: 'enhanced_Image24', src: space02 },
@@ -144,7 +144,11 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Social & Invitation',
+      // Figma: three 348×718 portrait frames side by side.
+      columns: 3,
+      ratio: '348 / 718',
       media: [
+        { kind: 'video', note: 'social sequence' },
         { kind: 'image', note: 'phone splash screen — social post', src: phoneSplash },
         { kind: 'video', note: 'invitation animation' },
       ],
@@ -152,6 +156,9 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Marketing Campaign',
+      // Figma: 2×2 grid of 629×351 frames.
+      columns: 2,
+      ratio: '629 / 351',
       media: [
         { kind: 'image', note: 'interactive AR installation', src: campaign01 },
         { kind: 'image', note: 'billboard', src: campaign02 },
@@ -162,6 +169,7 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Walkthrough Video',
+      layout: 'feature',
       // This is a still frame standing in for the actual walkthrough video.
       media: [{ kind: 'image', note: 'MacBook mockup — walkthrough (video still)', src: macbookStill }],
     },
@@ -169,8 +177,10 @@ export const dimenso = {
 
   spatialRenders: {
     note: 'Interior renders — physical application of the Dimenso identity (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
-    count: 30,
-    images: [spatial01, spatial02, spatial03, spatial04],
+    images: [
+      spatial01, spatial02, spatial03, spatial04, spatial05, spatial06, spatial07,
+      spatial08, spatial09, spatial10, spatial11, spatial12, spatial13, spatial14,
+    ],
   },
 
   footer: {

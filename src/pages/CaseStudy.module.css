@@ -1,0 +1,8 @@
+/* Everything below the hero sits on its own sheet, so it scrolls up over
+   the sticky hero instead of the hero scrolling away (Figma: hero
+   container sticky, content on top). */
+.sheet {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg);
+}

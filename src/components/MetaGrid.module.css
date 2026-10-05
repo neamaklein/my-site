@@ -1,7 +1,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px 32px;
+  gap: 24px var(--gutter);
   padding: 34px 0;
   border-top: 2px solid var(--color-border);
   border-bottom: 2px solid var(--color-border);
@@ -17,12 +17,9 @@
 .value {
   font-family: var(--font-mono);
   font-size: 12px;
+  line-height: 18px;
   letter-spacing: 0.24px;
   text-transform: uppercase;
-}
-
-.label {
-  color: #8a8a8a;
 }
 
 @media (max-width: 640px) {

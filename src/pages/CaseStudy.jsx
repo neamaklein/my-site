@@ -11,6 +11,7 @@ import Process from '../components/Process.jsx';
 import Gallery from '../components/Gallery.jsx';
 import SpatialRenders from '../components/SpatialRenders.jsx';
 import CaseStudyFooter from '../components/CaseStudyFooter.jsx';
+import styles from './CaseStudy.module.css';
 
 export default function CaseStudy() {
   const { slug } = useParams();
@@ -24,24 +25,24 @@ export default function CaseStudy() {
     <article>
       <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} />
       <Hero {...project.hero} />
-      <PageContainer>
-        <TitleBlock {...project.title} />
-        {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
-        {project.strategy && <Strategy {...project.strategy} />}
-        {project.brandBook && <BrandBook {...project.brandBook} />}
-      </PageContainer>
+      <div className={styles.sheet}>
+        {/* Text sections sit on the inner (200px) line of the Figma grid. */}
+        <PageContainer>
+          <TitleBlock {...project.title} />
+          {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
+          {project.strategy && <Strategy {...project.strategy} />}
+          {project.brandBook && <BrandBook {...project.brandBook} />}
+        </PageContainer>
 
-      {/* Full-bleed in Figma (near edge-to-edge), so it sits outside the
-          content-width PageContainer used everywhere else. */}
-      {project.process && <Process {...project.process} />}
-
-      <PageContainer>
+        {/* Media sections run full width / on the outer (100px) line, and
+            set their own padding. */}
+        {project.process && <Process {...project.process} />}
         {project.galleries?.map((gallery) => (
           <Gallery key={gallery.heading} {...gallery} />
         ))}
         {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
-      </PageContainer>
-      <CaseStudyFooter {...project.footer} />
+        <CaseStudyFooter {...project.footer} />
+      </div>
     </article>
   );
 }

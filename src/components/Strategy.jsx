@@ -1,12 +1,10 @@
+import SectionLabel from './SectionLabel.jsx';
 import styles from './Strategy.module.css';
 
 export default function Strategy({ slip, heading, paragraphs }) {
   return (
-    <div className={styles.wrap}>
-      <div className={styles.label}>
-        <span className={styles.slip}>{slip}</span>
-        <h2 className={styles.heading}>{heading}</h2>
-      </div>
+    <section className={styles.wrap}>
+      <SectionLabel slip={slip} heading={heading} className={styles.label} />
       <div className={styles.body}>
         {paragraphs.map((paragraph) => {
           const text = typeof paragraph === 'string' ? paragraph : paragraph.text;
@@ -19,6 +17,6 @@ export default function Strategy({ slip, heading, paragraphs }) {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

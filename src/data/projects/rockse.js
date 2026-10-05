@@ -71,11 +71,13 @@ export const rockse = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Brand Assets',
+      layout: 'feature',
       media: [{ kind: 'image', note: 'stickers, picks and tin', src: stickers }],
     },
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Dieline',
+      columns: 2,
       media: [
         { kind: 'image', note: 'dieline — Dirty Rose', src: dielineRose },
         { kind: 'image', note: 'dieline — Black Ink', src: dielineBlack },
@@ -84,11 +86,12 @@ export const rockse = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Product',
-      layout: 'sticky',
+      layout: 'stack',
+      ratio: '16 / 9',
       media: [
-        { kind: 'image', note: 'both cartons at the bar', src: productDuo, ratio: '16 / 9' },
-        { kind: 'image', note: 'carton in hand', src: productHand, ratio: '16 / 9' },
-        { kind: 'image', note: 'pouring', src: productPour, ratio: '16 / 9' },
+        { kind: 'image', note: 'both cartons at the bar', src: productDuo },
+        { kind: 'image', note: 'carton in hand', src: productHand },
+        { kind: 'image', note: 'pouring', src: productPour },
       ],
     },
   ],

@@ -1,0 +1,49 @@
+.stack {
+  position: relative;
+  margin-top: 40px;
+}
+
+.cover {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  overflow: hidden;
+}
+
+.cover > * {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+
+.rowCard {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  padding: 0 var(--edge);
+}
+
+.row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 4vw, 59px);
+}
+
+.row > * {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.hold {
+  height: 50vh;
+}
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+}

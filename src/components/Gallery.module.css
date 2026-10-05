@@ -1,9 +1,83 @@
 .wrap {
-  padding: 48px 0;
+  padding: 160px var(--edge) 0;
 }
 
-.grid {
+.side {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gutter);
+  align-items: flex-start;
+}
+
+.sideLabel,
+.stackLabel {
+  flex: 0 0 min(258px, 22vw);
+}
+
+/* Figma: label frame has 140px top padding so it lines up with the
+   first image, which sits 150px into its sticky wrapper. */
+.stackLabel {
+  top: calc(var(--nav-height) + 140px);
+  padding-top: 140px;
+}
+
+.stack {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each card pins under the nav; the next card's image slides over the
+   previous one because both stop at the same spot (Figma py-150 wrappers,
+   sticky top-0). */
+.card {
+  position: sticky;
+  top: var(--nav-height);
+  display: flex;
+  justify-content: flex-end;
+  padding: 150px 0;
+}
+
+.cardMedia {
+  width: min(700px, 47.3vw);
+}
+
+.hold {
+  height: 40vh;
+}
+
+.topLabel {
+  margin-bottom: 82px;
+}
+
+.columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.feature {
+  flex: 0 1 min(1068px, 72vw);
+}
+
+@media (max-width: 768px) {
+  .side {
+    flex-direction: column;
+  }
+  .stackLabel {
+    position: static;
+    padding-top: 0;
+  }
+  .cardMedia,
+  .feature {
+    width: 100%;
+    flex-basis: auto;
+  }
+  .card {
+    padding: 48px 0;
+  }
+  .columns {
+    grid-template-columns: 1fr;
+  }
 }

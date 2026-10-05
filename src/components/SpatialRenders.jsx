@@ -1,20 +1,17 @@
-import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './SpatialRenders.module.css';
 
-export default function SpatialRenders({ note, count, images = [] }) {
+// Figma "Component 7": a single row of renders far wider than the page
+// (4690px on a 1481px canvas), shown as a continuously moving strip.
+export default function SpatialRenders({ images = [], note }) {
+  if (!images.length) return null;
+  const loop = [...images, ...images];
   return (
-    <div className={styles.wrap}>
-      <div className={styles.grid}>
-        {Array.from({ length: count }, (_, index) => (
-          <MediaPlaceholder
-            key={index}
-            kind="image"
-            note={index === 0 && !images[index] ? note : undefined}
-            src={images[index]}
-            ratio="16 / 9"
-          />
+    <section className={styles.strip} aria-label={note}>
+      <div className={styles.track} style={{ '--count': images.length }}>
+        {loop.map((src, index) => (
+          <img key={index} src={src} alt="" loading="lazy" aria-hidden={index >= images.length} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

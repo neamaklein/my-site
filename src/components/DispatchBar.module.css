@@ -5,7 +5,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 38px;
+  box-sizing: border-box;
+  height: var(--nav-height);
+  padding: 0 38px;
   background: rgba(253, 253, 253, 0.9);
   backdrop-filter: blur(4px);
   border-bottom: 1px solid var(--color-border);

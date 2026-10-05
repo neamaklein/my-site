@@ -1,9 +1,36 @@
-.wrap {
-  padding: 48px 0;
+.strip {
+  margin-top: 160px;
+  overflow: hidden;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+.track {
+  display: flex;
   gap: 8px;
+  width: max-content;
+  animation: scroll calc(var(--count) * 6s) linear infinite;
+}
+
+.track img {
+  height: clamp(200px, 27.7vw, 410px);
+  width: auto;
+  flex: none;
+}
+
+.strip:hover .track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    overflow-x: auto;
+  }
+  .track {
+    animation: none;
+  }
 }

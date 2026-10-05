@@ -1,20 +1,28 @@
 .wrap {
-  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.sticky {
+  position: sticky;
+  top: calc(var(--nav-height) + 32px);
+  align-self: start;
 }
 
 .slip {
-  display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
+  line-height: 15px;
   letter-spacing: 0.2px;
   text-transform: uppercase;
-  color: #8a8a8a;
-  margin-bottom: 8px;
 }
 
 .heading {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 32px;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.48px;
   margin: 0;
 }

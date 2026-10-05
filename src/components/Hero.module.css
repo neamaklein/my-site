@@ -1,7 +1,10 @@
+/* Figma: the hero container is sticky (here: just under the nav), so the page content slides
+   up over it (the content sheet has its own background). */
 .hero {
-  position: relative;
-  height: 80vh;
-  min-height: 480px;
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  min-height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -11,31 +11,35 @@ function readableTextColor(hex) {
   return luminance > 0.6 ? '#1a1a1a' : '#ffffff';
 }
 
-function ColorSwatch({ name, hex, swatch }) {
-  const fill = swatch || hex;
+function Block({ label, className = '', children }) {
   return (
-    <div className={styles.swatch} style={{ background: fill, color: readableTextColor(fill) }}>
-      <div className={styles.swatchName}>{name}</div>
-      <div className={styles.swatchHex}>{hex}</div>
-    </div>
-  );
-}
-
-function Swatches({ label, colors }) {
-  return (
-    <div className={styles.col}>
+    <div className={`${styles.block} ${className}`}>
       <h3 className={styles.label}>{label}</h3>
-      <div className={styles.swatches}>
-        {colors.map((color) => (
-          <ColorSwatch key={color.name} {...color} />
-        ))}
-      </div>
+      {children}
     </div>
   );
 }
 
-// Every block is optional: a project's brand book only shows what its
-// source deck actually contains.
+function Swatches({ colors }) {
+  return (
+    <div className={styles.swatches}>
+      {colors.map(({ name, hex }) => (
+        <div
+          key={name}
+          className={`${styles.swatch} ${hex.toUpperCase() === '#FFFFFF' ? styles.swatchLight : ''}`}
+          style={{ background: hex, color: readableTextColor(hex) }}
+        >
+          <span>{name}</span>
+          <span>{hex}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Mirrors the Figma "Graphic Index": label in the left 3 columns, a
+// two-up grid of blocks in the remaining 9. Every block is optional so a
+// project only shows what its source deck actually contains.
 export default function BrandBook({
   slip,
   heading,
@@ -47,71 +51,55 @@ export default function BrandBook({
   secondaryColors,
   icons,
 }) {
+  const hasSecondary = secondaryColors?.length > 0;
   return (
-    <div className={styles.wrap}>
-      <SectionLabel slip={slip} heading={heading} />
+    <section className={styles.wrap}>
+      <SectionLabel slip={slip} heading={heading} className={styles.sectionLabel} />
+      <div className={styles.content}>
+        {logoSrc && (
+          <Block label="Logo" className={morphologySrc !== undefined ? styles.narrow : styles.full}>
+            <img className={styles.logo} src={logoSrc} alt="Logo" />
+          </Block>
+        )}
+        {morphologySrc !== undefined && (
+          <Block label="Morphology" className={styles.wide}>
+            <MediaPlaceholder kind="image" note="logo construction / grid" src={morphologySrc} ratio="478 / 306" />
+          </Block>
+        )}
 
-      {fonts?.length > 0 && (
-        <div className={styles.row}>
-          <div className={styles.col}>
-            <h3 className={styles.label}>Fonts</h3>
+        {primaryColors?.length > 0 && (
+          <Block label={hasSecondary ? 'Primary Colors' : 'Colors'} className={hasSecondary ? styles.left : styles.full}>
+            <Swatches colors={primaryColors} />
+          </Block>
+        )}
+        {hasSecondary && (
+          <Block label="Secondary Colors" className={styles.right}>
+            <Swatches colors={secondaryColors} />
+          </Block>
+        )}
+
+        {(iconsSrc || icons?.length > 0) && (
+          <Block label="Icons" className={styles.left}>
+            {iconsSrc ? (
+              <img className={styles.icons} src={iconsSrc} alt="Icon set" />
+            ) : (
+              <div className={styles.iconNames}>{icons.map((i) => i.name).join(' · ')}</div>
+            )}
+          </Block>
+        )}
+        {fonts?.length > 0 && (
+          <Block label="Fonts" className={iconsSrc || icons?.length ? styles.right : styles.full}>
             <div className={styles.fonts}>
               {fonts.map((font) => (
                 <div className={styles.fontCard} key={font.name}>
-                  <div className={styles.sample}>{font.sample || 'Aa'}</div>
-                  <div className={styles.name}>{font.name}</div>
+                  <span className={styles.sample}>{font.sample || 'Aa'}</span>
+                  <span className={styles.fontName}>{font.name}</span>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      )}
-
-      {(logoSrc || morphologySrc !== undefined) && (
-        <div className={styles.row}>
-          <div className={styles.col}>
-            <h3 className={styles.label}>Logo</h3>
-            {logoSrc ? (
-              <img className={styles.logo} src={logoSrc} alt="Logo" />
-            ) : (
-              <MediaPlaceholder kind="image" note="logo" ratio="1 / 1" />
-            )}
-          </div>
-          {morphologySrc !== undefined && (
-            <div className={styles.col}>
-              <h3 className={styles.label}>Morphology</h3>
-              <MediaPlaceholder kind="image" note="logo construction / grid" src={morphologySrc} ratio="16 / 10" />
-            </div>
-          )}
-        </div>
-      )}
-
-      {(primaryColors?.length > 0 || secondaryColors?.length > 0) && (
-        <div className={styles.row}>
-          {primaryColors?.length > 0 && <Swatches label={secondaryColors?.length ? 'Primary Colors' : 'Colors'} colors={primaryColors} />}
-          {secondaryColors?.length > 0 && <Swatches label="Secondary Colors" colors={secondaryColors} />}
-        </div>
-      )}
-
-      {(iconsSrc || icons?.length > 0) && (
-        <div className={styles.row}>
-          <div className={styles.col}>
-            <h3 className={styles.label}>Icons</h3>
-            {iconsSrc ? (
-              <img className={styles.iconsImage} src={iconsSrc} alt="Icon set" />
-            ) : (
-              <div className={styles.iconGrid}>
-                {icons.map((icon) => (
-                  <div className={styles.iconTile} key={icon.name}>
-                    <div className={styles.glyph}>icon</div>
-                    <span className={styles.name}>{icon.name}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+          </Block>
+        )}
+      </div>
+    </section>
   );
 }
