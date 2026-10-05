@@ -19,6 +19,8 @@ import productPour from '../../assets/rockse/product-pour.jpg';
 export const rockse = {
   slug: 'rockse',
   dispatchNumber: '02',
+  // Station-sign stripes beside the dispatch number: the project's colors.
+  stripes: ['#B59590', '#010101'],
   category: 'PACKAGING',
 
   hero: {

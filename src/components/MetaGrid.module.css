@@ -3,8 +3,8 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 24px var(--gutter);
   padding: 24px 0;
-  border-top: 2px solid var(--color-border);
-  border-bottom: 2px solid var(--color-border);
+  border-top: 2px solid var(--color-frame);
+  border-bottom: 2px solid var(--color-frame);
 }
 
 .item {
@@ -20,6 +20,10 @@
   line-height: 18px;
   letter-spacing: 0.24px;
   text-transform: uppercase;
+}
+
+.label {
+  color: var(--color-frame);
 }
 
 @media (max-width: 640px) {

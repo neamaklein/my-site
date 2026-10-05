@@ -48,6 +48,8 @@ import spatial14 from '../../assets/dimenso/spatial/spatial-14.jpg';
 export const dimenso = {
   slug: 'dimenso',
   dispatchNumber: '01',
+  // Station-sign stripes beside the dispatch number: the project's colors.
+  stripes: ['#E541A6', '#F1A528'],
   category: 'BRAND_ID',
 
   hero: {

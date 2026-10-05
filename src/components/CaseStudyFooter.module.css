@@ -23,6 +23,7 @@
   font-size: clamp(24px, 2.45vw, 36px);
   line-height: 40px;
   letter-spacing: -0.02em;
+  color: var(--color-frame);
 }
 
 .button:hover {

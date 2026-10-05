@@ -25,7 +25,7 @@ export default function CaseStudy() {
   return (
     <ReviewScope value={project.slug}>
       <article>
-        <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} />
+        <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} stripes={project.stripes} />
         <Hero {...project.hero} />
         <div className={styles.sheet}>
           {/* Text sections sit on the inner (200px) line of the Figma grid. */}

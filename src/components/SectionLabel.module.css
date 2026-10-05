@@ -16,6 +16,7 @@
   line-height: 15px;
   letter-spacing: 0.2px;
   text-transform: uppercase;
+  color: var(--color-frame);
 }
 
 .heading {

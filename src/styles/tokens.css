@@ -6,6 +6,10 @@
   --color-bg: #fdfdfd;
   --color-ink: #1a1a1a;
   --color-border: #dbdbdb;
+  /* The portfolio's own color: the conveyor purple from the home-page
+     film. It marks the frame (nav, labels, rules, links) on every
+     project page; the project colors stay inside the work. */
+  --color-frame: #4e14a0;
 
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;

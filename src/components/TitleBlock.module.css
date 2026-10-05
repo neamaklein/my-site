@@ -4,6 +4,7 @@
 
 .tag {
   display: block;
+  color: var(--color-frame);
 }
 
 .name {
