@@ -1,7 +1,8 @@
 // Content transcribed verbatim from the "PALATE" Figma Slides deck
 // (Amit Tal & Neama Klein), mapped onto the DIMENSO case-study template.
-// The deck's opening Pantone research (slides 1–15) is left out on purpose,
-// per Neama; the page starts from the new brand ("Golden Slide").
+// The deck's opening Pantone research (slides 1–15) and the brand's Values
+// and Target slides are left out on purpose, per Neama: the target audience
+// goes into the project description instead.
 // Section headings are the deck's own navigation labels.
 // Images are crops of the deck's slides, compressed for web — swap for
 // the full-resolution originals when available. The deck's videos (hero,
@@ -14,8 +15,6 @@ import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 
-const values = import.meta.glob('../../assets/palate/values/*.jpg', { eager: true, import: 'default' });
-const target = import.meta.glob('../../assets/palate/target/*.jpg', { eager: true, import: 'default' });
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
 const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: true, import: 'default' });
 const guerrilla = import.meta.glob('../../assets/palate/guerrilla/*.jpg', { eager: true, import: 'default' });
@@ -76,18 +75,6 @@ export const palate = {
   },
 
   galleries: [
-    {
-      slip: 'PACKING_SLIP_003',
-      heading: 'Values',
-      columns: 5,
-      media: images(values, ['Precision', 'Innovation', 'Personalization', 'Sensory', 'Essence']),
-    },
-    {
-      slip: 'PACKING_SLIP_003',
-      heading: 'Target',
-      columns: 4,
-      media: images(target, ['Maya', 'Michael', 'Lian', 'Ido']),
-    },
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Merch',
