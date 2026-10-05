@@ -3,14 +3,7 @@ import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './Gallery.module.css';
 
 function Media({ item, ratio }) {
-  const media = <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
-  if (!item.caption) return media;
-  return (
-    <figure className={styles.figure}>
-      {media}
-      <figcaption className={styles.caption}>{item.caption}</figcaption>
-    </figure>
-  );
+  return <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
 }
 
 // Layouts, each taken from a section of the DIMENSO Figma frame:

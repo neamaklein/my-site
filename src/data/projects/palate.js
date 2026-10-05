@@ -1,7 +1,7 @@
 // Content transcribed verbatim from the "PALATE" Figma Slides deck
 // (Amit Tal & Neama Klein), mapped onto the DIMENSO case-study template.
-// The deck opens with research on Pantone (slides 2–15), shown here as the
-// Research section; the new brand itself starts at "Golden Slide".
+// The deck's opening Pantone research (slides 1–15) is left out on purpose,
+// per Neama; the page starts from the new brand ("Golden Slide").
 // Section headings are the deck's own navigation labels.
 // Images are crops of the deck's slides, compressed for web — swap for
 // the full-resolution originals when available. The deck's videos (hero,
@@ -14,7 +14,6 @@ import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 
-const research = import.meta.glob('../../assets/palate/research/*.jpg', { eager: true, import: 'default' });
 const values = import.meta.glob('../../assets/palate/values/*.jpg', { eager: true, import: 'default' });
 const target = import.meta.glob('../../assets/palate/target/*.jpg', { eager: true, import: 'default' });
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
@@ -28,12 +27,6 @@ const inOrder = (files) => Object.keys(files).sort().map((path) => files[path]);
 
 const images = (files, notes) =>
   inOrder(files).map((src, index) => ({ kind: 'image', src, note: notes?.[index] ?? '' }));
-
-// Research boards, labelled with the deck section each one comes from.
-const researchSections = [
-  'Background', 'Background', 'Values', 'Logo', 'Target', 'Graphic Index',
-  'Branding', 'Branding', 'Visual', 'Visual', 'Visual', 'Spaces',
-];
 
 export const palate = {
   slug: 'palate',
@@ -56,15 +49,6 @@ export const palate = {
     { label: 'Concept', value: 'NEW BRAND' },
     { label: 'Team', value: 'AMIT TAL · NEAMA KLEIN' },
     { label: 'Category', value: 'SPATIAL_BRANDING' },
-  ],
-
-  research: [
-    {
-      slip: 'PACKING_SLIP_000',
-      heading: 'Research',
-      columns: 3,
-      media: images(research).map((item, index) => ({ ...item, note: researchSections[index], caption: researchSections[index] })),
-    },
   ],
 
   strategy: {

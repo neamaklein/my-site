@@ -3,6 +3,9 @@
 .hero {
   position: sticky;
   top: var(--nav-height);
+  /* Own stacking context: keeps the intro/label layers (z-index 1–2)
+     inside the hero, so the content sheet (z-index 1) always covers it. */
+  z-index: 0;
   height: calc(100vh - var(--nav-height));
   min-height: 420px;
   display: flex;
