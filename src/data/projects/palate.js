@@ -1,5 +1,5 @@
 // Content transcribed verbatim from the "PALATE" Figma Slides deck
-// (Amit Tal & Neama Klein), mapped onto the DIMENSO case-study template.
+// (Neama Klein & Amit Tal), mapped onto the DIMENSO case-study template.
 // The deck's opening Pantone research (slides 1–15) and the brand's Values
 // and Target slides are left out on purpose, per Neama: the target audience
 // goes into the project description instead.
@@ -10,6 +10,7 @@
 //
 // Not from the deck (structural labels only — rename freely):
 //   meta labels/values, the title tag wording.
+// Credits: Neama's name always comes first wherever a collaborator is named.
 
 import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
@@ -39,7 +40,7 @@ export const palate = {
   },
 
   title: {
-    tag: 'NEW_BRAND · L2T_AMIT TAL_NEAMA KLEIN',
+    tag: 'NEW_BRAND · L2T_NEAMA KLEIN_AMIT TAL',
     name: 'PALATE',
     tagline: 'saturate your senses',
   },
@@ -47,7 +48,7 @@ export const palate = {
   meta: [
     { label: 'Brand', value: 'PANTONE' },
     { label: 'Concept', value: 'NEW BRAND' },
-    { label: 'Team', value: 'AMIT TAL · NEAMA KLEIN' },
+    { label: 'Team', value: 'NEAMA KLEIN · AMIT TAL' },
     { label: 'Category', value: 'SPATIAL_BRANDING' },
   ],
 
