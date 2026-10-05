@@ -22,7 +22,7 @@ export default function StickyReveal({ items }) {
                 kind={item.media.kind}
                 note={item.media.note}
                 src={item.media.src}
-                ratio={item.full ? '16 / 9' : '4 / 3'}
+                ratio={item.media.ratio || (item.full ? '16 / 9' : '4 / 3')}
               />
             )}
           </div>

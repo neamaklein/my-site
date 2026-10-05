@@ -26,9 +26,9 @@ export default function CaseStudy() {
       <Hero {...project.hero} />
       <PageContainer>
         <TitleBlock {...project.title} />
-        <MetaGrid items={project.meta} />
-        <Strategy {...project.strategy} />
-        <BrandBook {...project.brandBook} />
+        {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
+        {project.strategy && <Strategy {...project.strategy} />}
+        {project.brandBook && <BrandBook {...project.brandBook} />}
       </PageContainer>
 
       {/* Full-bleed in Figma (near edge-to-edge), so it sits outside the
@@ -36,7 +36,7 @@ export default function CaseStudy() {
       {project.process && <Process {...project.process} />}
 
       <PageContainer>
-        {project.galleries.map((gallery) => (
+        {project.galleries?.map((gallery) => (
           <Gallery key={gallery.heading} {...gallery} />
         ))}
         {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
