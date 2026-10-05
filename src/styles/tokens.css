@@ -17,11 +17,19 @@
   --edge: clamp(20px, 6.75vw, 140px);
   --inset: clamp(20px, 13.5vw, 280px);
   --gutter: 32px;
+
+  /* Vertical rhythm, built on the gutter: sections ~3 gutters apart, a
+     section label one gutter above its content, stacked images 1.5. */
+  --space-section: clamp(56px, 6.5vw, 96px);
+  --space-label: 32px;
+  --space-stack: 48px;
   --nav-height: 58px;
 }
 
 @media (max-width: 640px) {
   :root {
     --gutter: 16px;
+    --space-label: 20px;
+    --space-stack: 24px;
   }
 }

@@ -1,5 +1,5 @@
 .strip {
-  margin-top: 160px;
+  margin-top: var(--space-section);
   overflow: hidden;
 }
 

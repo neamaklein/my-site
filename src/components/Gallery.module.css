@@ -1,5 +1,5 @@
 .wrap {
-  padding: 160px var(--edge) 0;
+  padding: var(--space-section) var(--edge) 0;
 }
 
 .side {
@@ -14,11 +14,11 @@
   flex: 0 0 min(258px, 22vw);
 }
 
-/* Figma: label frame has 140px top padding so it lines up with the
-   first image, which sits 150px into its sticky wrapper. */
+/* Top padding matches the card's, so the label lines up with the
+   first image. */
 .stackLabel {
-  top: calc(var(--nav-height) + 140px);
-  padding-top: 140px;
+  top: calc(var(--nav-height) + var(--space-stack));
+  padding-top: var(--space-stack);
 }
 
 .stack {
@@ -35,7 +35,7 @@
   top: var(--nav-height);
   display: flex;
   justify-content: flex-end;
-  padding: 150px 0;
+  padding: var(--space-stack) 0;
 }
 
 .cardMedia {
@@ -43,11 +43,11 @@
 }
 
 .hold {
-  height: 40vh;
+  height: 15vh;
 }
 
 .topLabel {
-  margin-bottom: 82px;
+  margin-bottom: var(--space-label);
 }
 
 .columns {
@@ -75,7 +75,7 @@
     flex-basis: auto;
   }
   .card {
-    padding: 48px 0;
+    padding: var(--space-stack) 0;
   }
   .columns {
     grid-template-columns: 1fr;
