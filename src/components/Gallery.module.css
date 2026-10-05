@@ -61,6 +61,23 @@
   flex: 0 1 min(1068px, 72vw);
 }
 
+/* Optional per-item label (e.g. the deck section a research board comes
+   from), set in the same mono as the section slips. */
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
 @media (max-width: 768px) {
   .side {
     flex-direction: column;

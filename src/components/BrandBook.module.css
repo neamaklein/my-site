@@ -46,6 +46,12 @@
   object-position: left center;
 }
 
+.element {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .icons {
   display: block;
   width: 100%;

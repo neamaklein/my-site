@@ -3,7 +3,14 @@ import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './Gallery.module.css';
 
 function Media({ item, ratio }) {
-  return <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
+  const media = <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
+  if (!item.caption) return media;
+  return (
+    <figure className={styles.figure}>
+      {media}
+      <figcaption className={styles.caption}>{item.caption}</figcaption>
+    </figure>
+  );
 }
 
 // Layouts, each taken from a section of the DIMENSO Figma frame:
@@ -18,8 +25,8 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
       <section className={`${styles.wrap} ${styles.side}`}>
         <SectionLabel slip={slip} heading={heading} sticky className={styles.stackLabel} />
         <div className={styles.stack}>
-          {media.map((item) => (
-            <div className={styles.card} key={item.note}>
+          {media.map((item, index) => (
+            <div className={styles.card} key={index}>
               <div className={styles.cardMedia}>
                 <Media item={item} ratio={ratio || '700 / 394'} />
               </div>
@@ -36,8 +43,8 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
       <section className={`${styles.wrap} ${styles.side}`}>
         <SectionLabel slip={slip} heading={heading} className={styles.sideLabel} />
         <div className={styles.feature}>
-          {media.map((item) => (
-            <Media key={item.note} item={item} ratio={ratio} />
+          {media.map((item, index) => (
+            <Media key={index} item={item} ratio={ratio} />
           ))}
         </div>
       </section>
@@ -48,8 +55,8 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
     <section className={styles.wrap}>
       <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
       <div className={styles.columns} style={{ '--cols': columns }}>
-        {media.map((item) => (
-          <Media key={item.note} item={item} ratio={ratio} />
+        {media.map((item, index) => (
+          <Media key={index} item={item} ratio={ratio} />
         ))}
       </div>
     </section>

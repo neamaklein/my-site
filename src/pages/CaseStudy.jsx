@@ -30,9 +30,19 @@ export default function CaseStudy() {
         <PageContainer>
           <TitleBlock {...project.title} />
           {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
-          {project.strategy && <Strategy {...project.strategy} />}
-          {project.brandBook && <BrandBook {...project.brandBook} />}
         </PageContainer>
+
+        {/* Optional research that precedes the concept in the source deck. */}
+        {project.research?.map((gallery) => (
+          <Gallery key={gallery.heading} {...gallery} />
+        ))}
+
+        <div className={project.research ? styles.afterResearch : undefined}>
+          <PageContainer>
+            {project.strategy && <Strategy {...project.strategy} />}
+            {project.brandBook && <BrandBook {...project.brandBook} />}
+          </PageContainer>
+        </div>
 
         {/* Media sections run full width / on the outer (100px) line, and
             set their own padding. */}

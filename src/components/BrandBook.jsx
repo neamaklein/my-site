@@ -25,11 +25,11 @@ function Swatches({ colors }) {
     <div className={styles.swatches}>
       {colors.map(({ name, hex }) => (
         <div
-          key={name}
+          key={hex}
           className={`${styles.swatch} ${hex.toUpperCase() === '#FFFFFF' ? styles.swatchLight : ''}`}
           style={{ background: hex, color: readableTextColor(hex) }}
         >
-          <span>{name}</span>
+          {name && <span>{name}</span>}
           <span>{hex}</span>
         </div>
       ))}
@@ -37,9 +37,21 @@ function Swatches({ colors }) {
   );
 }
 
+const DEFAULT_LABELS = {
+  logo: 'Logo',
+  morphology: 'Morphology',
+  element: 'Element',
+  primaryColors: 'Primary Colors',
+  secondaryColors: 'Secondary Colors',
+  colors: 'Colors',
+  icons: 'Icons',
+  fonts: 'Fonts',
+};
+
 // Mirrors the Figma "Graphic Index": label in the left 3 columns, a
 // two-up grid of blocks in the remaining 9. Every block is optional so a
-// project only shows what its source deck actually contains.
+// project only shows what its source deck actually contains; `labels`
+// overrides block titles to match a deck's own wording.
 export default function BrandBook({
   slip,
   heading,
@@ -50,36 +62,45 @@ export default function BrandBook({
   primaryColors,
   secondaryColors,
   icons,
+  elementSrc,
+  labels: labelOverrides,
 }) {
+  const labels = { ...DEFAULT_LABELS, ...labelOverrides };
   const hasSecondary = secondaryColors?.length > 0;
   return (
     <section className={styles.wrap}>
       <SectionLabel slip={slip} heading={heading} className={styles.sectionLabel} />
       <div className={styles.content}>
         {logoSrc && (
-          <Block label="Logo" className={morphologySrc !== undefined ? styles.narrow : styles.full}>
+          <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>
             <img className={styles.logo} src={logoSrc} alt="Logo" />
           </Block>
         )}
         {morphologySrc !== undefined && (
-          <Block label="Morphology" className={styles.wide}>
+          <Block label={labels.morphology} className={styles.wide}>
             <MediaPlaceholder kind="image" note="logo construction / grid" src={morphologySrc} ratio="478 / 306" />
           </Block>
         )}
 
+        {elementSrc && (
+          <Block label={labels.element} className={styles.full}>
+            <img className={styles.element} src={elementSrc} alt={labels.element} />
+          </Block>
+        )}
+
         {primaryColors?.length > 0 && (
-          <Block label={hasSecondary ? 'Primary Colors' : 'Colors'} className={hasSecondary ? styles.left : styles.full}>
+          <Block label={hasSecondary ? labels.primaryColors : labels.colors} className={hasSecondary ? styles.left : styles.full}>
             <Swatches colors={primaryColors} />
           </Block>
         )}
         {hasSecondary && (
-          <Block label="Secondary Colors" className={styles.right}>
+          <Block label={labels.secondaryColors} className={styles.right}>
             <Swatches colors={secondaryColors} />
           </Block>
         )}
 
         {(iconsSrc || icons?.length > 0) && (
-          <Block label="Icons" className={styles.left}>
+          <Block label={labels.icons} className={styles.left}>
             {iconsSrc ? (
               <img className={styles.icons} src={iconsSrc} alt="Icon set" />
             ) : (
@@ -88,7 +109,7 @@ export default function BrandBook({
           </Block>
         )}
         {fonts?.length > 0 && (
-          <Block label="Fonts" className={iconsSrc || icons?.length ? styles.right : styles.full}>
+          <Block label={labels.fonts} className={iconsSrc || icons?.length ? styles.right : styles.full}>
             <div className={styles.fonts}>
               {fonts.map((font) => (
                 <div className={styles.fontCard} key={font.name}>

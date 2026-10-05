@@ -6,3 +6,9 @@
   z-index: 1;
   background: var(--color-bg);
 }
+
+/* Strategy normally sits right under the meta row; after a research
+   gallery it needs the same breathing room as any other section. */
+.afterResearch {
+  padding-top: 130px;
+}
