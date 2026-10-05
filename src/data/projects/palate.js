@@ -100,7 +100,8 @@ export const palate = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Plans',
-      layout: 'stack',
+      // Per Neama: two columns, drawings side by side.
+      columns: 2,
       ratio: '1920 / 985',
       media: images(plans, ['ground floor', 'gallery floor', 'section 1-1', 'section 2-2', 'isometric view']),
     },

@@ -65,7 +65,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
   return (
     <section className={styles.wrap}>
       <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
-      <div className={styles.columns} style={{ '--cols': columns }}>
+      <div className={styles.columns} style={{ '--cols': columns }} data-cols={columns}>
         {media.map((item, index) => (
           <Media key={index} item={item} ratio={ratio} />
         ))}

@@ -63,6 +63,12 @@
   align-items: start;
 }
 
+/* An odd item out in a two-up grid takes the full row instead of
+   sitting alone in half of it. */
+.columns[data-cols='2'] > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .feature {
   flex: 0 1 min(1068px, 72vw);
 }
