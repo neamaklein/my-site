@@ -1,6 +1,6 @@
 .wrap {
   min-height: 100vh;
-  padding: 64px var(--page-margin);
+  padding: 64px var(--edge);
 }
 
 .title {
