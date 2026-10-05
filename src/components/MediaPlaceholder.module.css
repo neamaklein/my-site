@@ -31,6 +31,5 @@
 .media {
   display: block;
   width: 100%;
-  aspect-ratio: var(--ratio, auto);
-  object-fit: cover;
+  height: auto;
 }

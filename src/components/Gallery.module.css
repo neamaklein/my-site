@@ -67,6 +67,8 @@
    sitting alone in half of it. */
 .columns[data-cols='2'] > :last-child:nth-child(odd) {
   grid-column: 1 / -1;
+  max-height: 85vh;
+  object-fit: contain;
 }
 
 .feature {
