@@ -91,6 +91,10 @@ export const dimenso = {
   // Design gallery: a full-bleed exterior photo of the physical pavilion,
   // then 3 illustrated brand posters slide up over it in a fanned stack.
   // Both pin to the viewport top while scrolling, same as Space Design.
+  // The pavilion with its posters sliding over it is DIMENSO's strongest
+  // moment, so it opens the page right after the title.
+  feature: 'process',
+
   process: {
     cover: { kind: 'image', note: 'pavilion exterior photo', src: pavilionExterior },
     row: [

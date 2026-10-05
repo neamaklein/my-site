@@ -8,6 +8,7 @@ import MetaGrid from '../components/MetaGrid.jsx';
 import Strategy from '../components/Strategy.jsx';
 import BrandBook from '../components/BrandBook.jsx';
 import Process from '../components/Process.jsx';
+import Feature from '../components/Feature.jsx';
 import Gallery from '../components/Gallery.jsx';
 import SpatialRenders from '../components/SpatialRenders.jsx';
 import CaseStudyFooter from '../components/CaseStudyFooter.jsx';
@@ -28,21 +29,38 @@ export default function CaseStudy() {
         <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} stripes={project.stripes} />
         <Hero {...project.hero} />
         <div className={styles.sheet}>
-          {/* Text sections sit on the inner (200px) line of the Figma grid. */}
+          {/* Order, per Neama: concept in one line (the title block's
+              tagline), then the strongest result, then the brand system,
+              then its applications; the full story text closes the page.
+              Text sections sit on the inner (200px) line of the Figma grid;
+              media sections run full width or on the outer (100px) line. */}
           <PageContainer>
             <TitleBlock {...project.title} />
             {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
-            {project.strategy && <Strategy {...project.strategy} />}
-            {project.brandBook && <BrandBook {...project.brandBook} />}
           </PageContainer>
 
-          {/* Media sections run full width / on the outer (100px) line, and
-              set their own padding. */}
-          {project.process && <Process {...project.process} />}
+          {project.feature === 'process' && project.process && <Process {...project.process} />}
+          {project.feature && project.feature !== 'process' && <Feature {...project.feature} />}
+
+          {project.brandBook && (
+            <PageContainer>
+              <BrandBook {...project.brandBook} />
+            </PageContainer>
+          )}
+
+          {project.process && project.feature !== 'process' && <Process {...project.process} />}
           {project.galleries?.map((gallery) => (
             <Gallery key={gallery.heading} {...gallery} />
           ))}
           {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
+
+          {project.strategy && (
+            <PageContainer>
+              <div className={styles.story}>
+                <Strategy {...project.strategy} />
+              </div>
+            </PageContainer>
+          )}
           <CaseStudyFooter {...project.footer} />
         </div>
       </article>

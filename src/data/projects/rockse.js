@@ -69,6 +69,8 @@ export const rockse = {
     ],
   },
 
+  feature: { kind: 'image', note: 'both cartons at the bar', src: productDuo },
+
   galleries: [
     {
       slip: 'PACKING_SLIP_003',
@@ -91,7 +93,6 @@ export const rockse = {
       layout: 'stack',
       ratio: '16 / 9',
       media: [
-        { kind: 'image', note: 'both cartons at the bar', src: productDuo },
         { kind: 'image', note: 'carton in hand', src: productHand },
         { kind: 'image', note: 'pouring', src: productPour },
       ],

@@ -15,6 +15,7 @@
 import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
+import feature from '../../assets/palate/feature.jpg';
 
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
 const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: true, import: 'default' });
@@ -77,6 +78,8 @@ export const palate = {
     ],
     fonts: [{ name: 'Helvetica Neue' }],
   },
+
+  feature: { kind: 'image', note: 'stairway — Saturate your senses', src: feature },
 
   galleries: [
     {
