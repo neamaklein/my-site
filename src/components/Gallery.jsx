@@ -12,6 +12,8 @@ function Media({ item, ratio }) {
 // - columns: label on top; equal columns spanning the page edge to edge
 //            (Social & Invitation, Marketing Campaign).
 // - feature: label on the left; one large media to the right (Walkthrough).
+// - wide:    stack at full page width, label on top — for the hero images
+//            of a project (PALATE renders).
 export default function Gallery({ slip, heading, media, layout = 'columns', columns = 2, ratio }) {
   if (layout === 'stack') {
     return (
@@ -23,6 +25,22 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
               <div className={styles.cardMedia}>
                 <Media item={item} ratio={ratio || '700 / 394'} />
               </div>
+            </div>
+          ))}
+          <div className={styles.hold} aria-hidden="true" />
+        </div>
+      </section>
+    );
+  }
+
+  if (layout === 'wide') {
+    return (
+      <section className={styles.wrap}>
+        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <div className={styles.stack}>
+          {media.map((item, index) => (
+            <div className={`${styles.card} ${styles.wideCard}`} key={index}>
+              <Media item={item} ratio={ratio} />
             </div>
           ))}
           <div className={styles.hold} aria-hidden="true" />

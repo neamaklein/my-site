@@ -42,6 +42,12 @@
   width: min(700px, 47.3vw);
 }
 
+/* Full-width cards sit closer together: the image itself fills the view. */
+.wideCard {
+  display: block;
+  padding: calc(var(--space-stack) / 2) 0;
+}
+
 .hold {
   height: 15vh;
 }

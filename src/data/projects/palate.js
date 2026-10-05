@@ -20,6 +20,7 @@ const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: tru
 const guerrilla = import.meta.glob('../../assets/palate/guerrilla/*.jpg', { eager: true, import: 'default' });
 const plans = import.meta.glob('../../assets/palate/plans/*.jpg', { eager: true, import: 'default' });
 const renders = import.meta.glob('../../assets/palate/renders/*.jpg', { eager: true, import: 'default' });
+const strip = import.meta.glob('../../assets/palate/strip/*.jpg', { eager: true, import: 'default' });
 
 // Files are numbered in deck order, so sorting the paths keeps that order.
 const inOrder = (files) => Object.keys(files).sort().map((path) => files[path]);
@@ -106,11 +107,18 @@ export const palate = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Renders',
-      layout: 'stack',
+      // Per Neama: four renders, as large as the page allows.
+      layout: 'wide',
       ratio: '1845 / 929',
-      media: images(renders).map((item, index) => (index === 0 ? { ...item, note: 'app screens', ratio: '1845 / 923' } : { ...item, note: `render ${index}` })),
+      media: images(renders, ['entrance', 'Personalize your taste wall', 'pod wall', 'Pick your cup']),
     },
   ],
+
+  // The remaining renders, as DIMENSO's moving strip (per Neama).
+  spatialRenders: {
+    note: 'More PALATE interior and exterior renders',
+    images: inOrder(strip),
+  },
 
   footer: {
     label: 'END_OF_DISPATCH № 03',
