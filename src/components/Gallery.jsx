@@ -29,8 +29,9 @@ function Media({ item, ratio }) {
 // Scale-contrast layouts (per Neama, to break the even rhythm):
 // - bleed:   label on top, media edge to edge with no side margin.
 // - lead:    first media large across the page, the rest in a tight row.
-// - asym:    three-column grid, the first media spanning two by two.
-export default function Gallery({ heading, media, layout = 'columns', columns = 2, ratio }) {
+// - asym:    three-column grid, the first media spanning two by two;
+//            with `pinned`, the first media slide over one another there.
+export default function Gallery({ heading, media, layout = 'columns', columns = 2, ratio, pinned = 0 }) {
   if (layout === 'stack') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
@@ -100,6 +101,31 @@ export default function Gallery({ heading, media, layout = 'columns', columns = 
           <Media item={first} ratio={ratio} />
           <div className={styles.dense} style={{ '--cols': columns }}>
             {rest.map((item, index) => (
+              <Media key={index} item={item} ratio={ratio} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // With `pinned`, the first media stack in the large cell: each pins
+  // under the nav and the next slides over it, while the rest hold still
+  // beside them; when the stack ends the page scrolls on.
+  if (layout === 'asym' && pinned > 1) {
+    return (
+      <section className={styles.wrap}>
+        <SectionLabel heading={heading} className={styles.topLabel} />
+        <div className={`${styles.asym} ${styles.asymPinned}`}>
+          <div className={styles.asymLead}>
+            {media.slice(0, pinned).map((item, index) => (
+              <div className={styles.asymCard} key={index}>
+                <Media item={item} ratio={ratio} />
+              </div>
+            ))}
+          </div>
+          <div className={styles.asymSide}>
+            {media.slice(pinned).map((item, index) => (
               <Media key={index} item={item} ratio={ratio} />
             ))}
           </div>

@@ -16,6 +16,7 @@ import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 import feature from '../../assets/palate/feature.jpg';
+import capsules from '../../assets/palate/capsules.jpg';
 
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
 const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: true, import: 'default' });
@@ -32,7 +33,7 @@ const images = (files, notes) =>
 
 const PLAN_CAPTIONS = [
   { caption: 'Ground Floor Plan', scale: '1:50' },
-  { caption: 'Gallery Floor Plan' },
+  { caption: 'Gallery Floor Plan', scale: '1:50' },
   { caption: 'Perspective Section 1-1' },
   { caption: 'Perspective Section 2-2' },
   { caption: 'Isometric View' },
@@ -90,10 +91,13 @@ export const palate = {
   galleries: [
     {
       heading: 'Merch',
-      // Per Neama: the cups lead, large; the carrier and jars beside them.
+      // Per Neama: the cups lead, large, and the capsules slide over them
+      // (sticky) while the carrier and jars hold beside; then the page
+      // scrolls on.
       layout: 'asym',
       ratio: '1 / 1',
-      media: (([carrier, cups, jars]) => [cups, carrier, jars])(
+      pinned: 2,
+      media: (([carrier, cups, jars]) => [cups, { kind: 'image', src: capsules, note: 'capsules' }, carrier, jars])(
         images(merch, ['Take your Palate carrier', 'cups', 'jars']),
       ),
     },

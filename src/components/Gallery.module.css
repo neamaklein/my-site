@@ -153,11 +153,66 @@
   object-fit: cover;
 }
 
+/* Pinned: the large cell holds a stack of cards, each pinning under the
+   nav so the next slides over it; the side column pins beside them until
+   the stack ends. Columns match the 3-column grid's two-plus-one. */
+.asymPinned {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.asymPinned > :first-child {
+  grid-column: auto;
+  grid-row: auto;
+  height: auto;
+}
+
+.asymLead {
+  display: grid;
+  gap: 12px;
+}
+
+.asymCard,
+.asymSide {
+  position: sticky;
+  top: calc(var(--nav-height) + 12px);
+}
+
+/* Opaque, so the card sliding over hides the one beneath; the media is
+   shown whole, centred in the square. */
+.asymCard {
+  background: var(--color-bg);
+}
+
+.asymCard > * {
+  aspect-ratio: 1 / 1;
+  max-height: calc(100vh - var(--nav-height) - 24px);
+  object-fit: contain;
+}
+
+.asymSide {
+  display: grid;
+  gap: 12px;
+}
+
+/* Both side media fit in the view while they hold. */
+.asymSide > * {
+  max-height: calc((100vh - var(--nav-height) - 36px) / 2);
+  object-fit: contain;
+}
+
 @media (max-width: 768px) {
   .dense {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .asym {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .asymPinned {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .asymSide {
+    position: static;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -193,6 +248,10 @@
       animation: rise linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 25%;
+    }
+    /* The pinned stack moves by scrolling alone. */
+    .asymPinned > * {
+      animation: none;
     }
   }
 }
