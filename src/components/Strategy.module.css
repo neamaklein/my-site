@@ -1,0 +1,24 @@
+/* Story text: headline above a single readable column (~65 characters). */
+.wrap {
+  display: grid;
+  gap: var(--space-label);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 680px;
+}
+
+.body p {
+  font-family: var(--font-body);
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+.body strong {
+  font-weight: 600;
+}

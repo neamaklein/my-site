@@ -1,0 +1,34 @@
+/* End of the page: the shipping moment (end of dispatch) and the way
+   back, set large and quiet on the grey band. */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: var(--space-section) var(--edge);
+  margin-top: var(--space-section);
+  background: var(--color-band);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: var(--color-frame);
+}
+
+.button {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-section);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+
+.button:hover,
+.button:focus-visible {
+  color: var(--color-frame);
+}

@@ -1,0 +1,121 @@
+@import './tokens.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+.mono-tag {
+  font-family: var(--font-mono);
+  font-size: var(--tag-size);
+  letter-spacing: var(--tag-tracking);
+  text-transform: uppercase;
+}
+
+/* Scroll storytelling, Apple-style (per Neama): headlines rise into place
+   as they enter the view. Pure CSS scroll timelines — browsers without
+   them, and anyone with reduced motion, see everything at rest. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+  }
+}
+
+/* Instrument Serif (OFL; license beside the files), on trial in the
+   review copy: <html data-serif="voice|sections|all"> picks where it
+   applies. Without the attribute (the live site) nothing changes. */
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../assets/fonts/InstrumentSerif-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../assets/fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --font-serif: 'Instrument Serif', 'New York', Georgia, serif;
+}
+
+/* The serif sets smaller than the sans at the same size (shorter
+   x-height, condensed), so each role grows a step when it switches. */
+html[data-serif] {
+  --text-subhead: clamp(26px, 2.7vw, 36px);
+}
+
+html[data-serif='sections'],
+html[data-serif='all'] {
+  --text-section: clamp(44px, 5.4vw, 80px);
+}
+
+html[data-serif='all'] {
+  --text-name: clamp(80px, 11vw, 156px);
+}
+
+html[data-serif] .serif-voice {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+html[data-serif='sections'] .serif-section,
+html[data-serif='all'] .serif-section,
+html[data-serif='all'] .serif-name {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}

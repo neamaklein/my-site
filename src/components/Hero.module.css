@@ -1,0 +1,71 @@
+/* Figma: the hero container is sticky (here: just under the nav), so the page content slides
+   up over it (the content sheet has its own background). */
+.hero {
+  position: sticky;
+  top: var(--nav-height);
+  /* Own stacking context: keeps the intro/label layers (z-index 1–2)
+     inside the hero, so the content sheet (z-index 1) always covers it. */
+  z-index: 0;
+  height: calc(100vh - var(--nav-height));
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 768px;
+  text-align: center;
+  padding: 24px 32px;
+  background: rgba(253, 253, 253, 0.85);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 64px);
+  margin: 0 0 16px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 21.6px;
+  line-height: 32px;
+  margin: 0;
+}
+
+.empty {
+  color: #b3b3b3;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.scroll {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+  color: #fff;
+  mix-blend-mode: difference;
+}

@@ -1,0 +1,37 @@
+import { Link } from 'react-router-dom';
+import { comingSoon } from '../data/projects/index.js';
+import Conveyor from '../components/Conveyor.jsx';
+import styles from './Home.module.css';
+
+// The scroll-driven conveyor is still a draft: it shows only in the
+// claude.ai review copy (VITE_CONVEYOR=1) until Neama approves it for
+// the live site.
+const SHOW_CONVEYOR = import.meta.env.VITE_CONVEYOR === '1';
+
+export default function Home({ projects }) {
+  return (
+    <>
+      {SHOW_CONVEYOR && <Conveyor projects={projects} />}
+      <main className={styles.wrap}>
+        <h1 className={styles.title}>Neama Klein</h1>
+        <p className={styles.subtitle}>TERMINAL // SELECT DISPATCH</p>
+        <div className={styles.list}>
+          {projects.map((project) => (
+            <Link key={project.slug} to={`/work/${project.slug}`} className={styles.row}>
+              <span>{project.title.name}</span>
+              <span className={styles.meta}>
+                DISPATCH № {project.dispatchNumber} // {project.category}
+              </span>
+            </Link>
+          ))}
+          {comingSoon.map((item) => (
+            <div key={item.dispatchNumber} className={`${styles.row} ${styles.pending}`}>
+              <span>— — — —</span>
+              <span className={styles.meta}>DISPATCH № {item.dispatchNumber} // COMING_SOON</span>
+            </div>
+          ))}
+        </div>
+      </main>
+    </>
+  );
+}

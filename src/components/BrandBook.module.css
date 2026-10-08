@@ -1,0 +1,180 @@
+/* Graphic Index as an Apple-style spec sheet: headline on top, then a
+   bento grid of white cards on the light grey band (the page's only
+   rounded cards). */
+.wrap {
+  display: grid;
+  gap: var(--space-label);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 28px;
+  background: var(--color-bg);
+  border-radius: 20px;
+}
+
+.narrow { grid-column: span 4; }
+.wide { grid-column: span 8; }
+.left { grid-column: span 7; }
+.right { grid-column: span 5; }
+.full { grid-column: 1 / -1; }
+
+.label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.logo {
+  display: block;
+  max-width: 100%;
+  max-height: 140px;
+  margin: auto 0;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.element,
+.icons {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The construction drawing stays a supporting card, not a poster. */
+.wide img {
+  max-height: 280px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.icons {
+  max-height: 240px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.iconNames {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.swatches {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 132px;
+  height: 96px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.swatchLight {
+  border: 1px solid var(--color-border);
+}
+
+.fonts {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fontCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  width: 132px;
+  height: 96px;
+  padding: 12px 14px;
+  background: var(--color-band);
+  border-radius: 14px;
+}
+
+.sample {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.fontName {
+  font-size: 13px;
+  color: var(--color-secondary);
+}
+
+/* Narrow screens (per Neama): a two-column grid, not one card per row.
+   Cards pair up; only full-width ones (the element strip, a lone colour
+   set) take the whole row. Everything inside scales down to fit. */
+@media (max-width: 900px) {
+  .content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .narrow,
+  .wide,
+  .left,
+  .right {
+    grid-column: span 1;
+  }
+  .block {
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .label {
+    font-size: 13px;
+  }
+  .logo {
+    max-height: 72px;
+  }
+  .icons {
+    max-height: 160px;
+    object-fit: contain;
+  }
+  .swatches,
+  .fonts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 8px;
+  }
+  .full .swatches {
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  }
+  .swatch,
+  .fontCard {
+    width: auto;
+    height: 64px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  .swatch,
+  .fontName {
+    font-size: 13px;
+  }
+  .sample {
+    font-size: 24px;
+  }
+}
