@@ -20,7 +20,8 @@ function sectionOf(el, headings) {
 }
 
 export function collectAudit() {
-  const root = document.querySelector('article') || document.querySelector('main') || document.body;
+  // The whole app, so the home page's conveyor (outside <main>) is measured too.
+  const root = document.getElementById('root') || document.body;
   const vh = window.innerHeight;
   const dpr = window.devicePixelRatio || 1;
   const headings = [...root.querySelectorAll('h1, h2')];

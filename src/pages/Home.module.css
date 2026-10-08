@@ -12,10 +12,10 @@
 
 .subtitle {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.2px;
   text-transform: uppercase;
-  color: #8a8a8a;
+  color: var(--color-secondary);
   margin: 0 0 48px;
 }
 
@@ -41,15 +41,15 @@
 
 .meta {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.2px;
   text-transform: uppercase;
-  color: #8a8a8a;
+  color: var(--color-secondary);
 }
 
 .pending {
   cursor: default;
-  color: #c2c2c2;
+  color: #86868b;
 }
 
 .pending:hover {

@@ -65,7 +65,8 @@
 
 .labelBody {
   margin: 0 0 0.8cqw;
-  font-size: 0.82cqw;
+  /* Never below 13px, however narrow the window. */
+  font-size: max(13px, 0.82cqw);
   line-height: 1.35;
 }
 

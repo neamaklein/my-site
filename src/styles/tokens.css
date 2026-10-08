@@ -32,7 +32,7 @@
   --text-section: clamp(36px, 4.4vw, 64px);
   --text-name: clamp(64px, 9vw, 128px);
 
-  --tag-size: 11px;
+  --tag-size: 13px;
   --tag-tracking: 0.22px;
 
   --edge: clamp(20px, 6.75vw, 140px);
