@@ -82,12 +82,10 @@ export const palate = {
   galleries: [
     {
       heading: 'Merch',
-      // The carrier leads, large; the cubes, cups and jars around it.
+      // The carrier leads, large; the cups and jars beside it.
       layout: 'asym',
       ratio: '1 / 1',
-      media: (([df, or, kw, carrier, cups, jars]) => [carrier, df, or, kw, cups, jars])(
-        images(merch, ['Df cube', 'Or cube', 'Kw cube', 'Take your Palate carrier', 'cups', 'jars']),
-      ),
+      media: images(merch, ['Take your Palate carrier', 'cups', 'jars']),
     },
     {
       heading: 'Coming Soon',
