@@ -40,6 +40,8 @@
   position: absolute;
   inset: 0;
   object-fit: cover;
+  /* Keep the opened box (right of centre) in view on narrow screens. */
+  object-position: 72% 55%;
 }
 
 /* Thermal shipping label: white stock, black type, a barcode. */

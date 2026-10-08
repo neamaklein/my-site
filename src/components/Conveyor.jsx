@@ -10,17 +10,18 @@ import styles from './Conveyor.module.css';
 // film can be rendered without text and dropped in later.
 
 // Camera path over the hall frame: [progress, originX%, originY%, scale].
+// Zoom stays at 2.4x or less: past that the stand-in frames go soft.
 const CAMERA = [
   [0, 50, 50, 1],
   [0.14, 50, 50, 1],
-  [0.27, 76, 38, 2.2],
-  [0.4, 76, 38, 2.2],
+  [0.27, 76, 38, 1.8],
+  [0.4, 76, 38, 1.8],
   [0.47, 50, 48, 1.1],
-  [0.57, 24, 34, 2.4],
-  [0.67, 24, 34, 2.4],
+  [0.57, 24, 34, 2],
+  [0.67, 24, 34, 2],
   [0.73, 50, 46, 1.2],
-  [0.83, 55.5, 37, 3.2],
-  [0.9, 55.5, 37, 3.2],
+  [0.83, 55.5, 37, 2.4],
+  [0.9, 55.5, 37, 2.4],
   [1, 50, 50, 1],
 ];
 
@@ -56,6 +57,10 @@ function cameraAt(p) {
 
 export default function Conveyor({ projects }) {
   const trackRef = useRef(null);
+  const cameraRef = useRef(null);
+  // On narrow screens the frame is cropped at the sides; this pans it so
+  // the printed label (left side of the frame) opens the page in view.
+  const [pan, setPan] = useState(0);
   const [p, setP] = useState(0);
   const [still, setStill] = useState(false);
 
@@ -70,6 +75,11 @@ export default function Conveyor({ projects }) {
       const rect = el.getBoundingClientRect();
       const range = el.offsetHeight - window.innerHeight;
       setP(range > 0 ? clamp(-rect.top / range) : 0);
+      const camera = cameraRef.current;
+      if (camera) {
+        const hidden = camera.offsetWidth - window.innerWidth;
+        setPan(Math.max(0, hidden / 2 - 0.115 * camera.offsetWidth));
+      }
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -97,8 +107,12 @@ export default function Conveyor({ projects }) {
     <section ref={trackRef} className={styles.track} aria-label="Portfolio conveyor">
       <div className={styles.stage}>
         <div
+          ref={cameraRef}
           className={styles.camera}
-          style={{ transformOrigin: `${cam.x}% ${cam.y}%`, transform: `scale(${cam.s})` }}
+          style={{
+            transformOrigin: `${cam.x}% ${cam.y}%`,
+            transform: `translateX(${pan * (1 - ease(clamp((p - 0.08) / 0.12)))}px) scale(${cam.s})`,
+          }}
         >
           <img className={styles.frame} src={hall} alt="" />
           {/* Live label over the printer slot; slides out as if printed. */}
