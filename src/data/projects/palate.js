@@ -56,7 +56,6 @@ export const palate = {
   ],
 
   strategy: {
-    slip: 'PACKING_SLIP_001',
     heading: 'Golden Slide',
     dir: 'rtl',
     lang: 'he',
@@ -64,7 +63,6 @@ export const palate = {
   },
 
   brandBook: {
-    slip: 'PACKING_SLIP_002',
     heading: 'Graphic Index',
     labels: { colors: 'Color Palette', fonts: 'Font' },
     logoSrc: logo,
@@ -83,7 +81,6 @@ export const palate = {
 
   galleries: [
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Merch',
       // The carrier leads, large; the cubes, cups and jars around it.
       layout: 'asym',
@@ -93,7 +90,6 @@ export const palate = {
       ),
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Coming Soon',
       // The billboard leads, large; the four poster frames tight beneath.
       layout: 'lead',
@@ -104,7 +100,6 @@ export const palate = {
       ),
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Guerrilla',
       // Renders are PALATE's one sticky moment; this scrolls normally.
       layout: 'lead',
@@ -113,7 +108,6 @@ export const palate = {
       media: images(guerrilla, ['color-block seating', 'frame installation', 'Instagram']),
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Plans',
       // Per Neama: two columns, drawings side by side.
       columns: 2,
@@ -121,7 +115,6 @@ export const palate = {
       media: images(plans, ['ground floor', 'gallery floor', 'section 1-1', 'section 2-2', 'isometric view']),
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Renders',
       // Per Neama: four renders, as large as the page allows.
       layout: 'wide',

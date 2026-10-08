@@ -76,7 +76,6 @@ export const dimenso = {
   ],
 
   strategy: {
-    slip: 'PACKING_SLIP_001',
     heading: 'Strategy',
     paragraphs: [
       {
@@ -105,7 +104,6 @@ export const dimenso = {
   },
 
   brandBook: {
-    slip: 'PACKING_SLIP_002',
     heading: 'Graphic Index',
     fonts: [
       { name: 'Brandon Grotesque' },
@@ -135,7 +133,6 @@ export const dimenso = {
   // Result galleries, in the order they appear on the Figma canvas.
   galleries: [
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Space Design',
       // Sticky in Figma; now one sticky moment per project (the pavilion
       // above), so this scrolls normally: one large, four tight beneath.
@@ -150,7 +147,6 @@ export const dimenso = {
       ],
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Social & Invitation',
       // Figma: three 348×718 portrait frames side by side.
       columns: 3,
@@ -162,7 +158,6 @@ export const dimenso = {
       ],
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Marketing Campaign',
       // Was a 2×2 grid in Figma; now one large and three in a tight row,
       // for scale contrast (per Neama).
@@ -177,7 +172,6 @@ export const dimenso = {
       ],
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Walkthrough Video',
       layout: 'bleed',
       // This is a still frame standing in for the actual walkthrough video.

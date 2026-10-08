@@ -23,6 +23,14 @@ export default function CaseStudy() {
     return <Navigate to="/" replace />;
   }
 
+  // Packing slips are numbered by position on the page (per Neama), like
+  // real labels in a shipment — not carried over from the Figma order.
+  let slipCount = 0;
+  const nextSlip = () => `PACKING_SLIP_${String((slipCount += 1)).padStart(3, '0')}`;
+  const brandBookSlip = project.brandBook ? nextSlip() : null;
+  const gallerySlips = (project.galleries || []).map(() => nextSlip());
+  const strategySlip = project.strategy ? nextSlip() : null;
+
   return (
     <ReviewScope value={project.slug}>
       <article>
@@ -44,20 +52,20 @@ export default function CaseStudy() {
 
           {project.brandBook && (
             <PageContainer>
-              <BrandBook {...project.brandBook} />
+              <BrandBook {...project.brandBook} slip={brandBookSlip} />
             </PageContainer>
           )}
 
           {project.process && project.feature !== 'process' && <Process {...project.process} />}
-          {project.galleries?.map((gallery) => (
-            <Gallery key={gallery.heading} {...gallery} />
+          {project.galleries?.map((gallery, index) => (
+            <Gallery key={gallery.heading} {...gallery} slip={gallerySlips[index]} />
           ))}
           {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
 
           {project.strategy && (
             <PageContainer>
               <div className={styles.story}>
-                <Strategy {...project.strategy} />
+                <Strategy {...project.strategy} slip={strategySlip} />
               </div>
             </PageContainer>
           )}

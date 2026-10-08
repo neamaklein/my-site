@@ -42,7 +42,6 @@ export const rockse = {
   ],
 
   strategy: {
-    slip: 'PACKING_SLIP_001',
     heading: 'Strategy',
     paragraphs: [
       { lead: 'Rocksé', text: " is a bold, direct, raw, and intelligent brand. It doesn't try to please everyone, instead, it targets an audience that appreciates underground culture aesthetics - rock, tattoos, and grunge - and seeks material authenticity over a beautified product." },
@@ -53,7 +52,6 @@ export const rockse = {
   },
 
   brandBook: {
-    slip: 'PACKING_SLIP_002',
     heading: 'Graphic Index',
     logoSrc: logo,
     fonts: [
@@ -73,14 +71,12 @@ export const rockse = {
 
   galleries: [
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Brand Assets',
       // Edge to edge: the stickers on black are the page's dark moment.
       layout: 'bleed',
       media: [{ kind: 'image', note: 'stickers, picks and tin', src: stickers }],
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Dieline',
       columns: 2,
       media: [
@@ -89,7 +85,6 @@ export const rockse = {
       ],
     },
     {
-      slip: 'PACKING_SLIP_003',
       heading: 'Product',
       columns: 2,
       media: [
