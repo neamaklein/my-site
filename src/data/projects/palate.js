@@ -15,7 +15,6 @@
 import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
-import feature from '../../assets/palate/feature.jpg';
 import capsules from '../../assets/palate/capsules.webp';
 
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
@@ -41,6 +40,8 @@ const PLAN_CAPTIONS = [
   { caption: 'Perspective Section 2-2' },
   { caption: 'Isometric View' },
 ];
+
+const [merchCarrier, merchCups, merchJars] = images(merch, ['Take your Palate carrier', 'cups', 'jars']);
 
 export const palate = {
   slug: 'palate',
@@ -76,20 +77,22 @@ export const palate = {
     fonts: [{ name: 'Helvetica Neue' }],
   },
 
-  feature: { kind: 'image', note: 'stairway — Saturate your senses', src: feature },
+  // Per Neama: the cups open the page, and the capsules (a transparent
+  // cut-out) slide up over them as you scroll; the band takes the cups
+  // photo's backdrop color so the square reads edge to edge.
+  feature: {
+    ...merchCups,
+    over: { kind: 'image', src: capsules, note: 'capsules' },
+    background: '#f4f3f1',
+  },
 
   galleries: [
     {
       heading: 'Merch',
-      // Per Neama: the cups lead, large, and the capsules slide over them
-      // (sticky) while the carrier and jars hold beside; then the page
-      // scrolls on.
-      layout: 'asym',
+      // The cups and capsules moved up to open the page (per Neama).
+      columns: 2,
       ratio: '1 / 1',
-      pinned: 2,
-      media: (([carrier, cups, jars]) => [cups, { kind: 'image', src: capsules, note: 'capsules' }, carrier, jars])(
-        images(merch, ['Take your Palate carrier', 'cups', 'jars']),
-      ),
+      media: [merchCarrier, merchJars],
     },
     {
       heading: 'Coming Soon',
