@@ -178,12 +178,8 @@
   top: calc(var(--nav-height) + 12px);
 }
 
-/* Opaque, so the card sliding over hides the one beneath; the media is
-   shown whole, centred in the square. */
-.asymCard {
-  background: var(--color-bg);
-}
-
+/* The media is shown whole, centred in the square. Cards stay clear, so
+   a cut-out (transparent) image slides over the one beneath it. */
 .asymCard > * {
   aspect-ratio: 1 / 1;
   max-height: calc(100vh - var(--nav-height) - 24px);

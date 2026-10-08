@@ -16,7 +16,7 @@ import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 import feature from '../../assets/palate/feature.jpg';
-import capsules from '../../assets/palate/capsules.jpg';
+import capsules from '../../assets/palate/capsules.webp';
 
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
 const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: true, import: 'default' });
