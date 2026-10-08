@@ -99,12 +99,12 @@ export const palate = {
     },
     {
       heading: 'Coming Soon',
-      // The billboard leads, large; the four poster frames tight beneath.
+      // The billboard leads, large; the two poster frames tight beneath.
       layout: 'lead',
       columns: 2,
       ratio: '1845 / 923',
-      media: (([posters, billboard, ...rest]) => [billboard, posters, ...rest])(
-        images(coming, ['fruit posters', 'billboard', 'Personalize your taste poster', 'posters in situ', 'posters on wall']),
+      media: (([posters, billboard, poster]) => [billboard, posters, poster])(
+        images(coming, ['fruit posters', 'billboard', 'Personalize your taste poster']),
       ),
     },
     {
