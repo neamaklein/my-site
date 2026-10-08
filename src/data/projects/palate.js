@@ -30,6 +30,14 @@ const inOrder = (files) => Object.keys(files).sort().map((path) => files[path]);
 const images = (files, notes) =>
   inOrder(files).map((src, index) => ({ kind: 'image', src, note: notes?.[index] ?? '' }));
 
+const PLAN_CAPTIONS = [
+  { caption: 'Ground Floor Plan', scale: '1:50' },
+  { caption: 'Gallery Floor Plan' },
+  { caption: 'Perspective Section 1-1' },
+  { caption: 'Perspective Section 2-2' },
+  { caption: 'Isometric View' },
+];
+
 export const palate = {
   slug: 'palate',
   dispatchNumber: '03',
@@ -110,7 +118,10 @@ export const palate = {
       // Per Neama: two columns, drawings side by side.
       columns: 2,
       ratio: '1920 / 985',
-      media: images(plans, ['ground floor', 'gallery floor', 'section 1-1', 'section 2-2', 'isometric view']),
+      // Per Neama: a small English title above each drawing, with its scale.
+      media: images(plans, ['ground floor', 'gallery floor', 'section 1-1', 'section 2-2', 'isometric view']).map(
+        (item, index) => ({ ...item, ...PLAN_CAPTIONS[index] }),
+      ),
     },
     {
       heading: 'Renders',

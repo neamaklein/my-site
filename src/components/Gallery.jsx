@@ -2,8 +2,20 @@ import SectionLabel from './SectionLabel.jsx';
 import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './Gallery.module.css';
 
+// An item with a caption (a drawing's title and scale) is set as a figure,
+// the caption small above the media.
 function Media({ item, ratio }) {
-  return <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
+  const media = <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
+  if (!item.caption) return media;
+  return (
+    <figure className={styles.figure}>
+      <figcaption className={styles.caption}>
+        {item.caption}
+        {item.scale && <span className={styles.scale}>Scale {item.scale}</span>}
+      </figcaption>
+      {media}
+    </figure>
+  );
 }
 
 // Layouts, each taken from a section of the DIMENSO Figma frame:
