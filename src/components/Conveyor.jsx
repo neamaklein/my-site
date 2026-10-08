@@ -145,7 +145,13 @@ export default function Conveyor({ projects }) {
           );
         })}
 
-        <div className={styles.end} style={{ opacity: windowed(p, ending.from, ending.to) }}>
+        <div
+          className={styles.end}
+          style={{
+            opacity: windowed(p, ending.from, ending.to),
+            pointerEvents: windowed(p, ending.from, ending.to) > 0.5 ? 'auto' : 'none',
+          }}
+        >
           <p className={styles.endSign}>
             <span>{ending.text}</span>
           </p>

@@ -91,7 +91,9 @@
   -webkit-box-decoration-break: clone;
 }
 
+/* Signs are read, never clicked: let clicks reach the cards beneath. */
 .sign {
+  pointer-events: none;
   position: absolute;
   left: var(--edge);
   bottom: 14vh;

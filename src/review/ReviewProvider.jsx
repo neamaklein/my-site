@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import ExpertScan from './ExpertScan.jsx';
 import styles from './Review.module.css';
 
 // Review-only media editing, active in the claude.ai review copy
@@ -21,8 +22,14 @@ export const ReviewScope = ScopeContext.Provider;
 export function useMediaKey(src, note) {
   const scope = useContext(ScopeContext);
   const base = src
-    ? src.split('/').pop().replace(/-[A-Za-z0-9_-]{8}\.[a-z0-9]+$/i, '')
-    : (note || 'media').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    ? src
+        .split('/')
+        .pop()
+        .replace(/-[A-Za-z0-9_-]{8}\.[a-z0-9]+$/i, '')
+    : (note || 'media')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
   return `${scope}__${base}`;
 }
 
@@ -128,8 +135,9 @@ export function ReviewProvider({ children }) {
   return (
     <ReviewContext.Provider value={{ editing, overrides, select, selected }}>
       {children}
-      {canEdit && (
-        <div className={styles.bar} role="region" aria-label="Media editing">
+      {ENABLED && (
+        <div className={styles.bar} role="region" aria-label="Review tools">
+          <ExpertScan />
           {editing && (
             <>
               <span className={styles.status} aria-live="polite">
@@ -153,18 +161,20 @@ export function ReviewProvider({ children }) {
               )}
             </>
           )}
-          <button
-            type="button"
-            className={styles.toggle}
-            aria-pressed={editing}
-            onClick={() => {
-              setEditing((value) => !value);
-              setSelected(null);
-              setStatus('');
-            }}
-          >
-            {editing ? 'Done' : 'Replace media'}
-          </button>
+          {canEdit && (
+            <button
+              type="button"
+              className={styles.toggle}
+              aria-pressed={editing}
+              onClick={() => {
+                setEditing((value) => !value);
+                setSelected(null);
+                setStatus('');
+              }}
+            >
+              {editing ? 'Done' : 'Replace media'}
+            </button>
+          )}
         </div>
       )}
     </ReviewContext.Provider>
