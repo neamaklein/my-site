@@ -90,10 +90,12 @@ export const palate = {
   galleries: [
     {
       heading: 'Merch',
-      // The carrier leads, large; the cups and jars beside it.
+      // Per Neama: the cups lead, large; the carrier and jars beside them.
       layout: 'asym',
       ratio: '1 / 1',
-      media: images(merch, ['Take your Palate carrier', 'cups', 'jars']),
+      media: (([carrier, cups, jars]) => [cups, carrier, jars])(
+        images(merch, ['Take your Palate carrier', 'cups', 'jars']),
+      ),
     },
     {
       heading: 'Coming Soon',
