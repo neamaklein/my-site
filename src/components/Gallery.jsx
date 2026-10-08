@@ -14,6 +14,10 @@ function Media({ item, ratio }) {
 // - feature: label on the left; one large media to the right (Walkthrough).
 // - wide:    stack at full page width, label on top — for the hero images
 //            of a project (PALATE renders).
+// Scale-contrast layouts (per Neama, to break the even rhythm):
+// - bleed:   label on top, media edge to edge with no side margin.
+// - lead:    first media large across the page, the rest in a tight row.
+// - asym:    three-column grid, the first media spanning two by two.
 export default function Gallery({ slip, heading, media, layout = 'columns', columns = 2, ratio }) {
   if (layout === 'stack') {
     return (
@@ -54,6 +58,49 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
       <section className={`${styles.wrap} ${styles.side}`}>
         <SectionLabel slip={slip} heading={heading} className={styles.sideLabel} />
         <div className={styles.feature}>
+          {media.map((item, index) => (
+            <Media key={index} item={item} ratio={ratio} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (layout === 'bleed') {
+    return (
+      <section className={`${styles.wrap} ${styles.bleedWrap}`}>
+        <SectionLabel slip={slip} heading={heading} className={`${styles.topLabel} ${styles.bleedLabel}`} />
+        <div className={styles.bleed}>
+          {media.map((item, index) => (
+            <Media key={index} item={item} ratio={ratio} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (layout === 'lead') {
+    const [first, ...rest] = media;
+    return (
+      <section className={styles.wrap}>
+        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <div className={styles.lead}>
+          <Media item={first} ratio={ratio} />
+          <div className={styles.dense} style={{ '--cols': columns }}>
+            {rest.map((item, index) => (
+              <Media key={index} item={item} ratio={ratio} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (layout === 'asym') {
+    return (
+      <section className={styles.wrap}>
+        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <div className={styles.asym}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
           ))}

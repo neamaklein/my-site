@@ -85,16 +85,23 @@ export const palate = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Merch',
-      columns: 3,
+      // The carrier leads, large; the cubes, cups and jars around it.
+      layout: 'asym',
       ratio: '1 / 1',
-      media: images(merch, ['Df cube', 'Or cube', 'Kw cube', 'Take your Palate carrier', 'cups', 'jars']),
+      media: (([df, or, kw, carrier, cups, jars]) => [carrier, df, or, kw, cups, jars])(
+        images(merch, ['Df cube', 'Or cube', 'Kw cube', 'Take your Palate carrier', 'cups', 'jars']),
+      ),
     },
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Coming Soon',
-      layout: 'stack',
+      // The billboard leads, large; the four poster frames tight beneath.
+      layout: 'lead',
+      columns: 2,
       ratio: '1845 / 923',
-      media: images(coming, ['fruit posters', 'billboard', 'Personalize your taste poster', 'posters in situ', 'posters on wall']),
+      media: (([posters, billboard, ...rest]) => [billboard, posters, ...rest])(
+        images(coming, ['fruit posters', 'billboard', 'Personalize your taste poster', 'posters in situ', 'posters on wall']),
+      ),
     },
     {
       slip: 'PACKING_SLIP_003',

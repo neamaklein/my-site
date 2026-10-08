@@ -75,7 +75,58 @@
   flex: 0 1 min(1068px, 72vw);
 }
 
+/* Edge to edge: the section keeps its top spacing but drops the side
+   margin, so the image meets both sides of the window. */
+.bleedWrap {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.bleedLabel {
+  padding: 0 var(--edge);
+}
+
+.bleed {
+  display: grid;
+}
+
+/* One large image, then the rest tight beneath it: the gap inside the
+   row is smaller than the page gutter, so it reads as one group. */
+.lead {
+  display: grid;
+  gap: 12px;
+}
+
+.dense {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+/* 3-column grid, first item spans 2×2. Square items keep the big one
+   exactly two cells (plus the gap) on each side. */
+.asym {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.asym > :first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
+  .dense {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .asym {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .side {
     flex-direction: column;
   }

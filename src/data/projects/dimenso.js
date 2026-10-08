@@ -162,8 +162,10 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Marketing Campaign',
-      // Figma: 2×2 grid of 629×351 frames.
-      columns: 2,
+      // Was a 2×2 grid in Figma; now one large and three in a tight row,
+      // for scale contrast (per Neama).
+      layout: 'lead',
+      columns: 3,
       ratio: '629 / 351',
       media: [
         { kind: 'image', note: 'interactive AR installation', src: campaign01 },
@@ -175,7 +177,7 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Walkthrough Video',
-      layout: 'feature',
+      layout: 'bleed',
       // This is a still frame standing in for the actual walkthrough video.
       media: [{ kind: 'image', note: 'MacBook mockup — walkthrough (video still)', src: macbookStill }],
     },

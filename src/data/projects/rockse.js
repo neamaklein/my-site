@@ -75,7 +75,8 @@ export const rockse = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Brand Assets',
-      layout: 'feature',
+      // Edge to edge: the stickers on black are the page's dark moment.
+      layout: 'bleed',
       media: [{ kind: 'image', note: 'stickers, picks and tin', src: stickers }],
     },
     {
