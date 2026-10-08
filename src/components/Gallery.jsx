@@ -6,7 +6,9 @@ import styles from './Gallery.module.css';
 // An item with a caption (a drawing's title and scale) is set as a figure,
 // the caption small above the media.
 function Media({ item, ratio }) {
-  const media = <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} />;
+  const media = (
+    <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} size={item.size} />
+  );
   if (!item.caption) return media;
   return (
     <figure className={styles.figure}>
