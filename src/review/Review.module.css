@@ -220,3 +220,8 @@
   outline-offset: 4px;
   transition: outline-color 0.3s;
 }
+
+.basis {
+  font-size: 12px;
+  color: var(--color-secondary);
+}

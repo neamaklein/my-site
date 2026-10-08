@@ -4,6 +4,8 @@
 // small. Every measured element gets a data-audit-id so findings can
 // point back at it.
 
+import { EXPERT_KNOWLEDGE } from './expertKnowledge.js';
+
 const words = (text) => (text.trim() ? text.trim().split(/\s+/).length : 0);
 const round = (n, d = 2) => Math.round(n * 10 ** d) / 10 ** d;
 
@@ -114,6 +116,9 @@ export function expertPrompt(audit, imageIds) {
 
 The site's direction, already decided by Neama: an Apple-like system (one type family, large tight headlines, quiet grey bands, scroll reveals), with her purple and the "shipping/dispatch" language used only in a few moments. Judge execution against that direction; do not ask her to change the direction itself. The written copy comes from her Figma and is final in wording: you may say a section has too much text or should be shortened or moved, but do not rewrite her copy.
 
+Judge by this reference library (design skills and web research). Ground every finding in it and name the source in "basis" — e.g. "Taste", "Apple HIG › typography", "WCAG 1.4.3", "web.dev images", "Creative Boom 2026", "The Brand Identity", "Neama's standards":
+${EXPERT_KNOWLEDGE}
+
 Measurements of the page as the viewer sees it now (sharpness = source pixels ÷ shown pixels on this screen; below 1.0 means visibly soft, below 0.75 clearly blurry; croppedPercent = share of the image cut off by the frame; placeholder = media not supplied yet):
 ${JSON.stringify(audit)}
 ${imageIds.length ? `\nAttached, in order, are the page's largest images: ${imageIds.join(', ')}. Judge their quality by eye too (blur, compression, watermarks, framing).` : ''}
@@ -121,6 +126,30 @@ ${imageIds.length ? `\nAttached, in order, are the page's largest images: ${imag
 Check: too much or too little text and where; images that are cropped, blurry or low quality; sizes that should change (too big, too small, inconsistent); hierarchy, rhythm and spacing; what is missing for a recruiter at a branding studio (context, role, process, results, credits, contact, next project). Point every finding at the most specific target id you can (a section id like "s3", a media id like "m7", or "page").
 
 Write all text in Hebrew. Reply with only a JSON object of this shape:
-{"score": <1-10>, "verdict": "<2-3 sentences>", "works": ["<what works>", ...], "findings": [{"target": "<id or page>", "severity": "critical|high|medium|low", "area": "text|images|sizes|layout|typography|missing|flow", "issue": "<what is wrong, with numbers when you have them>", "fix": "<the concrete change>"}]}
+{"score": <1-10>, "verdict": "<2-3 sentences>", "works": ["<what works>", ...], "findings": [{"target": "<id or page>", "severity": "critical|high|medium|low", "area": "text|images|sizes|layout|typography|missing|flow", "issue": "<what is wrong, with numbers when you have them>", "fix": "<the concrete change>", "basis": "<source from the library>"}]}
 Order findings from most to least severe; at most 12.`;
+}
+
+// A compact version of the measurements (under the 4 KB comment limit)
+// for the deep scan, which is sent as a comment to the Claude Code
+// session where the full design skills and web research are available.
+export function deepScanRequest(audit) {
+  const issues = audit.media
+    .filter(
+      (m) => m.kind.startsWith('placeholder') || (m.sharpness !== null && m.sharpness < 1) || m.croppedPercent > 5,
+    )
+    .map(
+      (m) =>
+        `${m.id} ${m.section}: ${m.kind}${m.sharpness !== undefined && m.sharpness !== null ? ` sharp ${m.sharpness}` : ''}${m.croppedPercent ? ` crop ${m.croppedPercent}%` : ''}`,
+    );
+  const lines = [
+    'Deep expert scan request (סריקת עומק)',
+    `Page: ${audit.page} · ${audit.viewport} · ${audit.pageHeightInScreens} screens · ${audit.totalWords} words`,
+    `Sections: ${audit.sections.map((s) => `${s.id} ${s.heading} (${s.words}w, ${s.heightInScreens} screens)`).join(' | ')}`,
+    `Media issues: ${issues.length ? issues.join(' | ') : 'none measured'}`,
+    `Text under 13px: ${audit.smallTextCount}`,
+  ];
+  let text = lines.join('\n');
+  while (new TextEncoder().encode(text).length > 3900) text = text.slice(0, -200);
+  return text;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { collectAudit, expertPrompt, largestImages } from './audit.js';
+import { collectAudit, deepScanRequest, expertPrompt, largestImages } from './audit.js';
 import styles from './Review.module.css';
 
 // Review-copy only: "Expert scan" asks Claude, as a web designer with 30
@@ -42,6 +42,7 @@ export default function ExpertScan() {
   const [report, setReport] = useState(null);
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState({});
+  const [deep, setDeep] = useState('idle'); // idle | sending | sent | failed | consent
   const ctl = useRef(null);
 
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function ExpertScan() {
     if (!comments) return;
     const el = targetEl(finding.target);
     const text =
-      `סריקת מומחה · ${SEVERITY[finding.severity] || finding.severity} · ${AREA[finding.area] || finding.area}\n${finding.issue}\nתיקון: ${finding.fix}`.slice(
+      `סריקת מומחה · ${SEVERITY[finding.severity] || finding.severity} · ${AREA[finding.area] || finding.area}\n${finding.issue}\nתיקון: ${finding.fix}${finding.basis ? `\nמקור: ${finding.basis}` : ''}`.slice(
         0,
         4000,
       );
@@ -128,6 +129,22 @@ export default function ExpertScan() {
     }
   };
 
+  // Deep scan: the measurements go to the Claude Code session as a
+  // comment, where the review runs with every design skill and live web
+  // research, and the answer comes back in that comment thread.
+  const deepScan = async () => {
+    if (!comments) return;
+    setDeep('sending');
+    try {
+      const text = deepScanRequest(collectAudit());
+      const anchor = await comments.anchorFor(document.querySelector('h1') || document.body);
+      await comments.sendToClaude({ anchor, text });
+      setDeep('sent');
+    } catch (e) {
+      setDeep(e?.code === 'consent_required' ? 'consent' : 'failed');
+    }
+  };
+
   const sendLabel = canSend === 'available' ? 'שלחי ל-Claude' : 'הוסיפי כתגובה';
 
   return (
@@ -135,6 +152,18 @@ export default function ExpertScan() {
       <button type="button" onClick={scan} disabled={state === 'measuring' || state === 'thinking'}>
         Expert scan
       </button>
+      {comments && canSend === 'available' && (
+        <button
+          type="button"
+          onClick={deepScan}
+          disabled={deep === 'sending' || deep === 'sent'}
+          title="נשלח ל-Claude Code, עם כל סקילי העיצוב וחיפוש באינטרנט. התשובה מגיעה בשרשור התגובה."
+        >
+          {deep === 'sent' ? 'Deep scan sent ✓' : deep === 'sending' ? 'Sending…' : 'Deep scan'}
+        </button>
+      )}
+      {deep === 'consent' && <span className={styles.status}>אשרי תגובות מהעמוד ולחצי שוב</span>}
+      {deep === 'failed' && <span className={styles.status}>השליחה לא הצליחה, נסי שוב</span>}
       {open && (
         <aside className={styles.panel} dir="rtl" lang="he" aria-label="סריקת מומחה">
           <header className={styles.panelHead}>
@@ -187,6 +216,7 @@ export default function ExpertScan() {
                     </span>
                     <p>{f.issue}</p>
                     <p className={styles.fix}>תיקון: {f.fix}</p>
+                    {f.basis && <p className={styles.basis}>מקור: {f.basis}</p>}
                     <div className={styles.findingActions}>
                       <button type="button" onClick={() => show(f.target)}>
                         הראי בעמוד
