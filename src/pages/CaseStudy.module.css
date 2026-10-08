@@ -21,3 +21,68 @@
   padding: var(--space-section) var(--edge);
   background: var(--color-band);
 }
+
+/* Depth trial (review copy only). The page is a box of sheets: each
+   chapter is a sheet with a rounded top edge and a soft shadow, laid over
+   the one before it; as a sheet leaves, it sinks back a little into the
+   box (the darker surface behind). */
+.depth {
+  background: #e4e4e9;
+}
+
+.page {
+  position: relative;
+  margin-top: -28px;
+  padding-bottom: 56px;
+  background: var(--color-bg);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -16px 40px -16px rgba(0, 0, 0, 0.18);
+  transform-origin: 50% 100%;
+}
+
+.page:first-child {
+  margin-top: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.bandPage {
+  background: var(--color-band);
+}
+
+.bandPage .band {
+  margin-top: 0;
+  background: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .page {
+      animation: recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes recede {
+  to {
+    transform: scale(0.94);
+    filter: brightness(0.94);
+  }
+}
+
+/* Breaking the frame: a cut-out object on the seam between two sheets,
+   half on each, in front of both. */
+.breakout {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: calc(var(--edge) + 4vw);
+  width: clamp(110px, 13vw, 210px);
+  height: auto;
+  translate: 0 -62%;
+  rotate: -9deg;
+  filter: drop-shadow(0 28px 22px rgba(0, 0, 0, 0.22));
+  pointer-events: none;
+}

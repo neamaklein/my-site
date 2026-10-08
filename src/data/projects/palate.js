@@ -16,6 +16,7 @@ import hero from '../../assets/palate/hero.jpg';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 import capsules from '../../assets/palate/capsules.webp';
+import cubeDf from '../../assets/palate/cube-df.webp';
 
 const merch = import.meta.glob('../../assets/palate/merch/*.jpg', { eager: true, import: 'default' });
 const coming = import.meta.glob('../../assets/palate/coming/*.jpg', { eager: true, import: 'default' });
@@ -85,6 +86,13 @@ export const palate = {
     over: { kind: 'image', src: capsules, note: 'capsules' },
     background: '#f4f3f1',
   },
+
+  // Depth trial (review copy only, per Neama — not on the live site until
+  // she approves): the page as sheets stacked in a box; the brand name
+  // set between the cups and the capsules that slide over it; one
+  // capsule (cut out of the capsules image) breaking out over the edge
+  // between the Graphic Index and Merch.
+  depth: { word: 'PALATE', breakout: { src: cubeDf, before: 'Merch' } },
 
   galleries: [
     {

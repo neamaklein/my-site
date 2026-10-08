@@ -23,6 +23,27 @@
   object-fit: contain;
 }
 
+.word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Across the lower part of the (square) first media, wherever the
+     stage centres it. */
+  top: calc(50% + min(100vw, 100svh - var(--nav-height)) * 0.18);
+  translate: 0 -50%;
+  width: auto;
+  height: auto;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: min(24vw, 46svh);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  pointer-events: none;
+}
+
 .stage.over {
   background: transparent;
 }
