@@ -39,7 +39,7 @@
 }
 
 .cardMedia {
-  width: min(700px, 47.3vw);
+  width: 100%;
 }
 
 /* Full-width cards sit closer together: the image itself fills the view. */

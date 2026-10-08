@@ -91,8 +91,7 @@ export const rockse = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Product',
-      layout: 'stack',
-      ratio: '16 / 9',
+      columns: 2,
       media: [
         { kind: 'image', note: 'carton in hand', src: productHand },
         { kind: 'image', note: 'pouring', src: productPour },

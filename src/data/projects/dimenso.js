@@ -137,8 +137,10 @@ export const dimenso = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Space Design',
-      // Sticky in Figma: each image pins while the next slides over it.
-      layout: 'stack',
+      // Sticky in Figma; now one sticky moment per project (the pavilion
+      // above), so this scrolls normally: one large, four tight beneath.
+      layout: 'lead',
+      columns: 2,
       media: [
         { kind: 'image', note: 'enhanced_Image27', src: space01 },
         { kind: 'image', note: 'enhanced_Image24', src: space02 },

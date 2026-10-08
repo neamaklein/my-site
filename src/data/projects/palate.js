@@ -106,7 +106,9 @@ export const palate = {
     {
       slip: 'PACKING_SLIP_003',
       heading: 'Guerrilla',
-      layout: 'stack',
+      // Renders are PALATE's one sticky moment; this scrolls normally.
+      layout: 'lead',
+      columns: 2,
       ratio: '1845 / 923',
       media: images(guerrilla, ['color-block seating', 'frame installation', 'Instagram']),
     },
