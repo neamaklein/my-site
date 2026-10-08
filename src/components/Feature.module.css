@@ -1,3 +1,27 @@
 .feature {
   padding-top: var(--space-section);
+  overflow: hidden;
+}
+
+/* The strongest image "opens" as you scroll to it: from an inset rounded
+   card to the full width of the window, like Apple's product pages. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .feature > * {
+      animation: open linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+  }
+}
+
+@keyframes open {
+  from {
+    transform: scale(0.84);
+    border-radius: 32px;
+  }
+  to {
+    transform: none;
+    border-radius: 0;
+  }
 }

@@ -69,10 +69,10 @@ export const dimenso = {
   },
 
   meta: [
-    { label: 'Course', value: 'BRAND IN A BOX' },
+    { label: 'Course', value: 'Brand in a Box' },
     { label: 'Year', value: '2026' },
-    { label: 'Category', value: 'BRAND_ID' },
-    { label: 'Role', value: 'BRAND DESIGNER' },
+    { label: 'Category', value: 'Brand ID' },
+    { label: 'Role', value: 'Brand Designer' },
   ],
 
   strategy: {

@@ -42,3 +42,27 @@ video {
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
 }
+
+/* Scroll storytelling, Apple-style (per Neama): headlines rise into place
+   as they enter the view. Pure CSS scroll timelines — browsers without
+   them, and anyone with reduced motion, see everything at rest. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+    }
+  }
+}

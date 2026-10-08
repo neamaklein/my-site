@@ -1,10 +1,11 @@
 import styles from './SectionLabel.module.css';
 
-export default function SectionLabel({ slip, heading, sticky = false, className = '' }) {
+// A section's headline. Apple-style: one large heading, no eyebrow; the
+// shipping language (packing slips) lives only in the page's moments.
+export default function SectionLabel({ heading, sticky = false, className = '' }) {
   return (
     <div className={`${styles.wrap} ${sticky ? styles.sticky : ''} ${className}`}>
-      <span className={styles.slip}>{slip}</span>
-      <h2 className={styles.heading}>{heading}</h2>
+      <h2 className={`${styles.heading} reveal`}>{heading}</h2>
     </div>
   );
 }

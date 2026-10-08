@@ -37,8 +37,8 @@ export const rockse = {
   // TODO(Neama): Year and Role aren't in the deck — add them if you want
   // the same 4-column meta row as DIMENSO.
   meta: [
-    { label: 'Course', value: 'ADVANCED TYPOGRAPHY' },
-    { label: 'Category', value: 'PACKAGING' },
+    { label: 'Course', value: 'Advanced Typography' },
+    { label: 'Category', value: 'Packaging' },
   ],
 
   strategy: {

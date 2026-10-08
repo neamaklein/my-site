@@ -1,7 +1,6 @@
 .wrap {
   display: flex;
   flex-direction: column;
-  gap: 11px;
 }
 
 .sticky {
@@ -10,20 +9,12 @@
   align-self: start;
 }
 
-.slip {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  line-height: 15px;
-  letter-spacing: 0.2px;
-  text-transform: uppercase;
-  color: var(--color-frame);
-}
-
 .heading {
   font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 32px;
-  letter-spacing: -0.48px;
+  font-weight: 700;
+  font-size: var(--text-section);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
   margin: 0;
+  text-wrap: balance;
 }

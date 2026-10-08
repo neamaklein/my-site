@@ -13,3 +13,11 @@
 .story {
   padding-top: var(--space-section);
 }
+
+/* A chapter on the light grey band (Graphic Index): separates by surface
+   instead of rules. */
+.band {
+  margin-top: var(--space-section);
+  padding: var(--space-section) var(--edge);
+  background: var(--color-band);
+}

@@ -53,7 +53,6 @@ const DEFAULT_LABELS = {
 // project only shows what its source deck actually contains; `labels`
 // overrides block titles to match a deck's own wording.
 export default function BrandBook({
-  slip,
   heading,
   fonts,
   logoSrc,
@@ -69,7 +68,7 @@ export default function BrandBook({
   const hasSecondary = secondaryColors?.length > 0;
   return (
     <section className={styles.wrap}>
-      <SectionLabel slip={slip} heading={heading} className={styles.sectionLabel} />
+      <SectionLabel heading={heading} />
       <div className={styles.content}>
         {logoSrc && (
           <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>

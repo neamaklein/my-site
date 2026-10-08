@@ -1,31 +1,24 @@
+/* Story text: headline above a single readable column (~65 characters). */
 .wrap {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--gutter);
-  padding-top: 40px;
-}
-
-.label {
-  grid-column: 1 / span 3;
+  gap: var(--space-label);
 }
 
 .body {
-  grid-column: 4 / span 9;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 680px;
 }
 
 .body p {
   font-family: var(--font-body);
-  font-size: 15.3px;
-  line-height: 28.9px;
+  font-size: var(--text-lead);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
   margin: 0;
 }
 
-@media (max-width: 768px) {
-  .label,
-  .body {
-    grid-column: 1 / -1;
-  }
+.body strong {
+  font-weight: 600;
 }

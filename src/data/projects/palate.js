@@ -49,10 +49,10 @@ export const palate = {
   },
 
   meta: [
-    { label: 'Brand', value: 'PANTONE' },
-    { label: 'Concept', value: 'NEW BRAND' },
-    { label: 'Team', value: 'NEAMA KLEIN · AMIT TAL' },
-    { label: 'Category', value: 'SPATIAL_BRANDING' },
+    { label: 'Brand', value: 'Pantone' },
+    { label: 'Concept', value: 'New brand' },
+    { label: 'Team', value: 'Neama Klein · Amit Tal' },
+    { label: 'Category', value: 'Spatial branding' },
   ],
 
   strategy: {

@@ -18,11 +18,11 @@ function Media({ item, ratio }) {
 // - bleed:   label on top, media edge to edge with no side margin.
 // - lead:    first media large across the page, the rest in a tight row.
 // - asym:    three-column grid, the first media spanning two by two.
-export default function Gallery({ slip, heading, media, layout = 'columns', columns = 2, ratio }) {
+export default function Gallery({ heading, media, layout = 'columns', columns = 2, ratio }) {
   if (layout === 'stack') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
-        <SectionLabel slip={slip} heading={heading} sticky className={styles.stackLabel} />
+        <SectionLabel heading={heading} sticky className={styles.stackLabel} />
         <div className={styles.stack}>
           {media.map((item, index) => (
             <div className={styles.card} key={index}>
@@ -40,7 +40,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
   if (layout === 'wide') {
     return (
       <section className={styles.wrap}>
-        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} className={styles.topLabel} />
         <div className={styles.stack}>
           {media.map((item, index) => (
             <div className={`${styles.card} ${styles.wideCard}`} key={index}>
@@ -56,7 +56,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
   if (layout === 'feature') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
-        <SectionLabel slip={slip} heading={heading} className={styles.sideLabel} />
+        <SectionLabel heading={heading} className={styles.sideLabel} />
         <div className={styles.feature}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
@@ -69,7 +69,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
   if (layout === 'bleed') {
     return (
       <section className={`${styles.wrap} ${styles.bleedWrap}`}>
-        <SectionLabel slip={slip} heading={heading} className={`${styles.topLabel} ${styles.bleedLabel}`} />
+        <SectionLabel heading={heading} className={`${styles.topLabel} ${styles.bleedLabel}`} />
         <div className={styles.bleed}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
@@ -83,7 +83,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
     const [first, ...rest] = media;
     return (
       <section className={styles.wrap}>
-        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} className={styles.topLabel} />
         <div className={styles.lead}>
           <Media item={first} ratio={ratio} />
           <div className={styles.dense} style={{ '--cols': columns }}>
@@ -99,7 +99,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
   if (layout === 'asym') {
     return (
       <section className={styles.wrap}>
-        <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} className={styles.topLabel} />
         <div className={styles.asym}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
@@ -111,7 +111,7 @@ export default function Gallery({ slip, heading, media, layout = 'columns', colu
 
   return (
     <section className={styles.wrap}>
-      <SectionLabel slip={slip} heading={heading} className={styles.topLabel} />
+      <SectionLabel heading={heading} className={styles.topLabel} />
       <div className={styles.columns} style={{ '--cols': columns }} data-cols={columns}>
         {media.map((item, index) => (
           <Media key={index} item={item} ratio={ratio} />

@@ -3,17 +3,34 @@
    200px; 12-column grid with 32px gutters. Scaled by vw so the same
    proportions hold on any screen width. */
 :root {
-  --color-bg: #fdfdfd;
-  --color-ink: #1a1a1a;
-  --color-border: #dbdbdb;
+  /* Apple-style quiet system (per Neama): near-black ink, a grey for
+     secondary text, a very light grey band to separate chapters. */
+  --color-bg: #ffffff;
+  --color-ink: #1d1d1f;
+  --color-secondary: #6e6e73;
+  --color-band: #f5f5f7;
+  --color-border: #d2d2d7;
   /* The portfolio's own color: the conveyor purple from the home-page
      film. It marks the frame (nav, labels, rules, links) on every
      project page; the project colors stay inside the work. */
   --color-frame: #4e14a0;
 
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-body: 'Inter', sans-serif;
+  /* One family: the Apple system font (SF on Mac and iPhone, with its own
+     Hebrew), Inter elsewhere. Hierarchy comes from size and weight only.
+     Mono is kept for the shipping "moments" (dispatch number, tag line,
+     end of dispatch, the conveyor). */
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-system);
+  --font-body: var(--font-system);
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* Type scale (px): 17 body · 21 lead · 28 subhead · 48–64 section ·
+     80–128 project name. Tight tracking on large sizes, as Apple does. */
+  --text-body: 17px;
+  --text-lead: clamp(19px, 1.6vw, 21px);
+  --text-subhead: clamp(22px, 2.2vw, 28px);
+  --text-section: clamp(36px, 4.4vw, 64px);
+  --text-name: clamp(64px, 9vw, 128px);
 
   --tag-size: 11px;
   --tag-tracking: 0.22px;

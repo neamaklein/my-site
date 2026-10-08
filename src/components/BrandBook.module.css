@@ -1,57 +1,53 @@
+/* Graphic Index as an Apple-style spec sheet: headline on top, then a
+   bento grid of white cards on the light grey band (the page's only
+   rounded cards). */
 .wrap {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--gutter);
-  padding-top: var(--space-section);
-}
-
-.sectionLabel {
-  grid-column: 1 / span 3;
+  gap: var(--space-label);
 }
 
 .content {
-  grid-column: 4 / span 9;
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 40px var(--gutter);
-  align-items: start;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
 }
 
 .block {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
+  min-width: 0;
+  padding: 28px;
+  background: var(--color-bg);
+  border-radius: 20px;
 }
 
-.narrow { grid-column: span 3; }
-.wide { grid-column: span 6; }
-.left { grid-column: span 5; }
-.right { grid-column: span 4; }
+.narrow { grid-column: span 4; }
+.wide { grid-column: span 8; }
+.left { grid-column: span 7; }
+.right { grid-column: span 5; }
 .full { grid-column: 1 / -1; }
 
 .label {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: -0.176px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--color-secondary);
   margin: 0;
 }
 
 .logo {
   display: block;
   max-width: 100%;
-  max-height: 260px;
+  max-height: 200px;
+  margin: auto 0;
   object-fit: contain;
   object-position: left center;
 }
 
-.element {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
+.element,
 .icons {
   display: block;
   width: 100%;
@@ -61,67 +57,62 @@
 .iconNames {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .swatches {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .swatch {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 124px;
-  height: 75px;
-  padding: 0 14px;
-  border-radius: 10px;
+  justify-content: flex-end;
+  width: 132px;
+  height: 96px;
+  padding: 12px 14px;
+  border-radius: 14px;
   font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: -0.132px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.35;
 }
 
 .swatchLight {
-  border: 1px solid var(--color-ink);
+  border: 1px solid var(--color-border);
 }
 
 .fonts {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .fontCard {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  width: 124px;
-  height: 79px;
-  padding: 0 12px;
-  background: #f2f2f2;
-  border-radius: 6px;
+  justify-content: space-between;
+  gap: 12px;
+  width: 132px;
+  height: 96px;
+  padding: 12px 14px;
+  background: var(--color-band);
+  border-radius: 14px;
 }
 
 .sample {
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1;
 }
 
 .fontName {
-  font-size: 10px;
-  color: #4a4a4a;
+  font-size: 13px;
+  color: var(--color-secondary);
 }
 
 @media (max-width: 900px) {
-  .sectionLabel,
-  .content {
-    grid-column: 1 / -1;
-  }
   .narrow,
   .wide,
   .left,

@@ -6,7 +6,7 @@ export default function DispatchBar({ dispatchNumber, category, stripes }) {
     <div className={styles.bar}>
       <Link to="/" className={styles.back}>
         <span aria-hidden="true">←</span>
-        <span>BACK_TO_TERMINAL</span>
+        <span>Neama Klein</span>
       </Link>
       {dispatchNumber && (
         <div className={`mono-tag ${styles.tag}`}>
