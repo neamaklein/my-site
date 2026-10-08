@@ -1,8 +1,8 @@
 // Content transcribed verbatim from the "PALATE" Figma Slides deck
 // (Neama Klein & Amit Tal), mapped onto the DIMENSO case-study template.
-// The deck's opening Pantone research (slides 1–15) and the brand's Values
-// and Target slides are left out on purpose, per Neama: the target audience
-// goes into the project description instead.
+// The deck's opening Pantone research (slides 1–15), the brand's Values
+// and Target slides and the Golden Slide are left out on purpose, per
+// Neama: the target audience goes into the project description instead.
 // Section headings are the deck's own navigation labels.
 // Images are crops of the deck's slides, compressed for web — swap for
 // the full-resolution originals when available. The deck's videos (hero,
@@ -26,7 +26,10 @@ const renders = import.meta.glob('../../assets/palate/renders/*.jpg', { eager: t
 const strip = import.meta.glob('../../assets/palate/strip/*.jpg', { eager: true, import: 'default' });
 
 // Files are numbered in deck order, so sorting the paths keeps that order.
-const inOrder = (files) => Object.keys(files).sort().map((path) => files[path]);
+const inOrder = (files) =>
+  Object.keys(files)
+    .sort()
+    .map((path) => files[path]);
 
 const images = (files, notes) =>
   inOrder(files).map((src, index) => ({ kind: 'image', src, note: notes?.[index] ?? '' }));
@@ -64,25 +67,12 @@ export const palate = {
     { label: 'Category', value: 'Spatial branding' },
   ],
 
-  strategy: {
-    heading: 'Golden Slide',
-    dir: 'rtl',
-    lang: 'he',
-    paragraphs: ['חוויה קולינרית-טכנולוגית המתרגמת את הדיוק המדעי של שפת הצבע העולמית למבנה פיזי אכיל'],
-  },
-
   brandBook: {
     heading: 'Graphic Index',
     labels: { colors: 'Color Palette', fonts: 'Font' },
     logoSrc: logo,
     elementSrc: element,
-    primaryColors: [
-      { hex: '#000000' },
-      { hex: '#FF007F' },
-      { hex: '#FF8C00' },
-      { hex: '#8EE53F' },
-      { hex: '#FFFFFF' },
-    ],
+    primaryColors: [{ hex: '#000000' }, { hex: '#FF007F' }, { hex: '#FF8C00' }, { hex: '#8EE53F' }, { hex: '#FFFFFF' }],
     fonts: [{ name: 'Helvetica Neue' }],
   },
 

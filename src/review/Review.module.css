@@ -8,12 +8,6 @@
   outline-width: 2px;
 }
 
-.selected,
-.selected:hover {
-  outline: 3px solid var(--color-ink);
-  outline-offset: -3px;
-}
-
 .bar {
   position: fixed;
   right: 16px;
@@ -82,6 +76,40 @@
 .bar button[aria-pressed='true']:not(.toggle) {
   background: var(--color-ink);
   color: var(--color-bg);
+}
+
+.sizer select,
+.number {
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 1px solid var(--color-ink);
+  padding: 6px 8px;
+}
+
+.number {
+  width: 7ch;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Edit mode: anything with text can be picked; the selection is marked,
+   and picked things move under the pointer instead of selecting text. */
+:global(html[data-review-editing]) :global([data-text-key]) {
+  cursor: pointer;
+  user-select: none;
+}
+
+:global(html[data-review-editing]) :global([data-text-key]:hover) {
+  outline: 1px dashed var(--color-ink);
+  outline-offset: 2px;
+}
+
+:global(html[data-review-editing]) :global([data-review-selected]) {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+  cursor: move;
 }
 
 .status {
