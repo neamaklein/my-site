@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import SectionLabel from './SectionLabel.jsx';
 import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './Gallery.module.css';
@@ -15,6 +16,50 @@ function Media({ item, ratio }) {
       </figcaption>
       {media}
     </figure>
+  );
+}
+
+// Media in rows of `columns`, every row one height: once a picture or
+// video loads, its cell grows by the media's width-to-height ratio. A lone
+// item left over in a two-up grid takes the whole row instead.
+function Rows({ media, columns, ratio, className }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return undefined;
+    const fit = (el) => {
+      const w = el.naturalWidth || el.videoWidth;
+      const h = el.naturalHeight || el.videoHeight;
+      const cell = el.closest('[data-cell]');
+      if (cell && w && h) cell.style.flexGrow = String(w / h);
+    };
+    root.querySelectorAll('img, video').forEach(fit);
+    // load does not bubble, but it does pass ancestors on the way down.
+    const onLoad = (e) => fit(e.target);
+    root.addEventListener('load', onLoad, true);
+    root.addEventListener('loadedmetadata', onLoad, true);
+    return () => {
+      root.removeEventListener('load', onLoad, true);
+      root.removeEventListener('loadedmetadata', onLoad, true);
+    };
+  }, [media]);
+
+  const rows = [];
+  for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));
+
+  return (
+    <div className={className} ref={ref}>
+      {rows.map((row, r) => (
+        <div className={`${styles.row} ${row.length === 1 && columns === 2 && r > 0 ? styles.single : ''}`} key={r}>
+          {row.map((item, index) => (
+            <div className={styles.cell} data-cell key={index}>
+              <Media item={item} ratio={ratio} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -99,11 +144,7 @@ export default function Gallery({ heading, media, layout = 'columns', columns = 
         <SectionLabel heading={heading} className={styles.topLabel} />
         <div className={styles.lead}>
           <Media item={first} ratio={ratio} />
-          <div className={styles.dense} style={{ '--cols': columns }}>
-            {rest.map((item, index) => (
-              <Media key={index} item={item} ratio={ratio} />
-            ))}
-          </div>
+          <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} />
         </div>
       </section>
     );
@@ -150,11 +191,7 @@ export default function Gallery({ heading, media, layout = 'columns', columns = 
   return (
     <section className={styles.wrap}>
       <SectionLabel heading={heading} className={styles.topLabel} />
-      <div className={styles.columns} style={{ '--cols': columns }} data-cols={columns}>
-        {media.map((item, index) => (
-          <Media key={index} item={item} ratio={ratio} />
-        ))}
-      </div>
+      <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} />
     </section>
   );
 }

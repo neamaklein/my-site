@@ -58,27 +58,49 @@
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: var(--gutter);
-  align-items: start;
+}
+
+/* Rows share one height: each cell grows by its media's width-to-height
+   ratio (set once the media loads), so neighbours start and end on the
+   same lines instead of leaving ragged bottoms. */
+.row {
+  display: flex;
+  gap: var(--gutter);
+  align-items: flex-start;
+}
+
+.dense .row {
+  gap: 12px;
+}
+
+.cell {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* An odd item out in a two-up grid takes the full row instead of
    sitting alone in half of it. */
-.columns[data-cols='2'] > :last-child:nth-child(odd) {
-  grid-column: 1 / -1;
+.single > .cell > * {
   max-height: 85vh;
   object-fit: contain;
 }
 
 /* A captioned drawing on its own: as wide as the drawing, centred, so
    the caption starts at the drawing's edge. */
-.columns[data-cols='2'] > figure:last-child:nth-child(odd) {
-  justify-self: center;
+.single {
+  justify-content: center;
+}
+
+.single > .cell:has(> figure) {
+  flex: 0 1 auto;
+}
+
+.single > .cell > figure {
   max-height: none;
 }
 
-.columns[data-cols='2'] > figure:last-child:nth-child(odd) img {
+.single > .cell > figure img {
   width: auto;
   max-width: 100%;
   max-height: 85vh;
@@ -133,9 +155,7 @@
 
 .dense {
   display: grid;
-  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
   gap: 12px;
-  align-items: start;
 }
 
 /* 3-column grid, first item spans 2×2. Square items keep the big one
@@ -198,9 +218,6 @@
 }
 
 @media (max-width: 768px) {
-  .dense {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .asym {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -227,16 +244,19 @@
   .card {
     padding: var(--space-stack) 0;
   }
-  .columns {
-    grid-template-columns: 1fr;
+  .row {
+    flex-direction: column;
+  }
+  .cell {
+    flex-basis: auto;
+    width: 100%;
   }
 }
 
 /* Media rise in as they enter the view (see .reveal in global.css). */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .columns > *,
-    .dense > *,
+    .cell,
     .asym > *,
     .lead > :first-child,
     .bleed > *,
