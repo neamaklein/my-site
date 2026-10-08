@@ -41,7 +41,7 @@
 .logo {
   display: block;
   max-width: 100%;
-  max-height: 200px;
+  max-height: 140px;
   margin: auto 0;
   object-fit: contain;
   object-position: left center;
@@ -52,6 +52,19 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* The construction drawing stays a supporting card, not a poster. */
+.wide img {
+  max-height: 280px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.icons {
+  max-height: 240px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .iconNames {
@@ -112,11 +125,56 @@
   color: var(--color-secondary);
 }
 
+/* Narrow screens (per Neama): a two-column grid, not one card per row.
+   Cards pair up; only full-width ones (the element strip, a lone colour
+   set) take the whole row. Everything inside scales down to fit. */
 @media (max-width: 900px) {
+  .content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
   .narrow,
   .wide,
   .left,
   .right {
-    grid-column: 1 / -1;
+    grid-column: span 1;
+  }
+  .block {
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .label {
+    font-size: 13px;
+  }
+  .logo {
+    max-height: 72px;
+  }
+  .icons {
+    max-height: 160px;
+    object-fit: contain;
+  }
+  .swatches,
+  .fonts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 8px;
+  }
+  .full .swatches {
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  }
+  .swatch,
+  .fontCard {
+    width: auto;
+    height: 64px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  .swatch,
+  .fontName {
+    font-size: 13px;
+  }
+  .sample {
+    font-size: 24px;
   }
 }
