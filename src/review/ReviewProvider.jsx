@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import ExpertScan from './ExpertScan.jsx';
+import SerifTrial from './SerifTrial.jsx';
 import styles from './Review.module.css';
 
 // Review-only media editing, active in the claude.ai review copy
@@ -137,6 +138,7 @@ export function ReviewProvider({ children }) {
       {children}
       {ENABLED && (
         <div className={styles.bar} role="region" aria-label="Review tools">
+          <SerifTrial />
           <ExpertScan />
           {editing && (
             <>

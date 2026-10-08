@@ -5,7 +5,7 @@ import styles from './SectionLabel.module.css';
 export default function SectionLabel({ heading, sticky = false, className = '' }) {
   return (
     <div className={`${styles.wrap} ${sticky ? styles.sticky : ''} ${className}`}>
-      <h2 className={`${styles.heading} reveal`}>{heading}</h2>
+      <h2 className={`${styles.heading} reveal serif-section`}>{heading}</h2>
     </div>
   );
 }

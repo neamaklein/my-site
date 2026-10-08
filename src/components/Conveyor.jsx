@@ -117,7 +117,7 @@ export default function Conveyor({ projects }) {
 
         {SIGNS.map((sign) => (
           <p key={sign.text} className={styles.sign} style={{ opacity: windowed(p, sign.from, sign.to) }}>
-            <span>{sign.text}</span>
+            <span className="serif-voice">{sign.text}</span>
           </p>
         ))}
 
@@ -153,7 +153,7 @@ export default function Conveyor({ projects }) {
           }}
         >
           <p className={styles.endSign}>
-            <span>{ending.text}</span>
+            <span className="serif-voice">{ending.text}</span>
           </p>
           <p className={styles.contact}>EMAIL · INSTAGRAM · BEHANCE — links to come</p>
         </div>

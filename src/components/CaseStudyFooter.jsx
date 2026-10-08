@@ -5,7 +5,7 @@ export default function CaseStudyFooter({ label, returnLabel }) {
   return (
     <div className={styles.wrap}>
       <span className={styles.label}>{label}</span>
-      <Link to="/" className={styles.button}>
+      <Link to="/" className={`${styles.button} serif-section`}>
         {returnLabel}
       </Link>
     </div>
