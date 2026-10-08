@@ -55,61 +55,236 @@
   color: var(--color-bg);
 }
 
-/* Size: a slider for width (% of the slot) and the side it sits on. */
-.sizer {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.sizer input[type='range'] {
-  width: 140px;
-  accent-color: var(--color-ink);
-}
-
-.sizer output {
-  min-width: 4ch;
-  font-variant-numeric: tabular-nums;
-}
-
 .bar button[aria-pressed='true']:not(.toggle) {
   background: var(--color-ink);
   color: var(--color-bg);
 }
 
-.sizer select,
-.number {
-  font: inherit;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--color-ink);
-  background: var(--color-bg);
-  border: 1px solid var(--color-ink);
-  padding: 6px 8px;
-}
-
-.number {
-  width: 7ch;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Edit mode: anything with text can be picked; the selection is marked,
-   and picked things move under the pointer instead of selecting text. */
-:global(html[data-review-editing]) :global([data-text-key]) {
-  cursor: pointer;
+/* Edit mode: everything on the page can be picked. The element under the
+   pointer is outlined dashed, the picked one solid; text doesn't select. */
+:global(html[data-review-editing]) :global(#root) {
   user-select: none;
 }
 
-:global(html[data-review-editing]) :global([data-text-key]:hover) {
+:global(html[data-review-editing]) :global([data-review-hover]) {
   outline: 1px dashed var(--color-ink);
-  outline-offset: 2px;
+  outline-offset: 1px;
+  cursor: pointer;
 }
 
 :global(html[data-review-editing]) :global([data-review-selected]) {
   outline: 3px solid var(--color-ink);
   outline-offset: 2px;
   cursor: move;
+}
+
+/* Inspector: every parameter of the picked element, on the left. */
+.inspector {
+  position: fixed;
+  top: calc(var(--nav-height) + 12px);
+  right: 16px;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+  width: min(320px, calc(100vw - 32px));
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  user-select: text;
+}
+
+.inspectorLeft {
+  right: auto;
+  left: 16px;
+}
+
+.inspectorCollapsed {
+  bottom: auto;
+  width: auto;
+  overflow: visible;
+}
+
+.inspector button {
+  font: inherit;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--tag-tracking);
+  color: var(--color-ink);
+  background: transparent;
+  border: 1px solid var(--color-ink);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.inspector button[aria-pressed='true'] {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.inspector button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.inspectorHead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.inspectorHead strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.crumbs button {
+  padding: 4px 6px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.group {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.group summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--tag-tracking);
+}
+
+.groupBody {
+  display: grid;
+  gap: 10px;
+  padding: 4px 12px 14px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.field > span {
+  color: var(--color-secondary);
+}
+
+.inspector input[type='text'],
+.inspector input[type='number'],
+.inspector select {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  padding: 6px 8px;
+}
+
+.inspector input::placeholder {
+  color: #86868b;
+}
+
+.inspector input[type='range'] {
+  width: 100%;
+  accent-color: var(--color-ink);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.colorRow {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 6px;
+}
+
+.colorRow input[type='color'] {
+  width: 36px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: none;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hint {
+  margin: 0;
+  color: var(--color-secondary);
+  line-height: 1.45;
+}
+
+.editList {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.editList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.editList li > button:first-child {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.editList code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.inspectorFoot {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-ink);
 }
 
 .status {

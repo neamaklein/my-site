@@ -1,21 +1,22 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import ExpertScan from './ExpertScan.jsx';
 import SerifTrial from './SerifTrial.jsx';
+import Inspector from './Inspector.jsx';
+import { applyEdits, describe, findEl, identify, pageScope } from './editing.js';
 import styles from './Review.module.css';
 
-// Review-only editing, active in the claude.ai review copy
-// (VITE_ROUTER=hash). Writers can pick any image, video or piece of text
-// on the page and:
-// - move it on x and y (drag, arrow keys, or type the numbers);
-// - for text, change the font: family, size, weight, italic;
-// - for media, set how wide it sits in its slot (and on which side), or
-//   swap it for an upload.
-// Files go to the artifact's asset store; `media/<key>` in its db records
-// the replacement asset, `size: {width, align}`, `offset: {x, y}` (px) and
-// `font: {family, size, weight, italic}`, so Claude can read them back and
-// move them into the real site. Text records also carry `kind: 'text'`,
-// the page and the text itself. The GitHub Pages build never runs any of
-// this.
+// Review-only page editor, active in the claude.ai review copy
+// (VITE_ROUTER=hash). In Edit mode a writer can pick ANY element on the
+// page (background, container, logo, text, image, video) and change any
+// parameter of it in the Inspector: position (drag, arrow keys, x/y,
+// rotate, scale, layer), size and spacing, layout, type, fill and border,
+// media fit, any CSS property by name; media can also be swapped for an
+// upload. Every edit is shared and kept in the artifact's db under
+// `media/<key>`: `offset`, `font`, `size` (media width in its slot) and
+// `css` (property → value), plus the asset of a replacement. Elements
+// without text or a file are found again by `path` on their `page`.
+// Claude reads these back to move them into the real site; the GitHub
+// Pages build never runs any of this.
 const ENABLED = import.meta.env.VITE_ROUTER === 'hash';
 
 const ReviewContext = createContext({ editing: false, overrides: {}, sizes: {} });
@@ -43,63 +44,19 @@ export function useMediaKey(src, note) {
 
 // Inline style for a size: width as a share of the slot, and the side
 // the media sits on when it is narrower than the slot.
-const ALIGN_LABELS = { start: 'left', center: 'center', end: 'right' };
 const MARGINS = { start: '0 auto 0 0', center: '0 auto', end: '0 0 0 auto' };
 export function sizeStyle(size) {
   if (!size?.width || size.width >= 100) return undefined;
   return { width: `${size.width}%`, margin: MARGINS[size.align] || MARGINS.center };
 }
 
-// Props for a media element: its key (so the page-wide editor can find
-// it) and, in edit mode, the editable outline.
+// Props for a media element: its key (so the page editor can find it)
+// and, in edit mode, the editable outline.
 export function useEditableMedia(key) {
   const { editing, overrides, sizes } = useReview();
   const editProps = ENABLED ? { 'data-media-key': key, ...(editing ? { className: styles.editable } : {}) } : {};
   return { override: overrides[key], size: sizes[key], editProps };
 }
-
-// Text gets keys from the DOM: page, tag and the words themselves (the
-// copy is final, so they stay put), numbered when the same words repeat.
-const TEXT = 'h1,h2,h3,h4,h5,h6,p,li,dt,dd,figcaption,blockquote,a,span,label,small,strong,em,b,i';
-const ownText = (el) =>
-  [...el.childNodes]
-    .filter((n) => n.nodeType === 3)
-    .map((n) => n.textContent)
-    .join(' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-const hash = (text) => {
-  let h = 5381;
-  for (let i = 0; i < text.length; i += 1) h = (h * 33 + text.charCodeAt(i)) % 2147483647;
-  return h.toString(36);
-};
-const pageScope = () => window.location.hash.match(/^#\/work\/([^/?]+)/)?.[1] || 'home';
-
-function tagText(root) {
-  const scope = pageScope();
-  const seen = {};
-  root.querySelectorAll(TEXT).forEach((el) => {
-    if (el.closest('[data-review-ui]')) return;
-    const text = ownText(el);
-    if (!text) return;
-    const words = text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
-      .slice(0, 40);
-    const base = `${scope}__t-${el.tagName.toLowerCase()}-${words || hash(text)}`;
-    seen[base] = (seen[base] || 0) + 1;
-    el.dataset.textKey = seen[base] > 1 ? `${base}-${seen[base]}` : base;
-  });
-}
-
-// The site's own type: its sans, the serif on trial, and the mono.
-const FAMILIES = {
-  sans: { label: 'Sans (site)', css: 'var(--font-system)' },
-  serif: { label: 'Instrument Serif', css: 'var(--font-serif)' },
-  mono: { label: 'JetBrains Mono', css: 'var(--font-mono)' },
-};
-const WEIGHTS = [300, 400, 500, 600, 700, 800];
 
 const ERRORS = {
   too_large: 'The file is over 20 MB. Compress it and try again.',
@@ -108,18 +65,19 @@ const ERRORS = {
   rate_limited: 'Too many uploads at once. Wait a moment and try again.',
 };
 
-const findEl = (key) =>
-  key && (document.querySelector(`[data-media-key="${key}"]`) || document.querySelector(`[data-text-key="${key}"]`));
+const EDIT_FIELDS = ['assetId', 'size', 'offset', 'font', 'css'];
+const hasEdits = (data) => EDIT_FIELDS.some((field) => data[field]);
 
 export function ReviewProvider({ children }) {
   const [canEdit, setCanEdit] = useState(false);
   const [editing, setEditing] = useState(false);
   const [docs, setDocs] = useState({});
-  // Changes not saved yet: {key, fields}; a null field means "remove".
+  // Changes not saved yet: {key, fields, meta}; a null field means "remove".
   const [draft, setDraft] = useState(null);
-  const [selected, setSelected] = useState(null); // {key, kind: 'media' | 'text', label}
+  const [selected, setSelected] = useState(null); // {key, kind: media|text|element, label, path?}
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
+  const [, setTick] = useState(0); // re-render after the DOM settles
   const caps = useRef({ db: null, assets: null });
   const fileInput = useRef(null);
   const docsRef = useRef(docs);
@@ -152,45 +110,38 @@ export function ReviewProvider({ children }) {
     };
   }, []);
 
-  // A slot's record with the unsaved changes on top.
-  const current = useCallback(
-    (key) => {
-      const data = { ...(docs[key] || {}) };
-      if (draft?.key === key) {
-        Object.entries(draft.fields).forEach(([field, value]) => {
-          if (value === null) delete data[field];
-          else data[field] = value;
-        });
-      }
-      return data;
-    },
-    [docs, draft],
-  );
+  // Every record with the unsaved changes on top.
+  const records = useMemo(() => {
+    if (!draft) return docs;
+    const data = { ...(docs[draft.key] || {}), ...draft.meta };
+    Object.entries(draft.fields).forEach(([field, value]) => {
+      if (value === null) delete data[field];
+      else data[field] = value;
+    });
+    return { ...docs, [draft.key]: data };
+  }, [docs, draft]);
+  const recordsRef = useRef(records);
+  recordsRef.current = records;
 
-  const draftSize = draft?.fields.size;
   const { overrides, sizes } = useMemo(() => {
     const o = {};
     const s = {};
-    Object.entries(docs).forEach(([key, data]) => {
+    Object.entries(records).forEach(([key, data]) => {
       if (data.assetId) o[key] = { url: `/_blob/${data.assetId}`, contentType: data.contentType || '' };
       if (data.size?.width) s[key] = data.size;
     });
-    if (draft && draftSize !== undefined) {
-      if (draftSize) s[draft.key] = draftSize;
-      else delete s[draft.key];
-    }
     return { overrides: o, sizes: s };
+    // Only media fields matter to the media components.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docs, draft?.key, draftSize]);
+  }, [docs, draft?.key, draft?.fields.size]);
 
   const contextValue = useMemo(() => ({ editing, overrides, sizes }), [editing, overrides, sizes]);
 
-  // Writes the slot's whole record (set, not update: the doc may not
-  // exist yet); a record left with nothing in it is deleted.
+  // Writes a record whole (set, not update: it may not exist yet); a
+  // record left with no edits is deleted.
   const writeDoc = async (key, data) => {
     const doc = caps.current.db.collection('media').doc(key);
-    if (data.assetId || data.size || data.offset || data.font)
-      await doc.set({ ...data, updatedAt: new Date().toISOString() });
+    if (hasEdits(data)) await doc.set({ ...data, updatedAt: new Date().toISOString() });
     else await doc.delete();
   };
 
@@ -217,76 +168,59 @@ export function ReviewProvider({ children }) {
   };
 
   // Every change shows at once; the save waits for a pause.
-  const change = (fields) => {
-    if (!selected) return;
-    const prev = draftRef.current?.key === selected.key ? draftRef.current.fields : {};
-    const meta = selected.kind === 'text' ? { kind: 'text', page: pageScope(), text: selected.label } : {};
-    const next = { key: selected.key, fields: { ...prev, ...fields }, meta };
+  const change = (fields, target = selected) => {
+    if (!target) return;
+    const prev = draftRef.current?.key === target.key ? draftRef.current.fields : {};
+    if (draftRef.current && draftRef.current.key !== target.key) commit();
+    const meta = Object.fromEntries(
+      Object.entries(
+        target.kind === 'media'
+          ? {}
+          : {
+              kind: target.kind,
+              page: pageScope(),
+              ...(target.kind === 'text' ? { text: target.label } : { path: target.path, label: target.label }),
+            },
+      ).filter(([, value]) => value !== undefined),
+    );
+    const next = { key: target.key, fields: { ...prev, ...fields }, meta };
     draftRef.current = next;
     setDraft(next);
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(commit, 450);
   };
 
-  const offsetOf = (key) => current(key).offset || { x: 0, y: 0 };
+  const record = selected ? records[selected.key] || {} : {};
+  const offsetOf = (key) => recordsRef.current[key]?.offset || { x: 0, y: 0 };
   const setOffset = (x, y) => change({ offset: x || y ? { x: Math.round(x), y: Math.round(y) } : null });
+  const setCss = (prop, value) => {
+    const css = { ...(record.css || {}) };
+    if (value === '' || value === undefined || value === null) delete css[prop];
+    else css[prop] = String(value);
+    change({ css: Object.keys(css).length ? css : null });
+  };
   const restyle = (patch) => {
-    const font = { ...(current(selected.key).font || {}), ...patch };
+    const font = { ...(record.font || {}), ...patch };
     Object.keys(font).forEach((field) => {
       if (font[field] === undefined || font[field] === '' || font[field] === false) delete font[field];
     });
     change({ font: Object.keys(font).length ? font : null });
   };
   const resize = (patch) => {
-    const size = { ...(current(selected.key).size || { width: 100, align: 'center' }), ...patch };
+    const size = { ...(record.size || { width: 100, align: 'center' }), ...patch };
     change({ size: size.width >= 100 ? null : size });
   };
+  const resetAll = (target) => change({ offset: null, font: null, size: null, css: null }, target);
 
-  // Offsets and fonts apply straight to the DOM. Offsets use CSS
-  // `translate`, which leaves the scroll animations' `transform` alone.
-  const layoutRef = useRef({});
-  layoutRef.current = useMemo(() => {
-    const map = {};
-    const keys = new Set([...Object.keys(docs), ...(draft ? [draft.key] : [])]);
-    keys.forEach((key) => {
-      const { offset, font } = current(key);
-      if (offset || font) map[key] = { offset, font };
-    });
-    return map;
-  }, [docs, draft, current]);
-
+  // Edits go straight onto the DOM, again whenever the page re-renders.
   const apply = useCallback(() => {
     const root = document.getElementById('root');
-    if (!root) return;
-    tagText(root);
-    root.querySelectorAll('[data-media-key], [data-text-key]').forEach((el) => {
-      const { offset, font } = layoutRef.current[el.dataset.mediaKey || el.dataset.textKey] || {};
-      if (offset) {
-        el.style.translate = `${offset.x}px ${offset.y}px`;
-        el.dataset.moved = '';
-      } else if ('moved' in el.dataset) {
-        el.style.translate = '';
-        delete el.dataset.moved;
-      }
-      if (font) {
-        el.style.fontFamily = FAMILIES[font.family]?.css || '';
-        el.style.fontSize = font.size ? `${font.size}px` : '';
-        el.style.fontWeight = font.weight || '';
-        el.style.fontStyle = font.italic ? 'italic' : '';
-        el.dataset.restyled = '';
-      } else if ('restyled' in el.dataset) {
-        el.style.fontFamily = '';
-        el.style.fontSize = '';
-        el.style.fontWeight = '';
-        el.style.fontStyle = '';
-        delete el.dataset.restyled;
-      }
-    });
+    if (root) applyEdits(root, recordsRef.current);
   }, []);
 
   useEffect(() => {
     if (ENABLED) apply();
-  }, [apply, docs, draft]);
+  }, [apply, records]);
 
   useEffect(() => {
     if (!ENABLED) return undefined;
@@ -294,9 +228,20 @@ export function ReviewProvider({ children }) {
     let frame = 0;
     const schedule = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(apply);
+      frame = requestAnimationFrame(() => {
+        apply();
+        setTick((t) => t + 1);
+      });
     };
-    const observer = new MutationObserver(schedule);
+    // Ignore the editor's own panels changing.
+    const observer = new MutationObserver((list) => {
+      if (
+        list.some(
+          (m) => !m.target.parentElement?.closest?.('[data-review-ui]') && !m.target.closest?.('[data-review-ui]'),
+        )
+      )
+        schedule();
+    });
     observer.observe(root, { childList: true, subtree: true, characterData: true });
     window.addEventListener('hashchange', schedule);
     schedule();
@@ -307,23 +252,15 @@ export function ReviewProvider({ children }) {
     };
   }, [apply]);
 
-  const select = (el) => {
+  const select = (target) => {
     if (draftRef.current) commit();
-    if (!el) {
-      setSelected(null);
-      return;
-    }
-    const media = el.dataset.mediaKey;
-    setSelected(
-      media
-        ? { key: media, kind: 'media', label: el.getAttribute('alt') || media.split('__')[1] }
-        : { key: el.dataset.textKey, kind: 'text', label: ownText(el).slice(0, 80) },
-    );
+    setSelected(target || null);
     setStatus('');
   };
 
-  // Edit mode: clicks select instead of following links; drag moves the
-  // selection; arrow keys nudge it (Shift: 10px).
+  // Edit mode: a click picks the element under the pointer (links don't
+  // navigate); dragging the picked element moves it; arrow keys nudge it
+  // (Shift: 10px); Esc lets go.
   const selectedRef = useRef(selected);
   selectedRef.current = selected;
   const handlers = useRef({});
@@ -332,25 +269,23 @@ export function ReviewProvider({ children }) {
   useEffect(() => {
     if (!editing) return undefined;
     document.documentElement.dataset.reviewEditing = '';
-    const pick = (target) => {
-      if (!target.closest('#root') || target.closest('[data-review-ui]')) return null;
-      return target.closest('[data-media-key]') || target.closest('[data-text-key]');
-    };
+    const onPage = (target) => target.closest?.('#root') && !target.closest('[data-review-ui]');
     const onClick = (event) => {
-      if (event.target.closest('[data-review-ui]') || !event.target.closest('#root')) return;
+      if (!onPage(event.target)) return;
       event.preventDefault();
       event.stopPropagation();
-      handlers.current.select(pick(event.target));
+      if (event.target.id === 'root') return;
+      handlers.current.select(identify(event.target));
     };
     let drag = null;
     const onDown = (event) => {
-      const el = pick(event.target);
-      if (!el || event.button !== 0) return;
-      const key = el.dataset.mediaKey || el.dataset.textKey;
-      if (key !== selectedRef.current?.key) return;
+      if (!onPage(event.target) || event.button !== 0) return;
+      // Only a press on the picked element itself drags it; a press on
+      // something inside it is a click that picks that instead.
+      if (!selectedRef.current || identify(event.target).key !== selectedRef.current.key) return;
       event.preventDefault();
-      const start = handlers.current.offsetOf(key);
-      drag = { x: event.clientX, y: event.clientY, start };
+      if (document.activeElement?.closest?.('[data-review-ui]')) document.activeElement.blur();
+      drag = { x: event.clientX, y: event.clientY, start: handlers.current.offsetOf(selectedRef.current.key) };
     };
     const onMove = (event) => {
       if (!drag) return;
@@ -361,14 +296,26 @@ export function ReviewProvider({ children }) {
     };
     const onKey = (event) => {
       const sel = selectedRef.current;
+      if (event.target.closest?.('input, select, textarea')) return;
+      if (event.key === 'Escape') {
+        handlers.current.select(null);
+        return;
+      }
       const steps = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
-      if (!sel || !steps[event.key] || event.target.closest?.('input, select, textarea')) return;
+      if (!sel || !steps[event.key]) return;
       event.preventDefault();
       const step = event.shiftKey ? 10 : 1;
       const { x, y } = handlers.current.offsetOf(sel.key);
       handlers.current.setOffset(x + steps[event.key][0] * step, y + steps[event.key][1] * step);
     };
-    const noDrag = (event) => pick(event.target) && event.preventDefault();
+    const noDrag = (event) => onPage(event.target) && event.preventDefault();
+    let hovered = null;
+    const onOver = (event) => {
+      hovered?.removeAttribute('data-review-hover');
+      hovered = onPage(event.target) && event.target.id !== 'root' ? event.target : null;
+      hovered?.setAttribute('data-review-hover', '');
+    };
+    document.addEventListener('pointerover', onOver, true);
     document.addEventListener('click', onClick, true);
     document.addEventListener('pointerdown', onDown, true);
     window.addEventListener('pointermove', onMove);
@@ -383,13 +330,15 @@ export function ReviewProvider({ children }) {
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('keydown', onKey);
       document.removeEventListener('dragstart', noDrag, true);
+      document.removeEventListener('pointerover', onOver, true);
+      hovered?.removeAttribute('data-review-hover');
     };
   }, [editing]);
 
-  // Outline the selection (it may re-render, so re-mark on every change).
+  // Outline the selection (it may re-render, so re-mark on every render).
   useEffect(() => {
     document.querySelectorAll('[data-review-selected]').forEach((el) => el.removeAttribute('data-review-selected'));
-    if (editing && selected) findEl(selected.key)?.setAttribute('data-review-selected', '');
+    if (editing && selected) findEl(selected)?.setAttribute('data-review-selected', '');
   });
 
   const upload = async (file) => {
@@ -428,16 +377,46 @@ export function ReviewProvider({ children }) {
     }
   };
 
-  const record = selected ? current(selected.key) : {};
-  const offset = record.offset || { x: 0, y: 0 };
-  const width = record.size?.width || 100;
-  const font = record.font || {};
-  const shown = selected?.kind === 'text' ? findEl(selected.key) : null;
-  const shownStyle = shown ? getComputedStyle(shown) : null;
+  // What the inspector shows about the picked element.
+  const el = editing && selected ? findEl(selected) : null;
+  const scope = pageScope();
+  const edits = editing
+    ? Object.entries(records)
+        .filter(([key, data]) => (data.css || data.offset || data.font || data.size) && key.startsWith(`${scope}__`))
+        .map(([key, data]) => {
+          const target =
+            data.kind === 'element' || data.kind === 'text'
+              ? { key, kind: data.kind, path: data.path, label: data.label || data.text || key }
+              : { key, kind: 'media', label: data.fileName || key.split('__')[1] };
+          const found = findEl(target);
+          return { ...target, label: target.label || (found ? describe(found) : key), found: Boolean(found) };
+        })
+    : [];
 
   return (
     <ReviewContext.Provider value={contextValue}>
       {children}
+      {ENABLED && editing && (
+        <Inspector
+          selected={selected}
+          record={record}
+          computed={el ? getComputedStyle(el) : null}
+          isMedia={Boolean(el && /^(IMG|VIDEO)$/.test(el.tagName))}
+          hasText={Boolean(el && (el.innerText || '').trim())}
+          canReplace={selected?.kind === 'media'}
+          replaced={Boolean(selected && overrides[selected.key])}
+          busy={busy}
+          edits={edits}
+          setCss={setCss}
+          setOffset={setOffset}
+          restyle={restyle}
+          resize={resize}
+          resetAll={resetAll}
+          select={select}
+          onUpload={() => fileInput.current?.click()}
+          onRevert={revert}
+        />
+      )}
       {ENABLED && (
         <div className={styles.bar} role="region" aria-label="Review tools" data-review-ui>
           <SerifTrial />
@@ -445,113 +424,8 @@ export function ReviewProvider({ children }) {
           {editing && (
             <>
               <span className={styles.status} aria-live="polite">
-                {status ||
-                  (selected
-                    ? `Selected: ${selected.label}`
-                    : 'Click any image, video or text. Drag it, or use the arrow keys, to move it')}
+                {status || (selected ? `Selected: ${selected.label}` : 'Click anything on the page to edit it')}
               </span>
-              {selected && (
-                <span className={styles.sizer}>
-                  <label htmlFor="review-x">X</label>
-                  <input
-                    id="review-x"
-                    className={styles.number}
-                    type="number"
-                    step="1"
-                    value={offset.x}
-                    onChange={(event) => setOffset(Number(event.target.value) || 0, offset.y)}
-                  />
-                  <label htmlFor="review-y">Y</label>
-                  <input
-                    id="review-y"
-                    className={styles.number}
-                    type="number"
-                    step="1"
-                    value={offset.y}
-                    onChange={(event) => setOffset(offset.x, Number(event.target.value) || 0)}
-                  />
-                  <button type="button" disabled={!record.offset} onClick={() => setOffset(0, 0)}>
-                    Reset position
-                  </button>
-                </span>
-              )}
-              {selected?.kind === 'text' && (
-                <span className={styles.sizer}>
-                  <label htmlFor="review-font">Font</label>
-                  <select
-                    id="review-font"
-                    value={font.family || ''}
-                    onChange={(event) => restyle({ family: event.target.value })}
-                  >
-                    <option value="">As designed</option>
-                    {Object.entries(FAMILIES).map(([id, f]) => (
-                      <option key={id} value={id}>
-                        {f.label}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="review-font-size">Size</label>
-                  <input
-                    id="review-font-size"
-                    className={styles.number}
-                    type="number"
-                    min="8"
-                    max="400"
-                    step="1"
-                    value={font.size || Math.round(parseFloat(shownStyle?.fontSize) || 0) || ''}
-                    onChange={(event) => restyle({ size: Number(event.target.value) || undefined })}
-                  />
-                  <label htmlFor="review-font-weight">Weight</label>
-                  <select
-                    id="review-font-weight"
-                    value={font.weight || ''}
-                    onChange={(event) => restyle({ weight: Number(event.target.value) || undefined })}
-                  >
-                    <option value="">As designed ({shownStyle?.fontWeight})</option>
-                    {WEIGHTS.map((w) => (
-                      <option key={w} value={w}>
-                        {w}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    aria-pressed={Boolean(font.italic)}
-                    onClick={() => restyle({ italic: !font.italic })}
-                  >
-                    Italic
-                  </button>
-                  <button type="button" disabled={!record.font} onClick={() => change({ font: null })}>
-                    Reset font
-                  </button>
-                </span>
-              )}
-              {selected?.kind === 'media' && (
-                <span className={styles.sizer}>
-                  <label htmlFor="review-media-size">Size</label>
-                  <input
-                    id="review-media-size"
-                    type="range"
-                    min="20"
-                    max="100"
-                    step="1"
-                    value={width}
-                    onChange={(event) => resize({ width: Number(event.target.value) })}
-                  />
-                  <output htmlFor="review-media-size">{width}%</output>
-                  {Object.entries(ALIGN_LABELS).map(([align, label]) => (
-                    <button
-                      type="button"
-                      key={align}
-                      aria-pressed={(record.size?.align || 'center') === align}
-                      disabled={width >= 100}
-                      onClick={() => resize({ align })}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </span>
-              )}
               <input
                 id="review-media-file"
                 ref={fileInput}
@@ -560,16 +434,6 @@ export function ReviewProvider({ children }) {
                 hidden
                 onChange={(event) => upload(event.target.files?.[0])}
               />
-              {selected?.kind === 'media' && (
-                <button type="button" disabled={busy} onClick={() => fileInput.current?.click()}>
-                  Upload replacement
-                </button>
-              )}
-              {selected?.kind === 'media' && overrides[selected.key] && (
-                <button type="button" disabled={busy} onClick={revert}>
-                  Restore original
-                </button>
-              )}
             </>
           )}
           {canEdit && (
