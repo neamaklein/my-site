@@ -88,11 +88,9 @@ export const palate = {
   },
 
   // Depth trial (review copy only, per Neama — not on the live site until
-  // she approves): the page as sheets stacked in a box; the brand name
-  // set between the cups and the capsules that slide over it; one
-  // capsule (cut out of the capsules image) breaking out over the edge
-  // between the Graphic Index and Merch.
-  depth: { word: 'PALATE', breakout: { src: cubeDf, before: 'Merch' } },
+  // she approves): one capsule (cut out of the capsules image) breaking
+  // out over the edge between the Graphic Index and Merch sheets.
+  depth: { breakout: { src: cubeDf, before: 'Merch' } },
 
   galleries: [
     {

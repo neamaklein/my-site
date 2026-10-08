@@ -31,7 +31,7 @@ export default function CaseStudy() {
 
   // Depth trial (review copy only): on every project page each chapter
   // becomes a sheet laid over the one before; a project's `depth` adds
-  // its own layered moments (a word behind an object, a breakout).
+  // its own layered moment (an object breaking out between sheets).
   const depth = REVIEW ? project.depth || {} : null;
 
   return (
@@ -52,7 +52,7 @@ export default function CaseStudy() {
             </PageContainer>
 
             {project.feature === 'process' && project.process && <Process {...project.process} />}
-            {project.feature && project.feature !== 'process' && <Feature {...project.feature} word={depth?.word} />}
+            {project.feature && project.feature !== 'process' && <Feature {...project.feature} />}
           </Page>
 
           {project.brandBook && (
