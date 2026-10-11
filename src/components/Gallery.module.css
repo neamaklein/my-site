@@ -153,6 +153,17 @@
   gap: 12px;
 }
 
+/* The first image across the whole window, up to a full screen tall. */
+.leadBleed {
+  margin-inline: calc(-1 * var(--edge));
+}
+
+.leadBleed > * {
+  width: 100%;
+  max-height: calc(100svh - var(--nav-height));
+  object-fit: cover;
+}
+
 .dense {
   display: grid;
   gap: 12px;

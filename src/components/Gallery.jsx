@@ -75,10 +75,19 @@ function Rows({ media, columns, ratio, className }) {
 //            of a project (PALATE renders).
 // Scale-contrast layouts (per Neama, to break the even rhythm):
 // - bleed:   label on top, media edge to edge with no side margin.
-// - lead:    first media large across the page, the rest in a tight row.
+// - lead:    first media large across the page, the rest in a tight row;
+//            with `leadBleed`, the first runs edge to edge, a full screen.
 // - asym:    three-column grid, the first media spanning two by two;
 //            with `pinned`, the first media slide over one another there.
-export default function Gallery({ heading, media, layout = 'columns', columns = 2, ratio, pinned = 0 }) {
+export default function Gallery({
+  heading,
+  media,
+  layout = 'columns',
+  columns = 2,
+  ratio,
+  pinned = 0,
+  leadBleed = false,
+}) {
   if (layout === 'stack') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
@@ -145,7 +154,13 @@ export default function Gallery({ heading, media, layout = 'columns', columns = 
       <section className={styles.wrap}>
         <SectionLabel heading={heading} className={styles.topLabel} />
         <div className={styles.lead}>
-          <Media item={first} ratio={ratio} />
+          {leadBleed ? (
+            <div className={styles.leadBleed}>
+              <Media item={first} ratio={ratio} />
+            </div>
+          ) : (
+            <Media item={first} ratio={ratio} />
+          )}
           <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} />
         </div>
       </section>

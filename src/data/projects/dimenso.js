@@ -134,9 +134,11 @@ export const dimenso = {
   galleries: [
     {
       heading: 'Space Design',
-      // Sticky in Figma; now one sticky moment per project (the pavilion
-      // above), so this scrolls normally: one large, four tight beneath.
+      // Per Neama: the first image edge to edge, a full screen; the other
+      // four at half the width, two by two. Full-resolution files from the
+      // portfolio Figma (the deck crops were 512px).
       layout: 'lead',
+      leadBleed: true,
       columns: 2,
       media: [
         { kind: 'image', note: 'enhanced_Image27', src: space01 },
