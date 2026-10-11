@@ -153,8 +153,9 @@
   gap: 12px;
 }
 
-/* The first image across the whole window, up to a full screen tall. */
-.leadBleed {
+/* Edge to edge (per Neama): the first image across the whole window, up
+   to a full screen tall, and the rows under it just as wide. */
+.leadFull {
   margin-inline: calc(-1 * var(--edge));
 }
 
@@ -261,6 +262,19 @@
   .cell {
     flex-basis: auto;
     width: 100%;
+  }
+  /* Edge-to-edge sets keep their two columns on phones too (per Neama). */
+  .leadFull .row {
+    flex-direction: row;
+    gap: 6px;
+  }
+  .leadFull .cell {
+    flex-basis: 0;
+    width: auto;
+  }
+  .leadFull,
+  .leadFull .dense {
+    gap: 6px;
   }
 }
 

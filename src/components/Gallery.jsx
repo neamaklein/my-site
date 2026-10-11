@@ -76,7 +76,8 @@ function Rows({ media, columns, ratio, className }) {
 // Scale-contrast layouts (per Neama, to break the even rhythm):
 // - bleed:   label on top, media edge to edge with no side margin.
 // - lead:    first media large across the page, the rest in a tight row;
-//            with `leadBleed`, the first runs edge to edge, a full screen.
+//            with `leadBleed`, all of it runs edge to edge: the first a
+//            full screen, the rest two by two across the whole window.
 // - asym:    three-column grid, the first media spanning two by two;
 //            with `pinned`, the first media slide over one another there.
 export default function Gallery({
@@ -153,7 +154,7 @@ export default function Gallery({
     return (
       <section className={styles.wrap}>
         <SectionLabel heading={heading} className={styles.topLabel} />
-        <div className={styles.lead}>
+        <div className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}>
           {leadBleed ? (
             <div className={styles.leadBleed}>
               <Media item={first} ratio={ratio} />
