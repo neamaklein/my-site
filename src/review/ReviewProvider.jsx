@@ -68,6 +68,10 @@ const ERRORS = {
 const EDIT_FIELDS = ['assetId', 'size', 'offset', 'font', 'css'];
 const hasEdits = (data) => EDIT_FIELDS.some((field) => data[field]);
 
+// Anything inside a media slot (a placeholder's labels) picks the slot,
+// so it can take an upload.
+const pickable = (target) => target.closest?.('[data-media-key]') || target;
+
 export function ReviewProvider({ children }) {
   const [canEdit, setCanEdit] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -275,14 +279,14 @@ export function ReviewProvider({ children }) {
       event.preventDefault();
       event.stopPropagation();
       if (event.target.id === 'root') return;
-      handlers.current.select(identify(event.target));
+      handlers.current.select(identify(pickable(event.target)));
     };
     let drag = null;
     const onDown = (event) => {
       if (!onPage(event.target) || event.button !== 0) return;
       // Only a press on the picked element itself drags it; a press on
       // something inside it is a click that picks that instead.
-      if (!selectedRef.current || identify(event.target).key !== selectedRef.current.key) return;
+      if (!selectedRef.current || identify(pickable(event.target)).key !== selectedRef.current.key) return;
       event.preventDefault();
       if (document.activeElement?.closest?.('[data-review-ui]')) document.activeElement.blur();
       drag = { x: event.clientX, y: event.clientY, start: handlers.current.offsetOf(selectedRef.current.key) };
@@ -401,7 +405,7 @@ export function ReviewProvider({ children }) {
           selected={selected}
           record={record}
           computed={el ? getComputedStyle(el) : null}
-          isMedia={Boolean(el && /^(IMG|VIDEO)$/.test(el.tagName))}
+          isMedia={Boolean(el && (el.dataset.mediaKey || /^(IMG|VIDEO)$/.test(el.tagName)))}
           hasText={Boolean(el && (el.innerText || '').trim())}
           canReplace={selected?.kind === 'media'}
           replaced={Boolean(selected && overrides[selected.key])}

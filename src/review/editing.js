@@ -27,7 +27,7 @@ export function tagText(root) {
   const scope = pageScope();
   const seen = {};
   root.querySelectorAll(TEXT).forEach((el) => {
-    if (el.closest('[data-review-ui]')) return;
+    if (el.closest('[data-review-ui], [data-media-key]')) return;
     const text = ownText(el);
     if (!text) {
       delete el.dataset.textKey;
