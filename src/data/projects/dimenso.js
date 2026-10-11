@@ -159,8 +159,9 @@ export const dimenso = {
     {
       heading: 'Marketing Campaign',
       // Was a 2×2 grid in Figma; now one large and three in a tight row,
-      // for scale contrast (per Neama).
+      // for scale contrast, all edge to edge (per Neama).
       layout: 'lead',
+      leadBleed: true,
       columns: 3,
       ratio: '629 / 351',
       media: [
