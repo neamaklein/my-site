@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SectionLabel from './SectionLabel.jsx';
 import MediaPlaceholder from './MediaPlaceholder.jsx';
 import styles from './Gallery.module.css';
@@ -24,7 +24,8 @@ function Media({ item, ratio }) {
 // Media in rows of `columns`, every row one height: once a picture or
 // video loads, its cell grows by the media's width-to-height ratio. A lone
 // item left over in a two-up grid takes the whole row instead.
-function Rows({ media, columns, ratio, className }) {
+// With `onPick`, each item is a button that reports its index.
+function Rows({ media, columns, ratio, className, onPick }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -54,14 +55,57 @@ function Rows({ media, columns, ratio, className }) {
     <div className={className} ref={ref}>
       {rows.map((row, r) => (
         <div className={`${styles.row} ${row.length === 1 && columns === 2 && r > 0 ? styles.single : ''}`} key={r}>
-          {row.map((item, index) => (
-            <div className={styles.cell} data-cell key={index}>
-              <Media item={item} ratio={ratio} />
-            </div>
-          ))}
+          {row.map((item, index) =>
+            onPick ? (
+              <button
+                type="button"
+                className={`${styles.cell} ${styles.pick}`}
+                data-cell
+                key={index}
+                onClick={() => onPick(r * columns + index)}
+                aria-label={`Show ${item.note || 'this image'} large`}
+              >
+                <Media item={item} ratio={ratio} />
+              </button>
+            ) : (
+              <div className={styles.cell} data-cell key={index}>
+                <Media item={item} ratio={ratio} />
+              </div>
+            ),
+          )}
         </div>
       ))}
     </div>
+  );
+}
+
+// One large media and the rest in tight rows beneath. Clicking a small one
+// swaps it with the large one (per Neama), so any of them can be seen big.
+function Lead({ heading, media, columns, ratio, leadBleed }) {
+  const [order, setOrder] = useState(() => media.map((_, i) => i));
+  useEffect(() => setOrder(media.map((_, i) => i)), [media]);
+  const [first, ...rest] = order.map((i) => media[i]).filter(Boolean);
+  const pick = (index) =>
+    setOrder((o) => {
+      const next = [...o];
+      [next[0], next[index + 1]] = [next[index + 1], next[0]];
+      return next;
+    });
+
+  return (
+    <section className={styles.wrap}>
+      <SectionLabel heading={heading} className={styles.topLabel} />
+      <div className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}>
+        {leadBleed ? (
+          <div className={styles.leadBleed}>
+            <Media item={first} ratio={ratio} />
+          </div>
+        ) : (
+          <Media item={first} ratio={ratio} />
+        )}
+        <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} onPick={pick} />
+      </div>
+    </section>
   );
 }
 
@@ -150,22 +194,7 @@ export default function Gallery({
   }
 
   if (layout === 'lead') {
-    const [first, ...rest] = media;
-    return (
-      <section className={styles.wrap}>
-        <SectionLabel heading={heading} className={styles.topLabel} />
-        <div className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}>
-          {leadBleed ? (
-            <div className={styles.leadBleed}>
-              <Media item={first} ratio={ratio} />
-            </div>
-          ) : (
-            <Media item={first} ratio={ratio} />
-          )}
-          <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} />
-        </div>
-      </section>
-    );
+    return <Lead heading={heading} media={media} columns={columns} ratio={ratio} leadBleed={leadBleed} />;
   }
 
   // With `pinned`, the first media stack in the large cell: each pins
