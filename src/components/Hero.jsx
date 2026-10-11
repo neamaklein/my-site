@@ -3,10 +3,10 @@ import HeroIntro from './HeroIntro.jsx';
 import { useEditableMedia, useMediaKey } from '../review/ReviewProvider.jsx';
 import styles from './Hero.module.css';
 
-// `heading`/`subtitle` left as '' render a visible "not written yet" hint;
-// omitting them entirely renders a clean full-bleed hero.
+// `heading` and `subtitle` show only when written; without them the hero
+// is clean, full bleed.
 export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
-  const hasCopySlot = heading !== undefined || subtitle !== undefined;
+  const hasCopySlot = Boolean(heading || subtitle);
   const { override, editProps } = useEditableMedia(useMediaKey(media?.src, media?.note || 'hero background'));
   const { className: editClass = '', ...handlers } = editProps;
   const bgSrc = override?.url || media?.src;
@@ -26,16 +26,8 @@ export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
       </div>
       {hasCopySlot && (
         <div className={styles.content}>
-          {heading ? (
-            <h1 className={styles.heading}>{heading}</h1>
-          ) : (
-            <p className={styles.empty}>[ hero heading — not written yet ]</p>
-          )}
-          {subtitle ? (
-            <p className={styles.subtitle}>{subtitle}</p>
-          ) : (
-            <p className={styles.empty}>[ hero subtitle — not written yet ]</p>
-          )}
+          {heading && <h1 className={styles.heading}>{heading}</h1>}
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         </div>
       )}
       {scrollLabel && (

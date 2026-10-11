@@ -53,11 +53,8 @@ export const dimenso = {
   category: 'BRAND_ID',
 
   hero: {
-    intro: true,
-    // TODO(Neama): these two text layers are empty in Figma — fill in the
-    // hero headline + subtitle there and they'll flow through here.
-    heading: '',
-    subtitle: '',
+    // Per Neama: no logo-reveal intro and no headline or subtitle; the
+    // page opens straight on the video.
     media: { kind: 'video', note: 'hero background (looping video, not a still image)' },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },

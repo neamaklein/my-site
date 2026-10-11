@@ -49,13 +49,6 @@
   margin: 0;
 }
 
-.empty {
-  color: #b3b3b3;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  text-transform: uppercase;
-}
-
 .scroll {
   position: absolute;
   bottom: 24px;
