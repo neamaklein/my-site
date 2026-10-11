@@ -24,13 +24,15 @@ function Swatches({ colors }) {
   return (
     <div className={styles.swatches}>
       {colors.map(({ name, hex }) => (
-        <div
-          key={hex}
-          className={`${styles.swatch} ${hex.toUpperCase() === '#FFFFFF' ? styles.swatchLight : ''}`}
-          style={{ background: hex, color: readableTextColor(hex) }}
-        >
-          {name && <span>{name}</span>}
-          <span>{hex}</span>
+        <div key={hex} className={styles.swatch} style={{ '--swatch-ink': readableTextColor(hex) }}>
+          <span
+            className={`${styles.chip} ${hex.toUpperCase() === '#FFFFFF' ? styles.swatchLight : ''}`}
+            style={{ background: hex }}
+          />
+          <span className={styles.swatchText}>
+            {name && <span>{name}</span>}
+            <span>{hex}</span>
+          </span>
         </div>
       ))}
     </div>
@@ -88,7 +90,10 @@ export default function BrandBook({
         )}
 
         {primaryColors?.length > 0 && (
-          <Block label={hasSecondary ? labels.primaryColors : labels.colors} className={hasSecondary ? styles.left : styles.full}>
+          <Block
+            label={hasSecondary ? labels.primaryColors : labels.colors}
+            className={hasSecondary ? styles.left : styles.full}
+          >
             <Swatches colors={primaryColors} />
           </Block>
         )}

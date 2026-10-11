@@ -80,6 +80,7 @@
 }
 
 .swatch {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -91,6 +92,20 @@
   font-weight: 600;
   font-size: 13px;
   line-height: 1.35;
+}
+
+/* The colour itself: behind the text on wide screens, a chip above its
+   caption on narrow ones. */
+.chip {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.swatchText {
+  position: relative;
+  display: grid;
+  color: var(--swatch-ink);
 }
 
 .swatchLight {
@@ -154,27 +169,55 @@
     max-height: 160px;
     object-fit: contain;
   }
-  .swatches,
-  .fonts {
+  /* Colours: a chip with its name and code underneath, so no text sits
+     cramped inside a small tile. One rhythm throughout: 16px card
+     padding, 12px between rows, 8px between neighbours. */
+  .swatches {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 12px 8px;
   }
-  .full .swatches {
-    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-  }
-  .swatch,
-  .fontCard {
+  .swatch {
     width: auto;
-    height: 64px;
-    padding: 8px 10px;
+    height: auto;
+    padding: 0;
+    gap: 6px;
+    justify-content: flex-start;
+  }
+  .chip {
+    position: static;
+    display: block;
+    height: 48px;
     border-radius: 10px;
   }
-  .swatch,
+  .swatchText {
+    gap: 2px;
+    color: var(--color-ink);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .swatchText > span:last-child:not(:first-child) {
+    font-weight: 400;
+    color: var(--color-secondary);
+  }
+  .fonts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    gap: 8px;
+  }
+  .fontCard {
+    width: auto;
+    height: auto;
+    min-height: 88px;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 12px;
+  }
   .fontName {
     font-size: 13px;
+    line-height: 1.3;
   }
   .sample {
-    font-size: 24px;
+    font-size: 28px;
   }
 }
