@@ -7,7 +7,14 @@ import styles from './Gallery.module.css';
 // the caption small above the media.
 function Media({ item, ratio }) {
   const media = (
-    <MediaPlaceholder kind={item.kind} note={item.note} src={item.src} ratio={item.ratio || ratio} size={item.size} />
+    <MediaPlaceholder
+      kind={item.kind}
+      note={item.note}
+      src={item.src}
+      ratio={item.ratio || ratio}
+      size={item.size}
+      loop={item.loop}
+    />
   );
   if (!item.caption) return media;
   return (
@@ -24,8 +31,10 @@ function Media({ item, ratio }) {
 // Media in rows of `columns`, every row one height: once a picture or
 // video loads, its cell grows by the media's width-to-height ratio. A lone
 // item left over in a two-up grid takes the whole row instead.
-// With `onPick`, each item is a button that reports its index.
-function Rows({ media, columns, ratio, className, onPick }) {
+// With `onPick`, each item is a button that reports its index. With
+// `maxRowHeight` (a CSS length), a row narrows and centres so it is never
+// taller than that.
+function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -36,6 +45,16 @@ function Rows({ media, columns, ratio, className, onPick }) {
       const h = el.naturalHeight || el.videoHeight;
       const cell = el.closest('[data-cell]');
       if (cell && w && h) cell.style.flexGrow = String(w / h);
+      // Once every media in the row has its ratio, cap the row's width.
+      const row = cell?.parentElement;
+      const cells = row ? [...row.children] : [];
+      if (maxRowHeight && cells.length && cells.every((c) => c.style.flexGrow)) {
+        const sum = cells.reduce((total, c) => total + parseFloat(c.style.flexGrow), 0);
+        const gaps = (cells.length - 1) * (parseFloat(getComputedStyle(row).columnGap) || 0);
+        row.style.width = '100%';
+        row.style.maxWidth = `calc(${maxRowHeight} * ${sum} + ${gaps}px)`;
+        row.style.marginInline = 'auto';
+      }
     };
     root.querySelectorAll('img, video').forEach(fit);
     // load does not bubble, but it does pass ancestors on the way down.
@@ -46,7 +65,7 @@ function Rows({ media, columns, ratio, className, onPick }) {
       root.removeEventListener('load', onLoad, true);
       root.removeEventListener('loadedmetadata', onLoad, true);
     };
-  }, [media]);
+  }, [media, maxRowHeight]);
 
   const rows = [];
   for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));
@@ -132,6 +151,7 @@ export default function Gallery({
   ratio,
   pinned = 0,
   leadBleed = false,
+  maxRowHeight,
 }) {
   if (layout === 'stack') {
     return (
@@ -238,7 +258,7 @@ export default function Gallery({
   return (
     <section className={styles.wrap}>
       <SectionLabel heading={heading} className={styles.topLabel} />
-      <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} />
+      <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} maxRowHeight={maxRowHeight} />
     </section>
   );
 }

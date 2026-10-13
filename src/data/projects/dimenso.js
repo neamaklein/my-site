@@ -21,7 +21,8 @@ import space03 from '../../assets/dimenso/spacedesign/space-03.jpg';
 import space04 from '../../assets/dimenso/spacedesign/space-04.jpg';
 import space05 from '../../assets/dimenso/spacedesign/space-05.jpg';
 
-import phoneSplash from '../../assets/dimenso/social/phone-splash.jpg';
+import socialSequence from '../../assets/dimenso/social/social-sequence.mp4';
+import invitationAnimation from '../../assets/dimenso/social/invitation-animation.mp4';
 
 import campaign01 from '../../assets/dimenso/marketing/campaign-01.jpg';
 import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
@@ -77,7 +78,7 @@ export const dimenso = {
     paragraphs: [
       {
         lead: 'Dimensō',
-        text: " is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.",
+        text: ' is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.',
       },
       "Dimenso — Creative LabBridging 2D Concept and 3D Reality through AI Integration. Dimenso is a visionary creative workspace by Adobe, designed to streamline the creative workflow. The platform seamlessly integrates Adobe’s powerful suite with advanced AI tools into a single, unified interface tailored for designers, developers, and creative professionals. Created as part of the 'Brand in a Box' course, Dimenso redefines how cross-disciplinary teams collaborate, transforming flat 2D concepts into immersive 3D realities.",
     ],
@@ -102,10 +103,7 @@ export const dimenso = {
 
   brandBook: {
     heading: 'Graphic Index',
-    fonts: [
-      { name: 'Brandon Grotesque' },
-      { name: 'Adobe Clean' },
-    ],
+    fonts: [{ name: 'Brandon Grotesque' }, { name: 'Adobe Clean' }],
     logoSrc: logoIcon,
     morphologySrc: morphology,
     iconsSrc: iconsRow,
@@ -147,13 +145,14 @@ export const dimenso = {
     },
     {
       heading: 'Social & Invitation',
-      // Figma: three 348×718 portrait frames side by side.
-      columns: 3,
+      // Per Neama: the two phone videos side by side (her uploads), no
+      // third slot; one height, no taller than most of the screen.
+      columns: 2,
+      maxRowHeight: '80svh',
       ratio: '348 / 718',
       media: [
-        { kind: 'video', note: 'social sequence' },
-        { kind: 'image', note: 'phone splash screen — social post', src: phoneSplash },
-        { kind: 'video', note: 'invitation animation' },
+        { kind: 'video', note: 'social sequence', src: socialSequence, loop: true },
+        { kind: 'video', note: 'invitation animation', src: invitationAnimation, loop: true },
       ],
     },
     {
@@ -182,8 +181,20 @@ export const dimenso = {
   spatialRenders: {
     note: 'Interior renders — physical application of the Dimenso identity (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
     images: [
-      spatial01, spatial02, spatial03, spatial04, spatial05, spatial06, spatial07,
-      spatial08, spatial09, spatial10, spatial11, spatial12, spatial13, spatial14,
+      spatial01,
+      spatial02,
+      spatial03,
+      spatial04,
+      spatial05,
+      spatial06,
+      spatial07,
+      spatial08,
+      spatial09,
+      spatial10,
+      spatial11,
+      spatial12,
+      spatial13,
+      spatial14,
     ],
   },
 

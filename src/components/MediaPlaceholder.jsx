@@ -6,8 +6,9 @@ import styles from './MediaPlaceholder.module.css';
 // at `ratio` (used only where no real asset exists yet).
 // `size` ({width: % of the slot, align: start|center|end}) narrows it
 // inside its slot. In the review copy, an uploaded replacement and a size
-// set by hand take the slot's place.
-export default function MediaPlaceholder({ kind = 'image', note, ratio, src, size }) {
+// set by hand take the slot's place. `loop` plays a video like a moving
+// image: silent, on repeat, no controls.
+export default function MediaPlaceholder({ kind = 'image', note, ratio, src, size, loop = false }) {
   const { override, size: editedSize, editProps } = useEditableMedia(useMediaKey(src, note));
   const style = sizeStyle(editedSize || size);
   const { className: editClass = '', ...handlers } = editProps;
@@ -17,7 +18,7 @@ export default function MediaPlaceholder({ kind = 'image', note, ratio, src, siz
   if (mediaSrc) {
     const className = `${styles.media} ${editClass}`;
     if (mediaKind === 'video') {
-      return override ? (
+      return override || loop ? (
         <video className={className} style={style} src={mediaSrc} autoPlay muted loop playsInline {...handlers} />
       ) : (
         <video className={className} style={style} src={mediaSrc} controls playsInline {...handlers} />
