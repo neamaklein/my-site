@@ -1,5 +1,6 @@
 import SectionLabel from './SectionLabel.jsx';
 import MediaPlaceholder from './MediaPlaceholder.jsx';
+import { useEditableMedia, useMediaKey } from '../review/ReviewProvider.jsx';
 import styles from './BrandBook.module.css';
 
 function readableTextColor(hex) {
@@ -39,6 +40,19 @@ function Swatches({ colors }) {
   );
 }
 
+// The logo, as a media slot: in the review copy it can be swapped for an
+// upload (an image or a video) like any other media.
+function Logo({ src, scale }) {
+  const { override, editProps } = useEditableMedia(useMediaKey(src, 'logo'));
+  const { className: editClass = '', ...handlers } = editProps;
+  const style = scale ? { scale: String(scale) } : undefined;
+  const className = `${styles.logo} ${editClass}`;
+  if (override?.contentType.startsWith('video/')) {
+    return <video className={className} style={style} src={override.url} autoPlay muted loop playsInline {...handlers} />;
+  }
+  return <img className={className} style={style} src={override?.url || src} alt="Logo" {...handlers} />;
+}
+
 const DEFAULT_LABELS = {
   logo: 'Logo',
   morphology: 'Morphology',
@@ -76,7 +90,7 @@ export default function BrandBook({
       <div className={styles.content}>
         {logoSrc && (
           <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>
-            <img className={styles.logo} src={logoSrc} alt="Logo" style={logoScale ? { scale: String(logoScale) } : undefined} />
+            <Logo src={logoSrc} scale={logoScale} />
           </Block>
         )}
         {morphologySrc !== undefined && (
