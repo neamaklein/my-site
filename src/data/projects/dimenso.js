@@ -153,6 +153,9 @@ export const dimenso = {
       media: [
         { kind: 'video', note: 'social sequence', src: socialSequence, loop: true },
         { kind: 'video', note: 'invitation animation', src: invitationAnimation, loop: true },
+        // Per Neama: a wide video slot under the phones. Empty until she
+        // uploads it, so it shows only in the review copy for now.
+        { kind: 'video', note: 'social wide video', ratio: '16 / 9', loop: true, reviewOnly: true },
       ],
     },
     {

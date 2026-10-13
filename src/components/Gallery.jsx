@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import SectionLabel from './SectionLabel.jsx';
 import MediaPlaceholder from './MediaPlaceholder.jsx';
+import { REVIEW } from '../review/flags.js';
 import styles from './Gallery.module.css';
 
 // An item with a caption (a drawing's title and scale) is set as a figure,
@@ -145,7 +146,7 @@ function Lead({ heading, media, columns, ratio, leadBleed }) {
 //            with `pinned`, the first media slide over one another there.
 export default function Gallery({
   heading,
-  media,
+  media: allMedia,
   layout = 'columns',
   columns = 2,
   ratio,
@@ -153,6 +154,8 @@ export default function Gallery({
   leadBleed = false,
   maxRowHeight,
 }) {
+  // Slots still waiting for their media show only in the review copy.
+  const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
   if (layout === 'stack') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
