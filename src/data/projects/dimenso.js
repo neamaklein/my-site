@@ -182,7 +182,7 @@ export const dimenso = {
       // while it is on screen. `screen` is the display area of the frame
       // image, in % of its size.
       layout: 'device',
-      device: { frame: macbookFrame, screen: { left: 14.15, top: 14.57, width: 71.7, height: 64.14 } },
+      device: { frame: macbookFrame, screen: { left: 9.75, top: 4.31, width: 80.6, height: 82.8 } },
       media: [{ kind: 'video', note: 'DIMENSO walkthrough', src: walkthroughVideo, poster: walkthroughPoster }],
     },
   ],
