@@ -127,14 +127,21 @@ function DeviceVideo({ item, device }) {
     return () => observer.disconnect();
   }, [still]);
 
-  const { left, top, width, height } = device.screen;
+  // `scale` enlarges the screen a touch, from its centre, over the bezel.
+  const { left, top, width, height, scale } = device.screen;
   return (
     <figure className={styles.device}>
       <img className={styles.deviceFrame} src={device.frame} alt="" />
       <video
         ref={ref}
         className={styles.deviceScreen}
-        style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` }}
+        style={{
+          left: `${left}%`,
+          top: `${top}%`,
+          width: `${width}%`,
+          height: `${height}%`,
+          ...(scale ? { scale: String(scale) } : {}),
+        }}
         src={near ? item.src : undefined}
         poster={item.poster}
         aria-label={item.note}
