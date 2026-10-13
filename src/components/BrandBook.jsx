@@ -78,6 +78,7 @@ export default function BrandBook({
   logoScale,
   logoKind,
   logoFill,
+  pairLogoColors = false,
   iconsSrc,
   primaryColors,
   secondaryColors,
@@ -92,7 +93,10 @@ export default function BrandBook({
       <SectionLabel heading={heading} />
       <div className={styles.content}>
         {logoSrc && (
-          <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>
+          <Block
+            label={labels.logo}
+            className={morphologySrc !== undefined ? styles.narrow : pairLogoColors ? styles.half : styles.full}
+          >
             <Logo src={logoSrc} kind={logoKind} scale={logoScale} fill={logoFill} />
           </Block>
         )}
@@ -117,7 +121,7 @@ export default function BrandBook({
         {primaryColors?.length > 0 && (
           <Block
             label={hasSecondary ? labels.primaryColors : labels.colors}
-            className={hasSecondary ? styles.left : styles.full}
+            className={hasSecondary ? styles.left : pairLogoColors ? styles.half : styles.full}
           >
             <Swatches colors={primaryColors} />
           </Block>

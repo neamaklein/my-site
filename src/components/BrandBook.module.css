@@ -28,6 +28,7 @@
 .left { grid-column: span 7; }
 .right { grid-column: span 5; }
 .full { grid-column: 1 / -1; }
+.half { grid-column: span 6; }
 
 .label {
   font-family: var(--font-body);
@@ -158,7 +159,8 @@
   .narrow,
   .wide,
   .left,
-  .right {
+  .right,
+  .half {
     grid-column: span 1;
   }
   .block {
