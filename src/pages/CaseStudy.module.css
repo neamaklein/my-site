@@ -24,8 +24,9 @@
 
 /* Depth trial (review copy only). The page is a box of sheets: each
    chapter is a sheet with a rounded top edge and a soft shadow, laid over
-   the one before it; as a sheet leaves, it sinks back a little into the
-   box (the darker surface behind). */
+   the one before it; as a sheet leaves, it dims a little. It keeps its
+   full width, so its white always reaches the screen's sides (per
+   Neama). */
 .depth {
   background: #e4e4e9;
 }
@@ -37,7 +38,6 @@
   background: var(--color-bg);
   border-radius: 28px 28px 0 0;
   box-shadow: 0 -16px 40px -16px rgba(0, 0, 0, 0.18);
-  transform-origin: 50% 100%;
 }
 
 .page:first-child {
@@ -67,7 +67,6 @@
 
 @keyframes recede {
   to {
-    transform: scale(0.94);
     filter: brightness(0.94);
   }
 }

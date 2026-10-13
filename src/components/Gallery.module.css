@@ -202,6 +202,16 @@
   margin-inline: calc(-1 * var(--edge));
 }
 
+/* Media after a set of rows, edge to edge. */
+.after {
+  margin: var(--gutter) calc(-1 * var(--edge)) 0;
+}
+
+.after > * {
+  width: 100%;
+  height: auto;
+}
+
 .leadBleed > * {
   width: 100%;
   max-height: calc(100svh - var(--nav-height));
@@ -305,6 +315,16 @@
   .cell {
     flex-basis: auto;
     width: 100%;
+  }
+  /* Height-capped rows (the phones) stay side by side on phones too
+     (per Neama). */
+  .keepRow .row {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .keepRow .cell {
+    flex-basis: 0;
+    width: auto;
   }
   /* Edge-to-edge sets keep their two columns on phones too (per Neama). */
   .leadFull .row {

@@ -23,6 +23,7 @@ import space05 from '../../assets/dimenso/spacedesign/space-05.jpg';
 
 import socialSequence from '../../assets/dimenso/social/social-sequence.mp4';
 import invitationAnimation from '../../assets/dimenso/social/invitation-animation.mp4';
+import socialWide from '../../assets/dimenso/social/social-wide.mp4';
 
 import campaign01 from '../../assets/dimenso/marketing/campaign-01.jpg';
 import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
@@ -157,10 +158,10 @@ export const dimenso = {
       media: [
         { kind: 'video', note: 'social sequence', src: socialSequence, loop: true },
         { kind: 'video', note: 'invitation animation', src: invitationAnimation, loop: true },
-        // Per Neama: a wide video slot under the phones. Empty until she
-        // uploads it, so it shows only in the review copy for now.
-        { kind: 'video', note: 'social wide video', ratio: '16 / 9', loop: true, reviewOnly: true },
       ],
+      // Per Neama: a wide video under the phones (her upload), edge to edge
+      // so its small type reads.
+      after: [{ kind: 'video', note: 'social wide video', src: socialWide, loop: true }],
     },
     {
       heading: 'Marketing Campaign',

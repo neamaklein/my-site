@@ -72,7 +72,7 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
   for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));
 
   return (
-    <div className={className} ref={ref}>
+    <div className={`${className} ${maxRowHeight ? styles.keepRow : ''}`} ref={ref}>
       {rows.map((row, r) => (
         <div className={`${styles.row} ${row.length === 1 && columns === 2 && r > 0 ? styles.single : ''}`} key={r}>
           {row.map((item, index) =>
@@ -203,6 +203,7 @@ export default function Gallery({
   leadBleed = false,
   maxRowHeight,
   device,
+  after = [],
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -323,6 +324,12 @@ export default function Gallery({
     <section className={styles.wrap}>
       <SectionLabel heading={heading} className={styles.topLabel} />
       <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} maxRowHeight={maxRowHeight} />
+      {/* `after`: media below the rows, edge to edge. */}
+      {after.map((item, index) => (
+        <div className={styles.after} key={index}>
+          <Media item={item} ratio={ratio} />
+        </div>
+      ))}
     </section>
   );
 }
