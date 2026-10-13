@@ -14,7 +14,11 @@ import posterCyan from '../../assets/dimenso/process/poster-cyan.mp4';
 
 import morphology from '../../assets/dimenso/brandbook/morphology.mp4';
 import logoIcon from '../../assets/dimenso/logo-icon.png';
-import iconsRow from '../../assets/dimenso/brandbook/icons-row.png';
+import icon01 from '../../assets/dimenso/brandbook/icons/01.png';
+import icon02 from '../../assets/dimenso/brandbook/icons/02.png';
+import icon03 from '../../assets/dimenso/brandbook/icons/03.png';
+import icon04 from '../../assets/dimenso/brandbook/icons/04.png';
+import icon05 from '../../assets/dimenso/brandbook/icons/05.png';
 
 import space01 from '../../assets/dimenso/spacedesign/space-01.jpg';
 import space02 from '../../assets/dimenso/spacedesign/space-02.jpg';
@@ -125,7 +129,14 @@ export const dimenso = {
     // Her upload: the morphology as a video.
     morphologySrc: morphology,
     morphologyKind: 'video',
-    iconsSrc: iconsRow,
+    // Per Neama: each icon on its own, wrapping to fit the card.
+    iconSet: [
+      { src: icon01, name: 'Creative Hub' },
+      { src: icon02, name: 'Creative Lab' },
+      { src: icon03, name: 'Interactive' },
+      { src: icon04, name: 'Cafe Bar' },
+      { src: icon05, name: '360 Room' },
+    ],
     primaryColors: [
       { name: 'Magenta', hex: '#E541A6' },
       { name: 'Yellow', hex: '#F1A528' },

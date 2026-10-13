@@ -80,6 +80,7 @@ export default function BrandBook({
   logoFill,
   pairLogoColors = false,
   iconsSrc,
+  iconSet,
   primaryColors,
   secondaryColors,
   icons,
@@ -132,9 +133,16 @@ export default function BrandBook({
           </Block>
         )}
 
-        {(iconsSrc || icons?.length > 0) && (
+        {(iconSet?.length > 0 || iconsSrc || icons?.length > 0) && (
           <Block label={labels.icons} className={styles.left}>
-            {iconsSrc ? (
+            {iconSet?.length > 0 ? (
+              // One cell per icon (per Neama), wrapping to fit any width.
+              <div className={styles.iconGrid}>
+                {iconSet.map((icon) => (
+                  <img key={icon.src} className={styles.iconCell} src={icon.src} alt={icon.name} />
+                ))}
+              </div>
+            ) : iconsSrc ? (
               <img className={styles.icons} src={iconsSrc} alt="Icon set" />
             ) : (
               <div className={styles.iconNames}>{icons.map((i) => i.name).join(' · ')}</div>
@@ -142,7 +150,7 @@ export default function BrandBook({
           </Block>
         )}
         {fonts?.length > 0 && (
-          <Block label={labels.fonts} className={iconsSrc || icons?.length ? styles.right : styles.full}>
+          <Block label={labels.fonts} className={iconSet?.length || iconsSrc || icons?.length ? styles.right : styles.full}>
             <div className={styles.fonts}>
               {fonts.map((font) => (
                 <div className={styles.fontCard} key={font.name}>
