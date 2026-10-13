@@ -29,7 +29,9 @@ import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
 import campaign03 from '../../assets/dimenso/marketing/campaign-03.jpg';
 import campaign04 from '../../assets/dimenso/marketing/campaign-04.jpg';
 
-import macbookStill from '../../assets/dimenso/walkthrough/macbook-still.jpg';
+import walkthroughVideo from '../../assets/dimenso/walkthrough/walkthrough.mp4';
+import walkthroughPoster from '../../assets/dimenso/walkthrough/walkthrough-poster.jpg';
+import macbookFrame from '../../assets/dimenso/walkthrough/macbook-frame.webp';
 
 import spatial01 from '../../assets/dimenso/spatial/spatial-01.jpg';
 import spatial02 from '../../assets/dimenso/spatial/spatial-02.jpg';
@@ -175,9 +177,13 @@ export const dimenso = {
     },
     {
       heading: 'Walkthrough Video',
-      layout: 'bleed',
-      // This is a still frame standing in for the actual walkthrough video.
-      media: [{ kind: 'image', note: 'MacBook mockup — walkthrough (video still)', src: macbookStill }],
+      // Per Neama: the full walkthrough (1:30, silent) playing on the
+      // MacBook from the Figma. It loads only as you near it and plays
+      // while it is on screen. `screen` is the display area of the frame
+      // image, in % of its size.
+      layout: 'device',
+      device: { frame: macbookFrame, screen: { left: 14.15, top: 14.57, width: 71.7, height: 64.14 } },
+      media: [{ kind: 'video', note: 'DIMENSO walkthrough', src: walkthroughVideo, poster: walkthroughPoster }],
     },
   ],
 

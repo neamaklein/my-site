@@ -99,6 +99,54 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
   );
 }
 
+// A video playing on a device (a laptop frame image): it loads only when
+// it comes near the view, plays while visible and pauses when not; with
+// reduced motion it waits, with controls, for the viewer to press play.
+function DeviceVideo({ item, device }) {
+  const ref = useRef(null);
+  const [near, setNear] = useState(false);
+  const [still] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          if (!still) video.play?.().catch(() => {});
+        } else {
+          video.pause?.();
+        }
+      },
+      { rootMargin: '200px 0px' },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [still]);
+
+  const { left, top, width, height } = device.screen;
+  return (
+    <figure className={styles.device}>
+      <img className={styles.deviceFrame} src={device.frame} alt="" />
+      <video
+        ref={ref}
+        className={styles.deviceScreen}
+        style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` }}
+        src={near ? item.src : undefined}
+        poster={item.poster}
+        aria-label={item.note}
+        muted
+        loop
+        playsInline
+        preload="none"
+        autoPlay={!still}
+        controls={still}
+      />
+    </figure>
+  );
+}
+
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
 function Lead({ heading, media, columns, ratio, leadBleed }) {
@@ -139,6 +187,7 @@ function Lead({ heading, media, columns, ratio, leadBleed }) {
 //            of a project (PALATE renders).
 // Scale-contrast layouts (per Neama, to break the even rhythm):
 // - bleed:   label on top, media edge to edge with no side margin.
+// - device:  a video playing on a device frame (the DIMENSO walkthrough).
 // - lead:    first media large across the page, the rest in a tight row;
 //            with `leadBleed`, all of it runs edge to edge: the first a
 //            full screen, the rest two by two across the whole window.
@@ -153,6 +202,7 @@ export default function Gallery({
   pinned = 0,
   leadBleed = false,
   maxRowHeight,
+  device,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -199,6 +249,17 @@ export default function Gallery({
             <Media key={index} item={item} ratio={ratio} />
           ))}
         </div>
+      </section>
+    );
+  }
+
+  if (layout === 'device') {
+    return (
+      <section className={styles.wrap}>
+        <SectionLabel heading={heading} className={styles.topLabel} />
+        {media.map((item, index) => (
+          <DeviceVideo key={index} item={item} device={device} />
+        ))}
       </section>
     );
   }

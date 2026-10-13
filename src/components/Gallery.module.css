@@ -156,6 +156,26 @@
 
 /* Edge to edge: the section keeps its top spacing but drops the side
    margin, so the image meets both sides of the window. */
+/* A video on a laptop: the frame image, the video over its display area,
+   letterboxed in black like a real screen rather than cropped. */
+.device {
+  position: relative;
+  width: min(100%, 1200px);
+  margin: 0 auto;
+}
+
+.deviceFrame {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.deviceScreen {
+  position: absolute;
+  object-fit: contain;
+  background: #000;
+}
+
 .bleedWrap {
   padding-left: 0;
   padding-right: 0;
