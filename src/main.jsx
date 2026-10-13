@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import App from './App.jsx';
 import { ReviewProvider } from './review/ReviewProvider.jsx';
+// Before the editor mounts: on `npm run edit`, stands in for claude.ai.
+import './review/localBackend.js';
 import './styles/global.css';
 
 // GitHub Pages uses real URLs under /my-site/. The review copy published

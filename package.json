@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "edit": "VITE_ROUTER=hash VITE_CONVEYOR=1 VITE_LOCAL_EDIT=1 vite --port 5174 --strictPort",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint ."
