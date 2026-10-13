@@ -213,6 +213,7 @@ export default function Gallery({
   maxRowHeight,
   device,
   after = [],
+  text = [],
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -332,6 +333,14 @@ export default function Gallery({
   return (
     <section className={styles.wrap}>
       <SectionLabel heading={heading} className={styles.topLabel} />
+      {/* `text`: the section's own copy from the deck, above its media. */}
+      {text.length > 0 && (
+        <div className={styles.text}>
+          {text.map((paragraph) => (
+            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+          ))}
+        </div>
+      )}
       <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} maxRowHeight={maxRowHeight} />
       {/* `after`: media below the rows, edge to edge. */}
       {after.map((item, index) => (
