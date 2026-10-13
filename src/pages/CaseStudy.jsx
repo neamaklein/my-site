@@ -16,7 +16,7 @@ import { ReviewScope } from '../review/ReviewProvider.jsx';
 import { REVIEW } from '../review/flags.js';
 import styles from './CaseStudy.module.css';
 
-// A chapter as a sheet (depth trial); without the trial, just its content.
+// A chapter as a sheet laid over the one before (depth, per Neama).
 function Page({ on, band, children }) {
   return on ? <div className={`${styles.page} ${band ? styles.bandPage : ''}`}>{children}</div> : children;
 }
@@ -29,10 +29,11 @@ export default function CaseStudy() {
     return <Navigate to="/" replace />;
   }
 
-  // Depth trial (review copy only): on every project page each chapter
-  // becomes a sheet laid over the one before; a project's `depth` adds
-  // its own layered moment (an object breaking out between sheets).
-  const depth = REVIEW ? project.depth || {} : null;
+  // Depth (approved by Neama): on every project page each chapter is a
+  // sheet laid over the one before. A project's `depth.breakout` (an
+  // object breaking out between sheets) is still a trial, review copy only.
+  const depth = project.depth || {};
+  const breakout = REVIEW ? depth.breakout : null;
 
   return (
     <ReviewScope value={project.slug}>
@@ -66,8 +67,8 @@ export default function CaseStudy() {
           {project.process && project.feature !== 'process' && <Process {...project.process} />}
           {project.galleries?.map((gallery) => (
             <Page on={depth} key={gallery.heading}>
-              {depth?.breakout?.before === gallery.heading && (
-                <img className={styles.breakout} src={depth.breakout.src} alt="" aria-hidden="true" />
+              {breakout?.before === gallery.heading && (
+                <img className={styles.breakout} src={breakout.src} alt="" aria-hidden="true" />
               )}
               <Gallery {...gallery} />
             </Page>
