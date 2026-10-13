@@ -147,6 +147,42 @@ function DeviceVideo({ item, device }) {
   );
 }
 
+// A YouTube video on a device: the poster and a play mark until pressed,
+// then YouTube's player (privacy-enhanced domain) loads in the screen and
+// plays with sound and its own controls. Nothing from YouTube loads
+// before the press.
+function DeviceYouTube({ item, device }) {
+  const [playing, setPlaying] = useState(false);
+  const { left, top, width, height } = device.screen;
+  const place = { left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` };
+  return (
+    <figure className={styles.device}>
+      <img className={styles.deviceFrame} src={device.frame} alt="" />
+      {playing ? (
+        <iframe
+          className={styles.deviceScreen}
+          style={place}
+          src={`https://www.youtube-nocookie.com/embed/${item.youtube}?autoplay=1&rel=0&playsinline=1`}
+          title={item.note}
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+      ) : (
+        <button
+          type="button"
+          className={`${styles.deviceScreen} ${styles.devicePlay}`}
+          style={place}
+          onClick={() => setPlaying(true)}
+          aria-label={`Play ${item.note}`}
+        >
+          <img src={item.poster} alt="" />
+          <span className={styles.playMark} aria-hidden="true" />
+        </button>
+      )}
+    </figure>
+  );
+}
+
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
 function Lead({ heading, media, columns, ratio, leadBleed }) {
@@ -257,9 +293,13 @@ export default function Gallery({
     return (
       <section className={styles.wrap}>
         <SectionLabel heading={heading} className={styles.topLabel} />
-        {media.map((item, index) => (
-          <DeviceVideo key={index} item={item} device={device} />
-        ))}
+        {media.map((item, index) =>
+          item.youtube ? (
+            <DeviceYouTube key={index} item={item} device={device} />
+          ) : (
+            <DeviceVideo key={index} item={item} device={device} />
+          ),
+        )}
       </section>
     );
   }
