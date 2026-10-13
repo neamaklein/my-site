@@ -108,6 +108,8 @@ export const dimenso = {
 
   brandBook: {
     heading: 'Graphic Index',
+    // Per Neama: the logo half as large again.
+    logoScale: 1.5,
     fonts: [{ name: 'Brandon Grotesque' }, { name: 'Adobe Clean' }],
     logoSrc: logoIcon,
     morphologySrc: morphology,
@@ -157,7 +159,15 @@ export const dimenso = {
       ratio: '348 / 718',
       media: [
         { kind: 'video', note: 'social sequence', src: socialSequence, loop: true },
-        { kind: 'video', note: 'invitation animation', src: invitationAnimation, loop: true },
+        // Per Neama: 98% of its cell, centred, 7px lower.
+        {
+          kind: 'video',
+          note: 'invitation animation',
+          src: invitationAnimation,
+          loop: true,
+          size: { width: 98, align: 'center' },
+          offset: { x: 0, y: 7 },
+        },
       ],
       // Per Neama: a wide video under the phones (her upload), edge to edge
       // so its small type reads.

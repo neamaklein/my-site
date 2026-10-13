@@ -15,6 +15,8 @@ function Media({ item, ratio }) {
       ratio={item.ratio || ratio}
       size={item.size}
       loop={item.loop}
+      offset={item.offset}
+      css={item.css}
     />
   );
   if (!item.caption) return media;

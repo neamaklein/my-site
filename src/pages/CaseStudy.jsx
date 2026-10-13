@@ -48,7 +48,7 @@ export default function CaseStudy() {
           <Page on={depth}>
             <PageContainer>
               <TitleBlock {...project.title} />
-              {project.meta?.length > 0 && <MetaGrid items={project.meta} />}
+              {project.meta?.length > 0 && <MetaGrid items={project.meta} monoLabels={project.metaMonoLabels} />}
             </PageContainer>
 
             {project.feature === 'process' && project.process && <Process {...project.process} />}

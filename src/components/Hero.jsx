@@ -10,7 +10,7 @@ export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
   const { override, editProps } = useEditableMedia(useMediaKey(media?.src, media?.note || 'hero background'));
   const { className: editClass = '', ...handlers } = editProps;
   const bgSrc = override?.url || media?.src;
-  const bgIsVideo = override ? override.contentType.startsWith('video/') : false;
+  const bgIsVideo = override ? override.contentType.startsWith('video/') : media?.kind === 'video';
 
   return (
     <section className={styles.hero}>

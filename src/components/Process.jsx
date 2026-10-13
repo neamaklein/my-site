@@ -13,7 +13,15 @@ export default function Process({ cover, row = [] }) {
         <div className={styles.rowCard}>
           <div className={styles.row}>
             {row.map((item) => (
-              <MediaPlaceholder key={item.note} kind={item.kind} note={item.note} src={item.src} ratio="386 / 541" />
+              <MediaPlaceholder
+                key={item.note}
+                kind={item.kind}
+                note={item.note}
+                src={item.src}
+                ratio="386 / 541"
+                loop={item.loop}
+                css={item.css}
+              />
             ))}
           </div>
         </div>

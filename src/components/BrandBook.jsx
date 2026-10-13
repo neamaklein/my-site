@@ -59,6 +59,8 @@ export default function BrandBook({
   fonts,
   logoSrc,
   morphologySrc,
+  morphologyKind = 'image',
+  logoScale,
   iconsSrc,
   primaryColors,
   secondaryColors,
@@ -74,12 +76,18 @@ export default function BrandBook({
       <div className={styles.content}>
         {logoSrc && (
           <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>
-            <img className={styles.logo} src={logoSrc} alt="Logo" />
+            <img className={styles.logo} src={logoSrc} alt="Logo" style={logoScale ? { scale: String(logoScale) } : undefined} />
           </Block>
         )}
         {morphologySrc !== undefined && (
           <Block label={labels.morphology} className={styles.wide}>
-            <MediaPlaceholder kind="image" note="logo construction / grid" src={morphologySrc} ratio="478 / 306" />
+            <MediaPlaceholder
+              kind={morphologyKind}
+              note="logo construction / grid"
+              src={morphologySrc}
+              ratio="478 / 306"
+              loop={morphologyKind === 'video'}
+            />
           </Block>
         )}
 

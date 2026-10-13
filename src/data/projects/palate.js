@@ -68,6 +68,8 @@ export const palate = {
     { label: 'Team', value: 'Neama Klein · Amit Tal' },
     { label: 'Category', value: 'Spatial branding' },
   ],
+  // Per Neama: the meta labels in the mono.
+  metaMonoLabels: true,
 
   brandBook: {
     heading: 'Graphic Index',
@@ -83,7 +85,8 @@ export const palate = {
   // photo's backdrop color so the square reads edge to edge.
   feature: {
     ...merchCups,
-    over: { kind: 'image', src: capsules, note: 'capsules' },
+    // Per Neama: the capsules at 62% of the band's width, centred.
+    over: { kind: 'image', src: capsules, note: 'capsules', size: { width: 62, align: 'center' } },
     background: '#f4f3f1',
   },
 
@@ -98,7 +101,8 @@ export const palate = {
       // The cups and capsules moved up to open the page (per Neama).
       columns: 2,
       ratio: '1 / 1',
-      media: [merchCarrier, merchJars],
+      // Per Neama: the carrier set 5px lower.
+      media: [{ ...merchCarrier, offset: { x: 0, y: 5 } }, merchJars],
     },
     {
       heading: 'Coming Soon',
@@ -125,7 +129,12 @@ export const palate = {
       ratio: '1920 / 985',
       // Per Neama: a small English title above each drawing, with its scale.
       media: images(plans, ['ground floor', 'gallery floor', 'section 1-1', 'section 2-2', 'isometric view']).map(
-        (item, index) => ({ ...item, ...PLAN_CAPTIONS[index] }),
+        (item, index) => ({
+          ...item,
+          ...PLAN_CAPTIONS[index],
+          // Per Neama: the isometric view nudged right.
+          ...(index === 4 ? { offset: { x: 144, y: 4 } } : {}),
+        }),
       ),
     },
     {

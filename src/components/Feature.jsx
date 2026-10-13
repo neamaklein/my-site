@@ -13,7 +13,7 @@ export default function Feature({ kind = 'image', note, src, over, background })
           <MediaPlaceholder kind={kind} note={note} src={src} ratio="16 / 9" />
         </div>
         <div className={`${styles.stage} ${styles.over}`}>
-          <MediaPlaceholder kind={over.kind} note={over.note} src={over.src} ratio="16 / 9" />
+          <MediaPlaceholder kind={over.kind} note={over.note} src={over.src} ratio="16 / 9" size={over.size} />
         </div>
       </section>
     );
