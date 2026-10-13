@@ -7,11 +7,12 @@
 // Do not rewrite/shorten copy here — edit the source in Figma, then re-sync.
 
 import pavilionExterior from '../../assets/dimenso/process/pavilion-exterior.jpg';
-import posterMagenta from '../../assets/dimenso/process/poster-magenta.jpg';
-import posterOrange from '../../assets/dimenso/process/poster-orange.jpg';
-import posterCyan from '../../assets/dimenso/process/poster-cyan.jpg';
+import heroVideo from '../../assets/dimenso/hero.mp4';
+import posterMagenta from '../../assets/dimenso/process/poster-magenta.mp4';
+import posterOrange from '../../assets/dimenso/process/poster-orange.mp4';
+import posterCyan from '../../assets/dimenso/process/poster-cyan.mp4';
 
-import morphology from '../../assets/dimenso/brandbook/morphology.png';
+import morphology from '../../assets/dimenso/brandbook/morphology.mp4';
 import logoIcon from '../../assets/dimenso/logo-icon.png';
 import iconsRow from '../../assets/dimenso/brandbook/icons-row.png';
 
@@ -59,7 +60,8 @@ export const dimenso = {
   hero: {
     // Per Neama: no logo-reveal intro and no headline or subtitle; the
     // page opens straight on the video.
-    media: { kind: 'video', note: 'hero background (looping video, not a still image)' },
+    // Her upload: the logo video, on a loop.
+    media: { kind: 'video', note: 'hero background (looping video, not a still image)', src: heroVideo },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },
 
@@ -100,9 +102,17 @@ export const dimenso = {
   process: {
     cover: { kind: 'image', note: 'pavilion exterior photo', src: pavilionExterior },
     row: [
-      { kind: 'image', note: 'brand poster — magenta', src: posterMagenta },
-      { kind: 'image', note: 'brand poster — orange', src: posterOrange },
-      { kind: 'image', note: 'brand poster — cyan', src: posterCyan },
+      // Her uploads: the posters as moving images (black bars cropped off);
+      // the orange one fills its frame on white, per her edit.
+      { kind: 'video', note: 'brand poster — magenta', src: posterMagenta, loop: true },
+      {
+        kind: 'video',
+        note: 'brand poster — orange',
+        src: posterOrange,
+        loop: true,
+        css: { backgroundColor: '#ffffff', objectFit: 'fill' },
+      },
+      { kind: 'video', note: 'brand poster — cyan', src: posterCyan, loop: true },
     ],
   },
 
@@ -112,7 +122,9 @@ export const dimenso = {
     logoScale: 1.5,
     fonts: [{ name: 'Brandon Grotesque' }, { name: 'Adobe Clean' }],
     logoSrc: logoIcon,
+    // Her upload: the morphology as a video.
     morphologySrc: morphology,
+    morphologyKind: 'video',
     iconsSrc: iconsRow,
     primaryColors: [
       { name: 'Magenta', hex: '#E541A6' },

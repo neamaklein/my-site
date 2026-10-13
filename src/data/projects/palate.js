@@ -12,7 +12,7 @@
 //   meta labels/values, the title tag wording.
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
-import hero from '../../assets/palate/hero.jpg';
+import hero from '../../assets/palate/hero.mp4';
 import logo from '../../assets/palate/logo.png';
 import element from '../../assets/palate/element.png';
 import capsules from '../../assets/palate/capsules.webp';
@@ -52,7 +52,8 @@ export const palate = {
   category: 'SPATIAL_BRANDING',
 
   hero: {
-    media: { kind: 'image', note: 'PALATE pavilion — still from the final video', src: hero },
+    // Her upload: the final video (L2T_T2), on a loop.
+    media: { kind: 'video', note: 'PALATE pavilion — the final video', src: hero },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },
 
