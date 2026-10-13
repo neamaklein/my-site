@@ -48,6 +48,12 @@
   object-position: center;
 }
 
+.logo.logoFill {
+  width: 100%;
+  max-height: none;
+  border-radius: 12px;
+}
+
 .element,
 .icons {
   display: block;
@@ -163,7 +169,7 @@
   .label {
     font-size: 13px;
   }
-  .logo {
+  .logo:not(.logoFill) {
     max-height: 72px;
   }
   .icons {

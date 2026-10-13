@@ -42,13 +42,14 @@ function Swatches({ colors }) {
 
 // The logo, as a media slot: in the review copy it can be swapped for an
 // upload (an image or a video) like any other media.
-function Logo({ src, scale }) {
+function Logo({ src, kind = 'image', scale, fill = false }) {
   const { override, editProps } = useEditableMedia(useMediaKey(src, 'logo'));
   const { className: editClass = '', ...handlers } = editProps;
   const style = scale ? { scale: String(scale) } : undefined;
-  const className = `${styles.logo} ${editClass}`;
-  if (override?.contentType.startsWith('video/')) {
-    return <video className={className} style={style} src={override.url} autoPlay muted loop playsInline {...handlers} />;
+  const className = `${styles.logo} ${fill ? styles.logoFill : ''} ${editClass}`;
+  const isVideo = override ? override.contentType.startsWith('video/') : kind === 'video';
+  if (isVideo) {
+    return <video className={className} style={style} src={override?.url || src} autoPlay muted loop playsInline {...handlers} />;
   }
   return <img className={className} style={style} src={override?.url || src} alt="Logo" {...handlers} />;
 }
@@ -75,6 +76,8 @@ export default function BrandBook({
   morphologySrc,
   morphologyKind = 'image',
   logoScale,
+  logoKind,
+  logoFill,
   iconsSrc,
   primaryColors,
   secondaryColors,
@@ -90,7 +93,7 @@ export default function BrandBook({
       <div className={styles.content}>
         {logoSrc && (
           <Block label={labels.logo} className={morphologySrc !== undefined ? styles.narrow : styles.full}>
-            <Logo src={logoSrc} scale={logoScale} />
+            <Logo src={logoSrc} kind={logoKind} scale={logoScale} fill={logoFill} />
           </Block>
         )}
         {morphologySrc !== undefined && (
