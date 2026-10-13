@@ -29,6 +29,7 @@ import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
 import campaign03 from '../../assets/dimenso/marketing/campaign-03.jpg';
 import campaign04 from '../../assets/dimenso/marketing/campaign-04.jpg';
 
+import walkthroughVideo from '../../assets/dimenso/walkthrough/walkthrough.mp4';
 import walkthroughPoster from '../../assets/dimenso/walkthrough/walkthrough-poster.jpg';
 import macbookFrame from '../../assets/dimenso/walkthrough/macbook-frame.webp';
 
@@ -176,13 +177,13 @@ export const dimenso = {
     },
     {
       heading: 'Walkthrough Video',
-      // Per Neama: the walkthrough from YouTube, watched right on the
-      // MacBook from the Figma (press play; YouTube's own player then
-      // loads in the screen). `screen` is the display area of the frame
+      // Per Neama: the full walkthrough (1:30, silent) playing on the
+      // MacBook from the Figma. It loads only as you near it and plays
+      // while it is on screen. `screen` is the display area of the frame
       // image, in % of its size.
       layout: 'device',
       device: { frame: macbookFrame, screen: { left: 9.75, top: 4.31, width: 80.6, height: 82.8 } },
-      media: [{ kind: 'youtube', note: 'DIMENSO walkthrough', youtube: 'a--C75M0j9M', poster: walkthroughPoster }],
+      media: [{ kind: 'video', note: 'DIMENSO walkthrough', src: walkthroughVideo, poster: walkthroughPoster }],
     },
   ],
 
