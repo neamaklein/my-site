@@ -73,6 +73,8 @@ export const dimenso = {
     { label: 'Year', value: '2026' },
     { label: 'Category', value: 'Brand ID' },
     { label: 'Role', value: 'Brand Designer' },
+    // Per Neama (the YouTube credit: Amit Tal & Neama Klein); her name first.
+    { label: 'Team', value: 'Neama Klein · Amit Tal' },
   ],
 
   strategy: {

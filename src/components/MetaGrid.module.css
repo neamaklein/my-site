@@ -1,7 +1,7 @@
 /* Quiet facts row: no rules, label in grey above a semibold value. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
   gap: 24px var(--gutter);
   padding: 28px 0 8px;
 }
