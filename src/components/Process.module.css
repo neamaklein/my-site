@@ -1,0 +1,54 @@
+.stack {
+  position: relative;
+  margin-top: var(--space-section);
+}
+
+.cover {
+  position: sticky;
+  top: var(--nav-height);
+}
+
+.rowCard {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  padding: 0 var(--edge);
+}
+
+.row {
+  --gap: clamp(16px, 2vw, 32px);
+  /* As large as the screen allows (per Neama): the row spans the page,
+     unless three collages that tall would not fit under the nav. */
+  width: min(100%, calc((100svh - var(--nav-height) - 96px) * 0.707 * 3 + 2 * var(--gap)));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.row > * {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* The collages hold over the image for a full screen of scrolling before
+   the page moves on (per Neama: long enough to look at them). */
+.hold {
+  height: 100vh;
+}
+
+/* On wide screens the image fills the whole screen under the nav. */
+@media (min-width: 769px) {
+  .cover > * {
+    width: 100%;
+    height: calc(100svh - var(--nav-height));
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    --gap: 8px;
+  }
+}
