@@ -214,9 +214,13 @@ export default function Gallery({
   device,
   after = [],
   text = [],
+  textDir,
+  textLang,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
+  // A section whose every slot is still waiting shows only in the review copy.
+  if (media.length === 0) return null;
   if (layout === 'stack') {
     return (
       <section className={`${styles.wrap} ${styles.side}`}>
@@ -335,7 +339,7 @@ export default function Gallery({
       <SectionLabel heading={heading} className={styles.topLabel} />
       {/* `text`: the section's own copy from the deck, above its media. */}
       {text.length > 0 && (
-        <div className={styles.text}>
+        <div className={styles.text} dir={textDir} lang={textLang}>
           {text.map((paragraph) => (
             <p key={paragraph.slice(0, 40)}>{paragraph}</p>
           ))}

@@ -11,7 +11,7 @@ export default function Strategy({ heading, paragraphs, dir, lang }) {
           const text = typeof paragraph === 'string' ? paragraph : paragraph.text;
           const lead = typeof paragraph === 'string' ? null : paragraph.lead;
           return (
-            <p key={text.slice(0, 40)}>
+            <p key={`${lead || ''}${text.slice(0, 40)}`}>
               {lead && <strong>{lead}</strong>}
               {text}
             </p>
