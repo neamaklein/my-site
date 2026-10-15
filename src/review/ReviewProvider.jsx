@@ -75,6 +75,24 @@ const pickable = (target) => target.closest?.('[data-media-key]') || target;
 export function ReviewProvider({ children }) {
   const [canEdit, setCanEdit] = useState(false);
   const [editing, setEditing] = useState(false);
+  // The tools bar folds into one small button so it never covers the page
+  // (per Neama); it stays open while editing. The choice is remembered.
+  const [barOpen, setBarOpen] = useState(() => {
+    try {
+      return localStorage.getItem('review-bar-open') === '1';
+    } catch {
+      return false;
+    }
+  });
+  const toggleBar = () =>
+    setBarOpen((open) => {
+      try {
+        localStorage.setItem('review-bar-open', open ? '0' : '1');
+      } catch {
+        /* storage unavailable: the bar just won't remember */
+      }
+      return !open;
+    });
   const [docs, setDocs] = useState({});
   // Changes not saved yet: {key, fields, meta}; a null field means "remove".
   const [draft, setDraft] = useState(null);
@@ -423,6 +441,13 @@ export function ReviewProvider({ children }) {
       )}
       {ENABLED && (
         <div className={styles.bar} role="region" aria-label="Review tools" data-review-ui>
+          {!editing && (
+            <button type="button" className={styles.barToggle} aria-expanded={barOpen} onClick={toggleBar}>
+              {barOpen ? '×' : 'Tools'}
+            </button>
+          )}
+          {(barOpen || editing) && (
+          <>
           <SerifTrial />
           <ExpertScan />
           {editing && (
@@ -454,6 +479,8 @@ export function ReviewProvider({ children }) {
             >
               {editing ? 'Done' : 'Edit'}
             </button>
+          )}
+          </>
           )}
         </div>
       )}

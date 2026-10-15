@@ -476,3 +476,8 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Folded: just the Tools button in the corner. */
+.bar .barToggle {
+  order: 99;
+}
