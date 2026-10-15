@@ -47,8 +47,6 @@ const [merchCarrier, merchCups, merchJars] = images(merch, ['Take your Palate ca
 export const palate = {
   slug: 'palate',
   dispatchNumber: '03',
-  // Station-sign stripes beside the dispatch number: the project's colors.
-  stripes: ['#FF007F', '#FF8C00'],
   category: 'SPATIAL_BRANDING',
 
   hero: {

@@ -57,8 +57,6 @@ import spatial14 from '../../assets/dimenso/spatial/spatial-14.jpg';
 export const dimenso = {
   slug: 'dimenso',
   dispatchNumber: '01',
-  // Station-sign stripes beside the dispatch number: the project's colors.
-  stripes: ['#E541A6', '#F1A528'],
   category: 'BRAND_ID',
 
   hero: {
@@ -91,7 +89,6 @@ export const dimenso = {
         lead: 'Dimensō',
         text: ' is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.',
       },
-      "Dimenso — Creative LabBridging 2D Concept and 3D Reality through AI Integration. Dimenso is a visionary creative workspace by Adobe, designed to streamline the creative workflow. The platform seamlessly integrates Adobe’s powerful suite with advanced AI tools into a single, unified interface tailored for designers, developers, and creative professionals. Created as part of the 'Brand in a Box' course, Dimenso redefines how cross-disciplinary teams collaborate, transforming flat 2D concepts into immersive 3D realities.",
     ],
   },
 

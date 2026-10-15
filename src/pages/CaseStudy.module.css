@@ -8,10 +8,9 @@
   background: var(--color-bg);
 }
 
-/* The full story text closes the page, a section's distance after the
-   last media. */
-.story {
-  padding-top: var(--space-section);
+/* The description, under the title and facts. */
+.intro {
+  padding: 32px 0 8px;
 }
 
 /* A chapter on the light grey band (Graphic Index): separates by surface

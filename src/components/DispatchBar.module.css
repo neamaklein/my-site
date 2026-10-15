@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   box-sizing: border-box;
   height: var(--nav-height);
   padding: 0 var(--edge);
@@ -40,18 +41,4 @@
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-}
-
-/* The two stripes from the station signs, in the project's own colors. */
-.stripes {
-  display: inline-grid;
-  gap: 2px;
-  margin-right: 2px;
-}
-
-.stripes i {
-  display: block;
-  width: 16px;
-  height: 4px;
-  border-radius: 2px;
 }

@@ -144,11 +144,6 @@ export default function Conveyor({ projects }) {
               style={{ opacity: on, pointerEvents: on > 0.5 ? 'auto' : 'none' }}
             >
               <span className={styles.stationNo}>
-                <span className={styles.stripes} aria-hidden="true">
-                  {project.stripes?.map((color) => (
-                    <i key={color} style={{ background: color }} />
-                  ))}
-                </span>
                 STATION {project.dispatchNumber} // {project.category}
               </span>
               <span className={styles.stationName}>{project.title.name}</span>

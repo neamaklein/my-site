@@ -5,7 +5,7 @@ import styles from './Strategy.module.css';
 export default function Strategy({ heading, paragraphs, dir, lang }) {
   return (
     <section className={styles.wrap}>
-      <SectionLabel heading={heading} className={styles.label} />
+      {heading && <SectionLabel heading={heading} className={styles.label} />}
       <div className={styles.body} dir={dir} lang={lang}>
         {paragraphs.map((paragraph) => {
           const text = typeof paragraph === 'string' ? paragraph : paragraph.text;

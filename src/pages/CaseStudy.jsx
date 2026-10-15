@@ -38,18 +38,25 @@ export default function CaseStudy() {
   return (
     <ReviewScope value={project.slug}>
       <article>
-        <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} stripes={project.stripes} />
+        <DispatchBar dispatchNumber={project.dispatchNumber} category={project.category} />
         <Hero {...project.hero} />
         <div className={`${styles.sheet} ${depth ? styles.depth : ''}`}>
-          {/* Order, per Neama: concept in one line (the title block's
-              tagline), then the strongest result, then the brand system,
-              then its applications; the full story text closes the page.
+          {/* Order, per Neama: title, facts and the description, then the
+              strongest result, then the brand system, then its
+              applications.
               Text sections sit on the inner (200px) line of the Figma grid;
               media sections run full width or on the outer (100px) line. */}
           <Page on={depth}>
             <PageContainer>
               <TitleBlock {...project.title} />
               {project.meta?.length > 0 && <MetaGrid items={project.meta} monoLabels={project.metaMonoLabels} />}
+              {/* Per Neama: the description opens the page, right under the
+                  facts, with no "Strategy" heading. */}
+              {project.strategy && (
+                <div className={styles.intro}>
+                  <Strategy {...project.strategy} heading={undefined} />
+                </div>
+              )}
             </PageContainer>
 
             {project.feature === 'process' && project.process && <Process {...project.process} />}
@@ -75,13 +82,6 @@ export default function CaseStudy() {
           ))}
           {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
 
-          {project.strategy && (
-            <PageContainer>
-              <div className={styles.story}>
-                <Strategy {...project.strategy} />
-              </div>
-            </PageContainer>
-          )}
           <CaseStudyFooter {...project.footer} />
         </div>
       </article>
