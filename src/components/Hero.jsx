@@ -10,6 +10,9 @@ export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
   const { override, editProps } = useEditableMedia(useMediaKey(media?.src, media?.note || 'hero background'));
   const { className: editClass = '', ...handlers } = editProps;
   const bgSrc = override?.url || media?.src;
+  // `media.position`: the point of the image kept in view when the screen
+  // crops it (a phone, say), as CSS object-position.
+  const bgStyle = media?.position ? { objectPosition: media.position } : undefined;
   const bgIsVideo = override ? override.contentType.startsWith('video/') : media?.kind === 'video';
 
   return (
@@ -17,9 +20,9 @@ export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
       {intro && <HeroIntro />}
       <div className={styles.bg}>
         {bgSrc && bgIsVideo ? (
-          <video className={`${styles.bgImage} ${editClass}`} src={bgSrc} autoPlay muted loop playsInline {...handlers} />
+          <video className={`${styles.bgImage} ${editClass}`} style={bgStyle} src={bgSrc} autoPlay muted loop playsInline {...handlers} />
         ) : bgSrc ? (
-          <img className={`${styles.bgImage} ${editClass}`} src={bgSrc} alt={media?.note || ''} {...handlers} />
+          <img className={`${styles.bgImage} ${editClass}`} style={bgStyle} src={bgSrc} alt={media?.note || ''} {...handlers} />
         ) : (
           <MediaPlaceholder kind={media?.kind || 'image'} note={media?.note || 'hero background'} ratio="16 / 9" />
         )}
