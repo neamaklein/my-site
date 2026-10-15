@@ -14,7 +14,7 @@ export default function MediaPlaceholder({ kind = 'image', note, ratio, src, siz
   const { override, size: editedSize, editProps } = useEditableMedia(useMediaKey(src, note));
   const style = {
     ...sizeStyle(editedSize || size),
-    ...(offset ? { translate: `${offset.x}px ${offset.y}px` } : {}),
+    ...(offset ? { '--offset': `${offset.x}px ${offset.y}px` } : {}),
     ...css,
   };
   const { className: editClass = '', ...handlers } = editProps;
@@ -22,7 +22,7 @@ export default function MediaPlaceholder({ kind = 'image', note, ratio, src, siz
   const mediaKind = override ? (override.contentType.startsWith('video/') ? 'video' : 'image') : kind;
 
   if (mediaSrc) {
-    const className = `${styles.media} ${editClass}`;
+    const className = `${styles.media} ${offset ? styles.offset : ''} ${editClass}`;
     if (mediaKind === 'video') {
       return override || loop ? (
         <video className={className} style={style} src={mediaSrc} autoPlay muted loop playsInline {...handlers} />

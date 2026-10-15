@@ -33,3 +33,15 @@
   width: 100%;
   height: auto;
 }
+
+/* A nudge set by Neama (px) applies on wide screens only: on a phone a
+   fixed shift would push the media off its column. */
+.offset {
+  translate: var(--offset);
+}
+
+@media (max-width: 768px) {
+  .offset {
+    translate: none;
+  }
+}
