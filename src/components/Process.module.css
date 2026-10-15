@@ -38,13 +38,12 @@
   height: 100vh;
 }
 
-/* On wide screens the image fills the whole screen under the nav. */
-@media (min-width: 769px) {
-  .cover > * {
-    width: 100%;
-    height: calc(100svh - var(--nav-height));
-    object-fit: cover;
-  }
+/* The image fills the whole screen under the nav, on phones too (per
+   Neama: the collages must sit on the pavilion at every size). */
+.cover > * {
+  width: 100%;
+  height: calc(100svh - var(--nav-height));
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {
