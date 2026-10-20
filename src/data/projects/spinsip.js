@@ -28,8 +28,6 @@ const images = (files, notes) =>
 export const spinsip = {
   slug: 'spin-sip',
   dispatchNumber: '04',
-  // Station-sign stripes beside the dispatch number: the project's colors.
-  stripes: ['#31BBAC', '#F27121'],
   category: 'BRANDING',
 
   hero: {

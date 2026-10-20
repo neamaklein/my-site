@@ -14,8 +14,9 @@
 // files yet: its slot shows in the review copy only.
 //
 // Not from the deck (structural labels only — rename freely):
-//   meta labels/values, section headings "Mockups" / "Character" /
-//   "Wireframes" / "Video" (kept in English like the other projects).
+//   meta labels/values, section headings "Mockups" /
+//   "Wireframes" / "Video" (kept in English like the other projects;
+//   "עיצוב הדמויות" is Neama's).
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
 import hero from '../../assets/achoti/hero.jpg';
@@ -40,8 +41,6 @@ const images = (files, notes) =>
 export const achoti = {
   slug: 'achoti',
   dispatchNumber: '06',
-  // Station-sign stripes beside the dispatch number: the project's colors.
-  stripes: ['#00A79D', '#E1582C'],
   category: 'UX_UI',
 
   hero: {
@@ -118,12 +117,8 @@ export const achoti = {
       media: [{ kind: 'image', note: 'app screens', src: mockups }],
     },
     {
-      heading: 'Character',
-      text: [
-        'מערכת האיורים מבוססת על דמויות מינימליסטיות, ידידותיות ועכשוויות, המייצגות את מגוון המבקרים והמלווים בבית החולים. הדמויות מאופיינות בפרופורציות מוארכות, הבעות פנים פשוטות ושפת גוף טבעית, תוך שימוש בפלטת צבעים מצומצמת של שחור, לבן, כתום וטורקיז. הן מופיעות במגוון סיטואציות יומיומיות בבית החולים, במטרה ליצור שפה חזותית אחידה, נגישה ומזמינה, המעניקה תחושת רוגע והתמצאות במרחב.',
-      ],
-      textDir: 'rtl',
-      textLang: 'he',
+      // Per Neama: no text here, and the heading in Hebrew.
+      heading: 'עיצוב הדמויות',
       columns: 2,
       media: [
         { kind: 'image', note: 'the four characters', src: lineup },

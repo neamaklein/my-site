@@ -35,8 +35,6 @@ const POSTER_NAMES = ['Bar Tomer', 'Alon Kleinman', 'Hadar Rosenfeld Bardicheski
 export const nextoctober = {
   slug: 'next-october',
   dispatchNumber: '05',
-  // Station-sign stripes beside the dispatch number: the project's colors.
-  stripes: ['#201C82', '#F89E23'],
   category: 'BRANDING',
 
   hero: {
