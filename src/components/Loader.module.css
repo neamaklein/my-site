@@ -147,12 +147,13 @@
   86.389% { transform: scaleY(0.1); }
 }
 
-/* Set like the dispatch tag (JetBrains Mono), kept in lowercase. */
+/* Set like the dispatch tag: JetBrains Mono, in capitals. */
 .text {
   margin: 0;
   font-family: var(--font-mono);
   font-size: 20px;
   letter-spacing: var(--tag-tracking);
+  text-transform: uppercase;
   color: var(--color-frame);
   white-space: nowrap;
 }
