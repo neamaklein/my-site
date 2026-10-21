@@ -1,0 +1,19 @@
+{
+  "spin-sip__spin-sip-stand-at-the-tel-aviv-velodrome": {
+    "assetId": "361db0eeb68a5b7bca222d2d6b9c7950",
+    "contentType": "image/png",
+    "fileName": "Instagram post - 9.png",
+    "updatedAt": "2026-10-13T19:19:14.458Z"
+  },
+  "spin-sip__e-d73e8h": {
+    "kind": "element",
+    "page": "spin-sip",
+    "path": "#root > article:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > section:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > img:nth-of-type(1)",
+    "label": "img.logo",
+    "offset": {
+      "x": 0,
+      "y": 0
+    },
+    "updatedAt": "2026-10-13T19:19:45.743Z"
+  }
+}
