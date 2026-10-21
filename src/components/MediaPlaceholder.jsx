@@ -1,0 +1,48 @@
+import { sizeStyle, useEditableMedia, useMediaKey } from '../review/ReviewProvider.jsx';
+import styles from './MediaPlaceholder.module.css';
+
+// Renders real media when `src` is given — always at its own aspect
+// ratio, never cropped (per Neama) — otherwise a labeled placeholder box
+// at `ratio` (used only where no real asset exists yet).
+// `size` ({width: % of the slot, align: start|center|end}) narrows it
+// inside its slot. In the review copy, an uploaded replacement and a size
+// set by hand take the slot's place. `loop` plays a video like a moving
+// image: silent, on repeat, no controls. `offset` ({x, y} in px) nudges it
+// from its place and `css` adds inline styles (both from Neama's edits in
+// the review copy).
+export default function MediaPlaceholder({ kind = 'image', note, ratio, src, size, loop = false, offset, css }) {
+  const { override, size: editedSize, editProps } = useEditableMedia(useMediaKey(src, note));
+  const style = {
+    ...sizeStyle(editedSize || size),
+    ...(offset ? { '--offset': `${offset.x}px ${offset.y}px` } : {}),
+    ...css,
+  };
+  const { className: editClass = '', ...handlers } = editProps;
+  const mediaSrc = override?.url || src;
+  const mediaKind = override ? (override.contentType.startsWith('video/') ? 'video' : 'image') : kind;
+
+  if (mediaSrc) {
+    const className = `${styles.media} ${offset ? styles.offset : ''} ${editClass}`;
+    if (mediaKind === 'video') {
+      return override || loop ? (
+        <video className={className} style={style} src={mediaSrc} autoPlay muted loop playsInline {...handlers} />
+      ) : (
+        <video className={className} style={style} src={mediaSrc} controls playsInline {...handlers} />
+      );
+    }
+    return <img className={className} style={style} src={mediaSrc} alt={note || ''} decoding="async" {...handlers} />;
+  }
+
+  return (
+    <div
+      className={`${styles.placeholder} ${editClass}`}
+      style={{ ...(ratio ? { '--ratio': ratio } : {}), ...style }}
+      {...handlers}
+    >
+      <div>
+        <span className={styles.kind}>{kind === 'video' ? '▶ video' : 'image'} placeholder</span>
+        {note && <span>{note}</span>}
+      </div>
+    </div>
+  );
+}

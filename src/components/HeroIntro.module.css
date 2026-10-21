@@ -1,0 +1,104 @@
+.intro {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--color-bg);
+  animation: fadeOut 0.6s ease-in 3.6s forwards;
+}
+
+.icon {
+  width: 64px;
+  aspect-ratio: 1015 / 1206;
+  background-color: #1a1a1a;
+  -webkit-mask: var(--icon-mask) center / contain no-repeat;
+  mask: var(--icon-mask) center / contain no-repeat;
+  opacity: 0;
+  animation:
+    iconIn 0.4s ease-out 0.1s forwards,
+    iconColor 4.2s ease-in-out forwards;
+}
+
+.wordmark {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--color-ink);
+  width: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  animation:
+    typing 1s steps(7, end) 0.5s forwards,
+    blink 0.6s step-end 0.5s infinite;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes iconIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes iconColor {
+  0%,
+  40% {
+    background-color: #1a1a1a;
+  }
+  52% {
+    background-color: #e541a6;
+  }
+  64% {
+    background-color: #00b4d8;
+  }
+  76% {
+    background-color: #f1a528;
+  }
+  88%,
+  100% {
+    background-color: #1a1a1a;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 7ch;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    animation: fadeOut 0.01s linear 0.4s forwards;
+  }
+  .icon,
+  .wordmark {
+    animation: none;
+    opacity: 1;
+    width: 7ch;
+  }
+}

@@ -1,0 +1,199 @@
+/* The first-visit loader: a white layer over the whole page. */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--color-bg);
+  transition: opacity 0.35s ease;
+}
+
+.fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.character {
+  display: block;
+  width: min(240px, 60vw);
+  aspect-ratio: 889 / 1071;
+}
+
+/* Typing: one 3s loop, in the drawing's own pixels (the SVG scales it).
+   The hands tap unevenly, like typing words, the hair sways from the
+   crown, and she blinks twice (the eyes close to a tenth of their height). */
+.character image {
+  transform-box: fill-box;
+}
+
+.handLeft {
+  animation: tap-left 3s infinite;
+}
+
+.handRight {
+  animation: tap-right 3s infinite;
+}
+
+.handLeft,
+.handRight,
+.hair {
+  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.hair {
+  transform-origin: 50% 0;
+  animation-name: sway;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+.eyes {
+  transform-origin: 50% 50%;
+  animation: blink 3s linear infinite;
+}
+
+/* Now and then she tilts her head a little, from the neck. */
+.head {
+  transform-box: view-box;
+  transform-origin: 360px 294px;
+  animation: tilt 3s infinite;
+  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+@keyframes tap-left {
+  0% { transform: translateY(0px); }
+  2.33% { transform: translateY(5px); }
+  5.33% { transform: translateY(0px); }
+  11% { transform: translateY(0px); }
+  13.33% { transform: translateY(4px); }
+  16.33% { transform: translateY(0px); }
+  28.33% { transform: translateY(0px); }
+  30.67% { transform: translateY(6px); }
+  33.67% { transform: translateY(0px); }
+  34% { transform: translateY(0px); }
+  36.33% { transform: translateY(4.5px); }
+  39.33% { transform: translateY(0px); }
+  43.33% { transform: translateY(0px); }
+  45.67% { transform: translateY(5.5px); }
+  48.67% { transform: translateY(0px); }
+  66.67% { transform: translateY(0px); }
+  69% { transform: translateY(4px); }
+  72% { transform: translateY(0px); }
+  76.67% { transform: translateY(0px); }
+  79% { transform: translateY(6px); }
+  82% { transform: translateY(0px); }
+  87.33% { transform: translateY(0px); }
+  89.67% { transform: translateY(5px); }
+  92.67% { transform: translateY(0px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes tap-right {
+  0% { transform: translateY(0px); }
+  6% { transform: translateY(0px); }
+  8.33% { transform: translateY(4.5px); }
+  11.33% { transform: translateY(0px); }
+  15.67% { transform: translateY(0px); }
+  18% { transform: translateY(6px); }
+  21% { transform: translateY(0px); }
+  38.33% { transform: translateY(0px); }
+  40.67% { transform: translateY(5px); }
+  43.67% { transform: translateY(0px); }
+  47.33% { transform: translateY(0px); }
+  49.67% { transform: translateY(4px); }
+  52.67% { transform: translateY(0px); }
+  61.67% { transform: translateY(0px); }
+  64% { transform: translateY(5.5px); }
+  67% { transform: translateY(0px); }
+  70.67% { transform: translateY(0px); }
+  73% { transform: translateY(4.5px); }
+  76% { transform: translateY(0px); }
+  81.67% { transform: translateY(0px); }
+  84% { transform: translateY(5px); }
+  87% { transform: translateY(0px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes sway {
+  0%,
+  50%,
+  100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.2deg); }
+  75% { transform: rotate(-1.2deg); }
+}
+
+@keyframes tilt {
+  0%,
+  20%,
+  60%,
+  100% { transform: rotate(0deg); }
+  35%,
+  48% { transform: rotate(-2.5deg); }
+  78% { transform: rotate(1.2deg); }
+}
+
+@keyframes blink {
+  0%,
+  33.333%,
+  39.444%,
+  83.333%,
+  89.444%,
+  100% { transform: scaleY(1); }
+  36.389%,
+  86.389% { transform: scaleY(0.1); }
+}
+
+/* Set like the dispatch tag (JetBrains Mono), kept in lowercase. */
+.text {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  letter-spacing: var(--tag-tracking);
+  color: var(--color-frame);
+  white-space: nowrap;
+}
+
+/* The three dots appear one by one, then start over. */
+.dots span {
+  animation: dot 1.5s steps(1, end) infinite;
+}
+
+.dots span:nth-child(2) {
+  animation-name: dot2;
+}
+
+.dots span:nth-child(3) {
+  animation-name: dot3;
+}
+
+@keyframes dot {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+}
+
+@keyframes dot2 {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes dot3 {
+  0% { opacity: 0; }
+  75% { opacity: 1; }
+}
+
+/* Reduced motion: a still frame, dots at rest, no fade. */
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    transition: none;
+  }
+
+  .character image,
+  .head,
+  .dots span {
+    animation: none;
+  }
+}
