@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import body from '../assets/loader/parts/body.png';
+import head from '../assets/loader/parts/head.png';
 import hair from '../assets/loader/parts/hair.png';
 import laptop from '../assets/loader/parts/laptop.png';
 import handLeft from '../assets/loader/parts/hand_left.png';
@@ -8,25 +9,20 @@ import eyes from '../assets/loader/parts/eyes.png';
 import butterflies from '../assets/loader/parts/butterflies.png';
 import styles from './Loader.module.css';
 
-// Neama's character types while the page loads, then looks up at the
-// viewer and the whole layer fades out. Shown once per visit: the flag is
+// Neama's character types while the page loads, and the whole layer fades
+// out around her as she keeps typing. Shown once per visit: the flag is
 // kept for the tab's session, so moving between projects never shows it.
 const SEEN = 'loader-seen';
-const MIN_SHOW = 1500;
-const LOOK_UP = 700; // the look-up, before the fade
-const FADE = 600;
+const MIN_SHOW = 3000; // one full typing loop, blink included
+const FADE = 350;
 
 // Her layers, cut from the illustration, each placed where it sits in the
-// 889×1071 drawing (bottom to top).
-const LAYERS = [
-  { src: body, x: 0, y: 0, w: 889, h: 1071 },
-  { src: hair, x: 42, y: 57, w: 471, h: 512, className: styles.hair },
-  { src: laptop, x: 328, y: 516, w: 467, h: 260 },
-  { src: handLeft, x: 303, y: 665, w: 171, h: 66, className: styles.handLeft },
-  { src: handRight, x: 464, y: 647, w: 71, h: 54, className: styles.handRight },
-  { src: eyes, x: 342, y: 191, w: 83, h: 34, className: styles.eyes, group: styles.gaze },
-  { src: butterflies, x: 253, y: 38, w: 188, h: 52 },
-];
+// 889×1071 drawing. The head, hair, eyes and clips tilt together from the
+// neck; the base under the face is flat skin, so the tilt never shows a
+// second face.
+const layer = (src, x, y, w, h, className) => (
+  <image href={src} x={x} y={y} width={w} height={h} className={className} />
+);
 
 function alreadySeen() {
   try {
@@ -53,15 +49,11 @@ export default function Loader() {
     if (phase === 'loading') {
       let cancelled = false;
       pageReady().then(() => {
-        if (!cancelled) setPhase('loaded');
+        if (!cancelled) setPhase('fading');
       });
       return () => {
         cancelled = true;
       };
-    }
-    if (phase === 'loaded') {
-      const t = setTimeout(() => setPhase('fading'), LOOK_UP);
-      return () => clearTimeout(t);
     }
     if (phase === 'fading') {
       try {
@@ -79,25 +71,29 @@ export default function Loader() {
 
   return (
     <div
-      className={`${styles.loader} ${phase !== 'loading' ? styles.loaded : ''} ${
-        phase === 'fading' ? styles.fading : ''
-      }`}
+      className={`${styles.loader} ${phase === 'fading' ? styles.fading : ''}`}
       role="status"
       aria-label="loading dispatch factory"
     >
       <svg className={styles.character} viewBox="0 0 889 1071" aria-hidden="true">
-        {LAYERS.map(({ src, x, y, w, h, className, group }) => {
-          const image = (
-            <image key={src} href={src} x={x} y={y} width={w} height={h} className={className} />
-          );
-          return group ? (
-            <g key={src} className={group}>
-              {image}
-            </g>
-          ) : (
-            image
-          );
-        })}
+        {/* A soft shadow on the floor under her. */}
+        <defs>
+          <radialGradient id="loader-shadow">
+            <stop offset="0" stopColor="#000" stopOpacity="0.28" />
+            <stop offset="1" stopColor="#000" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <ellipse cx="505" cy="955" rx="400" ry="48" fill="url(#loader-shadow)" />
+        {layer(body, 0, 0, 889, 1071)}
+        <g className={styles.head}>
+          {layer(head, 264, 116, 186, 184)}
+          {layer(hair, 42, 57, 471, 512, styles.hair)}
+          {layer(eyes, 342, 191, 83, 34, styles.eyes)}
+          {layer(butterflies, 253, 38, 188, 52)}
+        </g>
+        {layer(laptop, 328, 516, 467, 260)}
+        {layer(handLeft, 303, 665, 171, 66, styles.handLeft)}
+        {layer(handRight, 464, 647, 71, 54, styles.handRight)}
       </svg>
       <p className={styles.text} aria-hidden="true">
         loading dispatch factory
