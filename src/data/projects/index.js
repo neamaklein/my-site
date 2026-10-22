@@ -6,7 +6,8 @@ import { nextoctober } from './nextoctober.js';
 import { achoti } from './achoti.js';
 import { wot } from './wot.js';
 
-export const projects = [dimenso, rockse, palate, spinsip, nextoctober, achoti, wot];
+// In dispatch order, the order of the stations in the home film.
+export const projects = [dimenso, achoti, palate, spinsip, nextoctober, rockse, wot];
 
 // Reserved dispatch numbers for projects not yet built. Add a real data
 // file (see dimenso.js / rockse.js) and remove the matching entry here —

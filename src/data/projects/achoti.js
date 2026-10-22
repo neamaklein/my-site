@@ -40,7 +40,7 @@ const images = (files, notes) =>
 
 export const achoti = {
   slug: 'achoti',
-  dispatchNumber: '06',
+  dispatchNumber: '02',
   category: 'UX_UI',
 
   hero: {
@@ -139,7 +139,7 @@ export const achoti = {
   ],
 
   footer: {
-    label: 'END_OF_DISPATCH № 06',
+    label: 'END_OF_DISPATCH № 02',
     returnLabel: '← Return to Terminal',
   },
 };
