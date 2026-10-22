@@ -23,6 +23,10 @@ const STATIONS = {
   '07': [37.5, 40.5],
 };
 
+// The film's length, for before the browser has read it (iOS reads
+// nothing until the page is touched).
+const DURATION = 46.4;
+
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
 // 0 → 1 → 0 across [from, to] seconds, with half-second fades.
@@ -47,7 +51,7 @@ export default function DispatchFilm({ projects }) {
     // a flick of the wheel glides instead of jumping.
     const tick = () => {
       frame = 0;
-      if (!video?.duration) return;
+      if (!video) return;
       const current = video.currentTime;
       const next = still ? target : current + (target - current) * 0.25;
       if (Math.abs(next - current) > 0.01) video.currentTime = next;
@@ -56,13 +60,33 @@ export default function DispatchFilm({ projects }) {
     };
     const onScroll = () => {
       const el = trackRef.current;
-      if (!el || !video?.duration) return;
+      if (!el || !video) return;
       const range = el.offsetHeight - window.innerHeight;
       const p = range > 0 ? clamp(-el.getBoundingClientRect().top / range) : 0;
-      target = p * (video.duration - 0.05);
+      target = p * ((video.duration || DURATION) - 0.05);
       if (!frame) frame = requestAnimationFrame(tick);
     };
 
+    // iPhones load and draw a video only after it has been played once from
+    // a touch: start it on the first touch, pause it at once, and from then
+    // on the scroll can move it.
+    if (video) {
+      video.muted = true; // React sets no muted attribute; iOS needs it to play
+      video.setAttribute('muted', '');
+    }
+    let unlocked = false;
+    const unlock = () => {
+      if (unlocked || !video) return;
+      unlocked = true;
+      video.play?.().then(() => {
+        video.pause();
+        onScroll();
+      }).catch(() => {
+        unlocked = false;
+      });
+    };
+    window.addEventListener('touchstart', unlock, { passive: true });
+    window.addEventListener('pointerdown', unlock);
     video?.addEventListener('loadedmetadata', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
@@ -70,6 +94,8 @@ export default function DispatchFilm({ projects }) {
     return () => {
       cancelAnimationFrame(frame);
       video?.removeEventListener('loadedmetadata', onScroll);
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('pointerdown', unlock);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
