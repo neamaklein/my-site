@@ -18,7 +18,7 @@ import productPour from '../../assets/rockse/product-pour.jpg';
 
 export const rockse = {
   slug: 'rockse',
-  dispatchNumber: '02',
+  dispatchNumber: '06',
   category: 'PACKAGING',
 
   hero: {
@@ -92,7 +92,7 @@ export const rockse = {
   ],
 
   footer: {
-    label: 'END_OF_DISPATCH № 02',
+    label: 'END_OF_DISPATCH № 06',
     returnLabel: '← Return to Terminal',
   },
 };

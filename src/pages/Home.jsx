@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom';
 import { comingSoon } from '../data/projects/index.js';
-import Conveyor from '../components/Conveyor.jsx';
+import DispatchFilm from '../components/DispatchFilm.jsx';
 import styles from './Home.module.css';
 
-// The scroll-driven conveyor is still a draft: it shows only in the
-// claude.ai review copy (VITE_CONVEYOR=1) until Neama approves it for
-// the live site.
-const SHOW_CONVEYOR = import.meta.env.VITE_CONVEYOR === '1';
+// Per Neama: the home page opens on her Creative Dispatch film, played by
+// scrolling; the dispatch list follows it.
 
 export default function Home({ projects }) {
   return (
     <>
-      {SHOW_CONVEYOR && <Conveyor projects={projects} />}
+      <DispatchFilm projects={projects} />
       <main className={styles.wrap}>
         <h1 className={styles.title}>Neama Klein</h1>
         <p className={styles.subtitle}>TERMINAL // SELECT DISPATCH</p>

@@ -1,0 +1,81 @@
+/* The scroll length sets the pace: about a screen of scrolling for every
+   two and a half seconds of film. */
+.track {
+  position: relative;
+  height: 1900vh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #f3e6da;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.station {
+  position: absolute;
+  left: var(--edge);
+  bottom: var(--edge);
+  display: grid;
+  gap: 12px;
+  min-width: min(340px, calc(100vw - 2 * var(--edge)));
+  padding: 20px 24px 22px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-frame);
+}
+
+.stationNo,
+.open,
+.hint {
+  font-family: var(--font-mono);
+  font-size: var(--tag-size);
+  letter-spacing: var(--tag-tracking);
+  text-transform: uppercase;
+  color: var(--color-frame);
+}
+
+.stationName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.open {
+  justify-self: start;
+  padding: 10px 14px;
+  border: 1px solid var(--color-frame);
+}
+
+.open:hover,
+.open:focus-visible {
+  background: var(--color-frame);
+  color: var(--color-bg);
+  outline: none;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--edge);
+  translate: -50% 0;
+  margin: 0;
+  padding: 6px 10px;
+  background: var(--color-bg);
+}
+
+@media (max-width: 640px) {
+  .station {
+    padding: 14px 16px 16px;
+    gap: 8px;
+  }
+}
