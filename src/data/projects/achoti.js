@@ -15,6 +15,8 @@
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
 import hero from '../../assets/achoti/hero.jpg';
+import logo from '../../assets/achoti/logo.png';
+import logos from '../../assets/achoti/logos.png';
 import sceneCorridor from '../../assets/achoti/scenes/scene-corridor.png';
 import sceneCar from '../../assets/achoti/scenes/scene-car.png';
 import mainThinking from '../../assets/achoti/characters/main-thinking.png';
@@ -23,11 +25,6 @@ import patientUser from '../../assets/achoti/characters/patient-user.png';
 import pregnantUser from '../../assets/achoti/characters/pregnant-user.png';
 import visitorUser from '../../assets/achoti/characters/visitor-user.png';
 import wireframes from '../../assets/achoti/wireframes.png';
-import logoSystem from '../../assets/achoti/identity/logo-system.png';
-import palette from '../../assets/achoti/identity/palette.png';
-import logoPrimary from '../../assets/achoti/identity/logo-primary.png';
-import typography from '../../assets/achoti/identity/typography.png';
-import icons from '../../assets/achoti/identity/icons.png';
 import roleSelection from '../../assets/achoti/screens/role-selection.png';
 import arrival from '../../assets/achoti/screens/arrival.png';
 import dashboard from '../../assets/achoti/screens/dashboard.png';
@@ -38,6 +35,12 @@ import queuePanel from '../../assets/achoti/screens/queue-panel.png';
 import walkthrough from '../../assets/achoti/app-walkthrough.mp4';
 import walkthroughPoster from '../../assets/achoti/app-walkthrough-poster.jpg';
 import phoneFrame from '../../assets/achoti/phone-frame.webp';
+
+const icons = import.meta.glob('../../assets/achoti/icons/*.png', { eager: true, import: 'default' });
+const inOrder = (files) =>
+  Object.keys(files)
+    .sort()
+    .map((path) => files[path]);
 
 const image = (src, note, caption) => ({ kind: 'image', src, note, ...(caption ? { caption } : {}) });
 
@@ -68,6 +71,37 @@ export const achoti = {
     paragraphs: [
       'A personal hospital companion that turns a stressful medical journey into one continuous, reassuring experience — from preparation at home to the exact room inside the hospital.',
     ],
+  },
+
+  // Per Neama: the Graphic Index in the same language as the other
+  // projects (it replaces Amit's identity and interface-language boards),
+  // in the flow's place for them: after the wireframes.
+  brandBookBefore: 'A Human Presence Across the Entire Journey',
+  brandBook: {
+    heading: 'Graphic Index',
+    labels: { element: 'Logo variations' },
+    logoSrc: logo,
+    elementSrc: logos,
+    primaryColors: [
+      { hex: '#00736C' },
+      { hex: '#00A79D' },
+      { hex: '#B3E5E1' },
+      { hex: '#E0F4F2' },
+      { hex: '#A6360F' },
+      { hex: '#E1582C' },
+      { hex: '#F8D4C5' },
+      { hex: '#FCEDE7' },
+    ],
+    secondaryColors: [
+      { name: '', hex: '#1F2D3D' },
+      { name: '500', hex: '#575C60' },
+      { name: '300', hex: '#D9D9D9' },
+      { name: '100', hex: '#E7E7E7' },
+      { name: 'white', hex: '#FFFFFF' },
+    ],
+    fonts: [{ name: 'אסימון', sample: 'אבג' }],
+    // Each icon on its own, wrapping to fit the card.
+    iconSet: inOrder(icons).map((src) => ({ src, name: '' })),
   },
 
   galleries: [
@@ -105,29 +139,7 @@ export const achoti = {
       media: [image(wireframes, 'wireframes', '7-Screen System Architecture')],
     },
     {
-      eyebrow: '05 · Visual Identity',
-      heading: 'Clinical Clarity, Without Feeling Clinical.',
-      text: [
-        'The identity combines a calm turquoise system with a warm orange accent. The logo, palette and interface language feel reliable and legible while still carrying a distinctly human tone.',
-      ],
-      columns: 3,
-      media: [
-        image(logoSystem, 'logo system', 'Logo System'),
-        image(palette, 'color palette', 'Color Palette'),
-        image(logoPrimary, 'primary logo'),
-      ],
-    },
-    {
-      eyebrow: '06 · Interface Language',
-      heading: 'A System Built to Stay Readable Under Pressure.',
-      text: [
-        'Typography and iconography are direct, high-contrast and intentionally familiar so users can recognize actions quickly while moving through the hospital.',
-      ],
-      columns: 2,
-      media: [image(typography, 'typography', 'Typography'), image(icons, 'icon system', 'Icon System')],
-    },
-    {
-      eyebrow: '07 · Character Design / Companion System',
+      eyebrow: '05 · Character Design / Companion System',
       heading: 'A Human Presence Across the Entire Journey',
       text: [
         'The companion is a recurring product cue. Poses communicate context and emotion, while the wider character family keeps the visual language inclusive and consistent.',
@@ -142,7 +154,7 @@ export const achoti = {
       ],
     },
     {
-      eyebrow: '08 · Core Experience',
+      eyebrow: '06 · Core Experience',
       heading: 'The Journey Adapts to Why You Are Here',
       text: [
         'The experience changes according to the user context while keeping orientation immediate and simple. Clear next steps appear precisely when needed.',
@@ -156,7 +168,7 @@ export const achoti = {
       ],
     },
     {
-      eyebrow: '09 · Indoor Navigation',
+      eyebrow: '07 · Indoor Navigation',
       heading: 'Wayfinding Becomes the Interface',
       text: [
         'The physical environment becomes the main reference. Direction, remaining walking time, accessibility information and the companion stay visible without forcing the user to decode a separate map.',
@@ -170,7 +182,7 @@ export const achoti = {
       ],
     },
     {
-      eyebrow: '10 · Treatment Journey',
+      eyebrow: '08 · Treatment Journey',
       heading: 'A Single Place to Understand What Happens Next',
       text: [
         'Current status, upcoming steps and treatments are organized around continuous progress rather than fragmented departments, so patients always know what comes next.',
@@ -183,7 +195,7 @@ export const achoti = {
       ],
     },
     {
-      eyebrow: '11 · Product in Motion',
+      eyebrow: '09 · Product in Motion',
       heading: 'Experience ACHOTI in Action',
       text: [
         'Watch how intuitive transitions and empathetic guidance transform a daunting hospital visit into a calm, confident, and supported experience.',
@@ -200,7 +212,7 @@ export const achoti = {
       media: [{ kind: 'video', note: 'ACHOTI walkthrough', src: walkthrough, poster: walkthroughPoster }],
     },
     {
-      eyebrow: '12 · Final Experience',
+      eyebrow: '10 · Final Experience',
       heading: 'From “Where Do I Go?” to “I Know What Happens Next.”',
       text: [
         'A human visual language and contextual guidance turn hospital navigation into a calmer, more understandable experience.',

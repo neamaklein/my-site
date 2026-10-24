@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { getProjectBySlug } from '../data/projects/index.js';
 import DispatchBar from '../components/DispatchBar.jsx';
@@ -35,6 +36,17 @@ export default function CaseStudy() {
   const depth = project.depth || {};
   const breakout = REVIEW ? depth.breakout : null;
 
+  // The Graphic Index (brand book) on its band. It sits after the intro,
+  // or, with `brandBookBefore`, just before the gallery of that heading
+  // (ACHOTI keeps its chapter order).
+  const graphicIndex = project.brandBook && (
+    <Page on={depth} band>
+      <div className={styles.band}>
+        <BrandBook {...project.brandBook} />
+      </div>
+    </Page>
+  );
+
   return (
     <ReviewScope value={project.slug}>
       <article>
@@ -63,22 +75,19 @@ export default function CaseStudy() {
             {project.feature && project.feature !== 'process' && <Feature {...project.feature} />}
           </Page>
 
-          {project.brandBook && (
-            <Page on={depth} band>
-              <div className={styles.band}>
-                <BrandBook {...project.brandBook} />
-              </div>
-            </Page>
-          )}
+          {project.brandBook && !project.brandBookBefore && graphicIndex}
 
           {project.process && project.feature !== 'process' && <Process {...project.process} />}
           {project.galleries?.map((gallery) => (
-            <Page on={depth} key={gallery.heading}>
-              {breakout?.before === gallery.heading && (
-                <img className={styles.breakout} src={breakout.src} alt="" aria-hidden="true" />
-              )}
-              <Gallery {...gallery} />
-            </Page>
+            <Fragment key={gallery.heading}>
+              {project.brandBookBefore === gallery.heading && graphicIndex}
+              <Page on={depth}>
+                {breakout?.before === gallery.heading && (
+                  <img className={styles.breakout} src={breakout.src} alt="" aria-hidden="true" />
+                )}
+                <Gallery {...gallery} />
+              </Page>
+            </Fragment>
           ))}
           {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
 
