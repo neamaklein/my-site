@@ -7,7 +7,8 @@
 // footer. Card tags (e.g. "Problem Discovery · Patient Stress") are left
 // out; only the intro's tags are used, as the category.
 //
-// Images and the film are Amit's files from her site. The navigation and
+// Images are Amit's files from her site; the walkthrough film is Neama's
+// own screen recording. The navigation and
 // queue details and the primary logo are padded with transparent space so
 // they sit at their own size beside taller media (Rows keeps a row at one
 // height).
@@ -34,7 +35,9 @@ import indoorNavigation from '../../assets/achoti/screens/indoor-navigation.png'
 import navTurn from '../../assets/achoti/screens/nav-turn.png';
 import navEta from '../../assets/achoti/screens/nav-eta.png';
 import queuePanel from '../../assets/achoti/screens/queue-panel.png';
-import inAction from '../../assets/achoti/in-action.mp4';
+import walkthrough from '../../assets/achoti/app-walkthrough.mp4';
+import walkthroughPoster from '../../assets/achoti/app-walkthrough-poster.jpg';
+import phoneFrame from '../../assets/achoti/phone-frame.webp';
 
 const image = (src, note, caption) => ({ kind: 'image', src, note, ...(caption ? { caption } : {}) });
 
@@ -185,9 +188,16 @@ export const achoti = {
       text: [
         'Watch how intuitive transitions and empathetic guidance transform a daunting hospital visit into a calm, confident, and supported experience.',
       ],
-      columns: 1,
-      maxRowHeight: '80svh',
-      media: [{ kind: 'video', note: 'ACHOTI in action', src: inAction, loop: true }],
+      // Per Neama: her own walkthrough of the app, in a phone mockup (her
+      // frame, its screen see-through; measured off the 790×1602 crop).
+      layout: 'device',
+      device: {
+        frame: phoneFrame,
+        overlay: true,
+        width: 'min(100%, calc(80svh * 790 / 1602))',
+        screen: { left: 4.94, top: 2.12, width: 90.13, height: 95.76, radius: '11.2% / 5.2%' },
+      },
+      media: [{ kind: 'video', note: 'ACHOTI walkthrough', src: walkthrough, poster: walkthroughPoster }],
     },
     {
       eyebrow: '12 · Final Experience',

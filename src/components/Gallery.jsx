@@ -145,10 +145,16 @@ function DeviceVideo({ item, device }) {
   }, [still]);
 
   // `scale` enlarges the screen a touch, from its centre, over the bezel.
-  const { left, top, width, height, scale } = device.screen;
+  // A frame with a see-through screen (`overlay`, e.g. a phone) sits over
+  // the video, so its camera island and rounded corners stay on top;
+  // `radius` rounds the video to the screen, `width` sizes the device.
+  const { left, top, width, height, scale, radius } = device.screen;
+  const frame = (
+    <img className={`${styles.deviceFrame} ${device.overlay ? styles.deviceOver : ''}`} src={device.frame} alt="" />
+  );
   return (
-    <figure className={styles.device}>
-      <img className={styles.deviceFrame} src={device.frame} alt="" />
+    <figure className={styles.device} style={device.width ? { width: device.width } : undefined}>
+      {!device.overlay && frame}
       <video
         ref={ref}
         className={styles.deviceScreen}
@@ -158,6 +164,8 @@ function DeviceVideo({ item, device }) {
           width: `${width}%`,
           height: `${height}%`,
           ...(scale ? { scale: String(scale) } : {}),
+          ...(radius ? { borderRadius: radius } : {}),
+          ...(device.overlay ? { objectFit: 'cover' } : {}),
         }}
         src={near ? item.src : undefined}
         poster={item.poster}
@@ -169,6 +177,7 @@ function DeviceVideo({ item, device }) {
         autoPlay={!still}
         controls={still}
       />
+      {device.overlay && frame}
     </figure>
   );
 }
@@ -296,6 +305,13 @@ export default function Gallery({
     return (
       <section className={styles.wrap}>
         <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
+        {text.length > 0 && (
+          <div className={styles.text} dir={textDir} lang={textLang}>
+            {text.map((paragraph) => (
+              <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+            ))}
+          </div>
+        )}
         {media.map((item, index) => (
           <DeviceVideo key={index} item={item} device={device} />
         ))}

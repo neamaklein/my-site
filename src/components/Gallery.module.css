@@ -192,6 +192,12 @@
   height: auto;
 }
 
+.deviceOver {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .deviceScreen {
   position: absolute;
   object-fit: contain;
