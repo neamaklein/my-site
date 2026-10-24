@@ -22,6 +22,45 @@
   align-items: stretch;
 }
 
+/* Back to the site: a round icon button above the windows, on their
+   left edge. */
+.back {
+  grid-column: 1 / -1;
+  justify-self: start;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #fbf7f2;
+  color: var(--color-frame);
+  box-shadow: 0 12px 30px -12px rgba(40, 16, 70, 0.45);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.back svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.back:hover,
+.back:focus-visible {
+  background: var(--color-frame);
+  color: #fff;
+  outline: none;
+}
+
 .window {
   /* One inset for the bar and the body (per Neama: the bar's label lines
      up with the title and everything under it). */
@@ -250,6 +289,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .layer,
+  .back,
   .window {
     animation: none;
   }

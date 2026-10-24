@@ -65,6 +65,12 @@ export default function ContactWindows({ onClose }) {
   return (
     <div className={styles.layer} role="dialog" aria-modal="true" aria-label="Contact" onClick={onClose}>
       <div className={styles.windows} onClick={(e) => e.stopPropagation()}>
+        {/* Per Neama: back to the site, an icon is enough. */}
+        <button type="button" className={styles.back} onClick={onClose} aria-label="Back to the site">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 12H5M11 6l-6 6 6 6" />
+          </svg>
+        </button>
         <section className={styles.window}>
           <header className={styles.bar}>
             <span>Contact</span>
