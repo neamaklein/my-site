@@ -18,13 +18,16 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: clamp(16px, 2vw, 28px);
   width: min(1040px, 100%);
-  align-items: start;
+  /* Per Neama: both windows the same height. */
+  align-items: stretch;
 }
 
 .window {
   /* One inset for the bar and the body (per Neama: the bar's label lines
      up with the title and everything under it). */
   --pad: clamp(24px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   background: #fbf7f2;
   /* Per Neama: round corners, no outline around the window. */
@@ -60,7 +63,9 @@
   border-radius: 50%;
   background: none;
   color: inherit;
-  font: 400 22px/1 'Montserrat', var(--font-body);
+  font:
+    400 22px/1 'Montserrat',
+    var(--font-body);
   cursor: pointer;
 }
 
@@ -71,6 +76,9 @@
 }
 
 .body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: var(--pad);
 }
 
@@ -96,8 +104,10 @@
 .rows {
   display: grid;
   gap: 10px;
-  margin: clamp(24px, 3vw, 36px) 0 0;
-  padding: 0;
+  /* The taller window sets the height: the rows settle at the bottom, the
+     last one ending on the send button's line. */
+  margin: auto 0 0;
+  padding: clamp(24px, 3vw, 36px) 0 0;
   list-style: none;
 }
 
@@ -159,6 +169,7 @@
 
 .form {
   display: grid;
+  align-content: start;
   grid-template-columns: 1fr 1fr;
   gap: 18px 16px;
 }
