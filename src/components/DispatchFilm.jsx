@@ -1,8 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import poster from '../assets/home/film-poster.jpg';
+import ContactWindows from './ContactWindows.jsx';
+import { REVIEW } from '../review/flags.js';
 import styles from './DispatchFilm.module.css';
 
 // Home page: Neama's Creative Dispatch film (Blender render), played by
@@ -30,6 +32,17 @@ const DURATION = 46.4;
 // Per Neama: the departures board shows only once the camera has passed
 // the printer at the start (it leaves the frame at about 4.7s).
 const BOARD_FROM = 4.7;
+
+// The film's last frame (the camera settles at about 45.9s): where its
+// Instagram, LinkedIn and "Email me" sit, in % of the 1920×1080 frame.
+// Each opens the contact windows (per Neama). Review copy only until her
+// details are in.
+const CONTACT_FROM = 45.9;
+const SPOTS = [
+  { label: 'Instagram', left: 70.6, top: 25.9, width: 10.2, height: 4.6 },
+  { label: 'LinkedIn', left: 82.8, top: 25.9, width: 8.6, height: 4.6 },
+  { label: 'Email me', left: 39.8, top: 60.2, width: 10.9, height: 7.9 },
+];
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
@@ -134,6 +147,9 @@ export default function DispatchFilm({ projects }) {
     .map((project) => ({ project, on: windowed(time, STATIONS[project.dispatchNumber]) > 0 }));
   const here = stations.find((station) => station.on)?.project.slug;
   const boardIn = clamp((time - BOARD_FROM) / 0.6);
+  const [contact, setContact] = useState(false);
+  const atEnd = REVIEW && time >= CONTACT_FROM;
+  const closeContact = useCallback(() => setContact(false), []);
 
   // On a narrow screen the board scrolls sideways: keep the marked slot in
   // view (moving the board only, never the page).
@@ -190,6 +206,31 @@ export default function DispatchFilm({ projects }) {
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
           SCROLL ↓
         </p>
+
+        {/* The film's frame as the video covers the stage, so each spot
+            sits on its word at any screen size. */}
+        {atEnd && (
+          <div className={styles.frame}>
+            {SPOTS.map((spot) => (
+              <button
+                key={spot.label}
+                type="button"
+                className={styles.spot}
+                style={{
+                  left: `${spot.left}%`,
+                  top: `${spot.top}%`,
+                  width: `${spot.width}%`,
+                  height: `${spot.height}%`,
+                }}
+                onClick={() => setContact(true)}
+                aria-label={spot.label}
+              />
+            ))}
+          </div>
+        )}
+        {contact && (
+          <ContactWindows onClose={closeContact} categories={[...new Set(projects.map((p) => p.category))]} />
+        )}
       </div>
     </section>
   );

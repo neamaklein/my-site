@@ -10,6 +10,9 @@
   top: 0;
   height: 100svh;
   overflow: hidden;
+  /* clip, not just hidden: a spot cropped off a narrow screen must not
+     scroll the stage sideways when it takes focus. */
+  overflow: clip;
   background: #f3e6da;
 }
 
@@ -132,4 +135,32 @@
   .slot {
     padding: 14px 16px;
   }
+}
+
+/* The 16:9 film frame as object-fit: cover lays it on the stage. */
+.frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(100svh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.spot {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: box-shadow 0.2s ease;
+}
+
+.spot:hover,
+.spot:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+  outline: none;
 }
