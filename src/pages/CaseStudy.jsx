@@ -82,7 +82,7 @@ export default function CaseStudy() {
           ))}
           {project.spatialRenders && <SpatialRenders {...project.spatialRenders} />}
 
-          <CaseStudyFooter {...project.footer} />
+          <CaseStudyFooter {...project.footer} dispatchNumber={project.dispatchNumber} />
         </div>
       </article>
     </ReviewScope>

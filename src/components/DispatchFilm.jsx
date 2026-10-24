@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -45,12 +45,29 @@ export default function DispatchFilm({ projects }) {
   const boardRef = useRef(null);
   const [time, setTime] = useState(0);
   const [src] = useState(() => (window.matchMedia?.('(max-width: 900px)').matches ? film720 : film1080));
+  const { state } = useLocation();
+  const navigation = useNavigationType();
+
+  // Per Neama: coming back from a project (its top bar or footer link), the
+  // walk resumes at that project's station, not at the start.
+  useLayoutEffect(() => {
+    // Back/Forward keep the spot that page was left at (ScrollReset).
+    const station = navigation === 'PUSH' && STATIONS[state?.station];
+    const el = trackRef.current;
+    if (!station || !el) return;
+    const t = (station[0] + station[1]) / 2;
+    const range = el.offsetHeight - window.innerHeight;
+    window.scrollTo(0, el.offsetTop + (range * t) / (DURATION - 0.05));
+  }, [state, navigation]);
 
   useEffect(() => {
     const video = videoRef.current;
     const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     let target = 0;
     let frame = 0;
+    // The first position (a return to a station, or Back) is jumped to,
+    // not glided through from the start of the film.
+    let first = true;
 
     // Scroll sets a target time; each frame the film eases toward it, so
     // a flick of the wheel glides instead of jumping.
@@ -58,7 +75,8 @@ export default function DispatchFilm({ projects }) {
       frame = 0;
       if (!video) return;
       const current = video.currentTime;
-      const next = still ? target : current + (target - current) * 0.25;
+      const next = still || first ? target : current + (target - current) * 0.25;
+      first = false;
       if (Math.abs(next - current) > 0.01) video.currentTime = next;
       setTime(next);
       if (Math.abs(target - next) > 0.01) frame = requestAnimationFrame(tick);

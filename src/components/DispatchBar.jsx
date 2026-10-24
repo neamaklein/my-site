@@ -5,7 +5,7 @@ import styles from './DispatchBar.module.css';
 export default function DispatchBar({ dispatchNumber, category }) {
   return (
     <div className={styles.bar}>
-      <Link to="/" className={styles.back}>
+      <Link to="/" state={{ station: dispatchNumber }} className={styles.back}>
         <span aria-hidden="true">←</span>
         <span>Neama Klein</span>
       </Link>
