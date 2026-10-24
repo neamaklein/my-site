@@ -59,9 +59,9 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast
             filler.dataset.ratio = String(w / h);
           }
         });
-        // In a height-capped row a lone cell fills the (capped) row: a grow
-        // under 1 (a tall media) would leave it only that share of it.
-        cell.style.flexGrow = maxRowHeight && cells.length === 1 ? '1' : String(w / h);
+        // A lone cell in a height-capped row or a one-column set fills the
+        // row: a grow under 1 (a tall media) would leave it only that share.
+        cell.style.flexGrow = (maxRowHeight || columns === 1) && cells.length === 1 ? '1' : String(w / h);
       }
       // Once every media in the row has its ratio, cap the row's width.
       if (maxRowHeight && cells.length && cells.every((c) => c.dataset.ratio)) {
@@ -81,7 +81,7 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast
       root.removeEventListener('load', onLoad, true);
       root.removeEventListener('loadedmetadata', onLoad, true);
     };
-  }, [media, maxRowHeight]);
+  }, [media, maxRowHeight, columns]);
 
   const rows = [];
   for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));

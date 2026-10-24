@@ -2,14 +2,16 @@
 // Jordan's "Wheel of Time" series. There is no deck: the structure was
 // agreed with Neama, and the images are her full-quality mockups from the
 // "WOT BOOKS" folder, compressed for web. The only words on the page are
-// the series' own titles; the project text and the characters section
-// wait for Neama (the Characters.pdf copy repeats placeholder lines).
+// the series' own titles; the project text waits for Neama. The
+// characters sheet and the annotated Great Hunt cover & back are her
+// uploads.
 //
 // Not from Neama (structural labels only — rename freely):
 //   the title tag, meta labels/values, gallery headings "The Series" /
 //   "Cover & Back" / "Pattern".
 
 import hero from '../../assets/wot/hero.mp4';
+import characters from '../../assets/wot/characters/characters.jpg';
 
 const series = import.meta.glob('../../assets/wot/series/*.jpg', { eager: true, import: 'default' });
 const flat = import.meta.glob('../../assets/wot/flat/*.jpg', { eager: true, import: 'default' });
@@ -79,17 +81,26 @@ export const wot = {
       media: images(series, TITLES).filter((item) => item.note !== 'The Eye of the World'),
     },
     {
+      // Per Neama: the characters sheet (her upload) as its own section,
+      // above Cover & Back, under her heading; narrower than the page so the
+      // tall sheet reads as a list.
+      heading: 'דמויות',
+      columns: 1,
+      media: [{ kind: 'image', note: 'the characters', src: characters, size: { width: 60, align: 'center' } }],
+    },
+    {
       heading: 'Cover & Back',
       columns: 2,
       media: images(flat, ['The Eye of the World', 'The Great Hunt', 'A Crown of Swords', 'The Gathering Storm']),
     },
     {
       heading: 'Pattern',
-      // Per Neama: no sticky scrolling here, one under the other, each no
-      // taller than most of the screen.
+      // Per Neama: no sticky scrolling, and only The Eye of the World
+      // (The Shadow Rising and Winter's Heart aren't needed); no taller
+      // than most of the screen.
       columns: 1,
       maxRowHeight: '85svh',
-      media: images(repeat, ['The Eye of the World', 'The Shadow Rising', "Winter's Heart"]),
+      media: images(repeat, ['The Eye of the World']),
     },
   ],
 
