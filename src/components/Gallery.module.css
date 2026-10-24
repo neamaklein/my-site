@@ -361,6 +361,18 @@
   .leadFull .dense {
     gap: 6px;
   }
+  /* A grid of small ones under a large one keeps its columns on phones. */
+  .fillRows .row {
+    flex-direction: row;
+    gap: 6px;
+  }
+  .fillRows .cell {
+    flex-basis: 0;
+    width: auto;
+  }
+  .fillRows {
+    gap: 6px;
+  }
 }
 
 /* Media rise in as they enter the view (see .reveal in global.css). */

@@ -69,7 +69,11 @@ export const wot = {
   galleries: [
     {
       heading: 'The Series',
-      columns: 3,
+      // Per Neama: one large, the rest small in rows of four; a small one
+      // clicked swaps into the large place.
+      layout: 'lead',
+      columns: 4,
+      fillLast: true,
       media: images(series, TITLES),
     },
     {

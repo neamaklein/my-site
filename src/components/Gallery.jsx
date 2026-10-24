@@ -37,7 +37,7 @@ function Media({ item, ratio }) {
 // With `onPick`, each item is a button that reports its index. With
 // `maxRowHeight` (a CSS length), a row narrows and centres so it is never
 // taller than that.
-function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
+function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast = false }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -51,6 +51,14 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
       const cells = row ? [...row.children] : [];
       if (cell && w && h) {
         cell.dataset.ratio = String(w / h);
+        // Blank cells finishing a short last row take a media's ratio, so
+        // its media stay the size of the rows above.
+        root.querySelectorAll('[data-filler]').forEach((filler) => {
+          if (!filler.style.flexGrow) {
+            filler.style.flexGrow = String(w / h);
+            filler.dataset.ratio = String(w / h);
+          }
+        });
         // In a height-capped row a lone cell fills the (capped) row: a grow
         // under 1 (a tall media) would leave it only that share of it.
         cell.style.flexGrow = maxRowHeight && cells.length === 1 ? '1' : String(w / h);
@@ -79,7 +87,7 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
   for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));
 
   return (
-    <div className={`${className} ${maxRowHeight ? styles.keepRow : ''}`} ref={ref}>
+    <div className={`${className} ${maxRowHeight ? styles.keepRow : ''} ${fillLast ? styles.fillRows : ''}`} ref={ref}>
       {rows.map((row, r) => (
         <div className={`${styles.row} ${row.length === 1 && columns === 2 && r > 0 ? styles.single : ''}`} key={r}>
           {row.map((item, index) =>
@@ -100,6 +108,10 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
               </div>
             ),
           )}
+          {fillLast &&
+            Array.from({ length: columns - row.length }, (_, k) => (
+              <div className={styles.cell} data-filler aria-hidden="true" key={`f${k}`} />
+            ))}
         </div>
       ))}
     </div>
@@ -163,7 +175,7 @@ function DeviceVideo({ item, device }) {
 
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
-function Lead({ heading, eyebrow, media, columns, ratio, leadBleed }) {
+function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast }) {
   const [order, setOrder] = useState(() => media.map((_, i) => i));
   useEffect(() => setOrder(media.map((_, i) => i)), [media]);
   const [first, ...rest] = order.map((i) => media[i]).filter(Boolean);
@@ -185,7 +197,7 @@ function Lead({ heading, eyebrow, media, columns, ratio, leadBleed }) {
         ) : (
           <Media item={first} ratio={ratio} />
         )}
-        <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} onPick={pick} />
+        <Rows className={styles.dense} media={rest} columns={columns} ratio={ratio} onPick={pick} fillLast={fillLast} />
       </div>
     </section>
   );
@@ -223,6 +235,7 @@ export default function Gallery({
   textDir,
   textLang,
   rounded = false,
+  fillLast = false,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -301,7 +314,15 @@ export default function Gallery({
 
   if (layout === 'lead') {
     return (
-      <Lead heading={heading} eyebrow={eyebrow} media={media} columns={columns} ratio={ratio} leadBleed={leadBleed} />
+      <Lead
+        heading={heading}
+        eyebrow={eyebrow}
+        media={media}
+        columns={columns}
+        ratio={ratio}
+        leadBleed={leadBleed}
+        fillLast={fillLast}
+      />
     );
   }
 
