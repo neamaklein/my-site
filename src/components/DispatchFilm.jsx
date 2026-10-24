@@ -38,6 +38,7 @@ function windowed(t, [from, to], fade = 0.5) {
 export default function DispatchFilm({ projects }) {
   const trackRef = useRef(null);
   const videoRef = useRef(null);
+  const boardRef = useRef(null);
   const [time, setTime] = useState(0);
   const [src] = useState(() => (window.matchMedia?.('(max-width: 900px)').matches ? film720 : film1080));
 
@@ -78,12 +79,15 @@ export default function DispatchFilm({ projects }) {
     const unlock = () => {
       if (unlocked || !video) return;
       unlocked = true;
-      video.play?.().then(() => {
-        video.pause();
-        onScroll();
-      }).catch(() => {
-        unlocked = false;
-      });
+      video
+        .play?.()
+        .then(() => {
+          video.pause();
+          onScroll();
+        })
+        .catch(() => {
+          unlocked = false;
+        });
     };
     window.addEventListener('touchstart', unlock, { passive: true });
     window.addEventListener('pointerdown', unlock);
@@ -101,6 +105,22 @@ export default function DispatchFilm({ projects }) {
     };
   }, []);
 
+  // Board order follows the film: by dispatch number.
+  const stations = projects
+    .filter((project) => STATIONS[project.dispatchNumber])
+    .sort((a, b) => a.dispatchNumber.localeCompare(b.dispatchNumber))
+    .map((project) => ({ project, on: windowed(time, STATIONS[project.dispatchNumber]) > 0 }));
+  const here = stations.find((station) => station.on)?.project.slug;
+
+  // On a narrow screen the board scrolls sideways: keep the marked slot in
+  // view (moving the board only, never the page).
+  useEffect(() => {
+    const board = boardRef.current;
+    const slot = board?.querySelector('[data-here]');
+    if (!board || !slot || board.scrollWidth <= board.clientWidth) return;
+    board.scrollTo({ left: slot.offsetLeft - (board.clientWidth - slot.offsetWidth) / 2, behavior: 'smooth' });
+  }, [here]);
+
   return (
     <section ref={trackRef} className={styles.track} aria-label="Creative Dispatch — scroll to walk through">
       <div className={styles.stage}>
@@ -115,26 +135,23 @@ export default function DispatchFilm({ projects }) {
           aria-hidden="true"
         />
 
-        {projects.map((project) => {
-          const window_ = STATIONS[project.dispatchNumber];
-          if (!window_) return null;
-          const on = windowed(time, window_);
-          return (
-            <div
+        {/* Per Neama: a departures board along the bottom, as a printed
+            sign: every dispatch by number and name, the one the camera is
+            at marked; each opens its project. */}
+        <nav className={styles.board} aria-label="Dispatches" ref={boardRef}>
+          {stations.map(({ project, on }) => (
+            <Link
               key={project.slug}
-              className={styles.station}
-              style={{ opacity: on, pointerEvents: on > 0.5 ? 'auto' : 'none' }}
+              to={`/work/${project.slug}`}
+              className={`${styles.slot} ${on ? styles.here : ''}`}
+              aria-current={on ? 'location' : undefined}
+              data-here={on ? '' : undefined}
             >
-              <span className={styles.stationNo}>
-                DISPATCH № {project.dispatchNumber} // {project.category}
-              </span>
-              <span className={styles.stationName}>{project.title.name}</span>
-              <Link to={`/work/${project.slug}`} className={styles.open} tabIndex={on > 0.5 ? 0 : -1}>
-                Open the box →
-              </Link>
-            </div>
-          );
-        })}
+              <span className={styles.slotNo}>{project.dispatchNumber}</span>
+              <span className={styles.slotName}>{project.title.name}</span>
+            </Link>
+          ))}
+        </nav>
 
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
           SCROLL ↓
