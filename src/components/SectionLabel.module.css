@@ -9,6 +9,15 @@
   align-self: start;
 }
 
+.eyebrow {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: var(--tag-size);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
 .heading {
   font-family: var(--font-display);
   font-weight: 700;

@@ -47,12 +47,17 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight }) {
       const w = el.naturalWidth || el.videoWidth;
       const h = el.naturalHeight || el.videoHeight;
       const cell = el.closest('[data-cell]');
-      if (cell && w && h) cell.style.flexGrow = String(w / h);
-      // Once every media in the row has its ratio, cap the row's width.
       const row = cell?.parentElement;
       const cells = row ? [...row.children] : [];
-      if (maxRowHeight && cells.length && cells.every((c) => c.style.flexGrow)) {
-        const sum = cells.reduce((total, c) => total + parseFloat(c.style.flexGrow), 0);
+      if (cell && w && h) {
+        cell.dataset.ratio = String(w / h);
+        // In a height-capped row a lone cell fills the (capped) row: a grow
+        // under 1 (a tall media) would leave it only that share of it.
+        cell.style.flexGrow = maxRowHeight && cells.length === 1 ? '1' : String(w / h);
+      }
+      // Once every media in the row has its ratio, cap the row's width.
+      if (maxRowHeight && cells.length && cells.every((c) => c.dataset.ratio)) {
+        const sum = cells.reduce((total, c) => total + parseFloat(c.dataset.ratio), 0);
         const gaps = (cells.length - 1) * (parseFloat(getComputedStyle(row).columnGap) || 0);
         row.style.width = '100%';
         row.style.maxWidth = `calc(${maxRowHeight} * ${sum} + ${gaps}px)`;
@@ -171,7 +176,7 @@ function Lead({ heading, media, columns, ratio, leadBleed }) {
 
   return (
     <section className={styles.wrap}>
-      <SectionLabel heading={heading} className={styles.topLabel} />
+      <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
       <div className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}>
         {leadBleed ? (
           <div className={styles.leadBleed}>
@@ -214,6 +219,7 @@ export default function Gallery({
   device,
   after = [],
   text = [],
+  eyebrow,
   textDir,
   textLang,
 }) {
@@ -242,7 +248,7 @@ export default function Gallery({
   if (layout === 'wide') {
     return (
       <section className={styles.wrap}>
-        <SectionLabel heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
         <div className={styles.stack}>
           {media.map((item, index) => (
             <div className={`${styles.card} ${styles.wideCard}`} key={index}>
@@ -271,7 +277,7 @@ export default function Gallery({
   if (layout === 'device') {
     return (
       <section className={styles.wrap}>
-        <SectionLabel heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
         {media.map((item, index) => (
           <DeviceVideo key={index} item={item} device={device} />
         ))}
@@ -302,7 +308,7 @@ export default function Gallery({
   if (layout === 'asym' && pinned > 1) {
     return (
       <section className={styles.wrap}>
-        <SectionLabel heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
         <div className={`${styles.asym} ${styles.asymPinned}`}>
           <div className={styles.asymLead}>
             {media.slice(0, pinned).map((item, index) => (
@@ -324,7 +330,7 @@ export default function Gallery({
   if (layout === 'asym') {
     return (
       <section className={styles.wrap}>
-        <SectionLabel heading={heading} className={styles.topLabel} />
+        <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
         <div className={styles.asym}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
@@ -336,7 +342,7 @@ export default function Gallery({
 
   return (
     <section className={styles.wrap}>
-      <SectionLabel heading={heading} className={styles.topLabel} />
+      <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
       {/* `text`: the section's own copy from the deck, above its media. */}
       {text.length > 0 && (
         <div className={styles.text} dir={textDir} lang={textLang}>

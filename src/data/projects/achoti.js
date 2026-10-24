@@ -1,42 +1,42 @@
-// Content transcribed verbatim from the "UX/UI_Amit - Neama" Figma Slides
-// deck (PjkAvn1QVIZgqFMlEK0tk3, Neama Klein & Amit Tal), in its own
-// language (Hebrew), mapped onto the DIMENSO case-study template.
-// Slides kept, per Neama: the problem (2), conclusions (6), format (7),
-// infrastructure (8), the characters (9, 26–27), logo, colours, type and
-// icons (1, 22–25), wireframes (28) and mockups (29). Left out: 5W (3),
-// competitor research (4–5), audiences, personas and journeys (10–21),
-// the QR code (31) and the thank-you slide (32, used here as the hero).
+// ACHOTI, per Neama: the flow and every text from Amit Tal's case study of
+// the same project (amit-touch-portfolio.onrender.com, achotiData.js), in
+// English. Each card there is a chapter here, in her order: challenge,
+// solution, wireframes, identity, interface language, characters, core
+// experience, indoor navigation, treatment journey, the film, the final
+// experience. Her closing card ("Return to the archive") is this page's
+// footer. Card tags (e.g. "Problem Discovery · Patient Stress") are left
+// out; only the intro's tags are used, as the category.
 //
-// Images: the character illustrations are the originals embedded in
-// Neama's UX UI.fig; everything built in Figma itself (logo, screens,
-// wireframes, icons) is cropped from the deck render — swap for full-size
-// exports when available. The explainer video (slide 30) isn't in the
-// files yet: its slot shows in the review copy only.
-//
-// Not from the deck (structural labels only — rename freely):
-//   meta labels/values, section headings "Mockups" /
-//   "Wireframes" / "Video" (kept in English like the other projects;
-//   "עיצוב הדמויות" is Neama's).
+// Images and the film are Amit's files from her site. The navigation and
+// queue details and the primary logo are padded with transparent space so
+// they sit at their own size beside taller media (Rows keeps a row at one
+// height).
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
 import hero from '../../assets/achoti/hero.jpg';
-import logo from '../../assets/achoti/logo.png';
-import logos from '../../assets/achoti/logos.png';
-import lineup from '../../assets/achoti/lineup.png';
+import sceneCorridor from '../../assets/achoti/scenes/scene-corridor.png';
+import sceneCar from '../../assets/achoti/scenes/scene-car.png';
+import mainThinking from '../../assets/achoti/characters/main-thinking.png';
+import mainStanding from '../../assets/achoti/characters/main-standing.png';
+import patientUser from '../../assets/achoti/characters/patient-user.png';
+import pregnantUser from '../../assets/achoti/characters/pregnant-user.png';
+import visitorUser from '../../assets/achoti/characters/visitor-user.png';
 import wireframes from '../../assets/achoti/wireframes.png';
-import mockups from '../../assets/achoti/mockups.png';
+import logoSystem from '../../assets/achoti/identity/logo-system.png';
+import palette from '../../assets/achoti/identity/palette.png';
+import logoPrimary from '../../assets/achoti/identity/logo-primary.png';
+import typography from '../../assets/achoti/identity/typography.png';
+import icons from '../../assets/achoti/identity/icons.png';
+import roleSelection from '../../assets/achoti/screens/role-selection.png';
+import arrival from '../../assets/achoti/screens/arrival.png';
+import dashboard from '../../assets/achoti/screens/dashboard.png';
+import indoorNavigation from '../../assets/achoti/screens/indoor-navigation.png';
+import navTurn from '../../assets/achoti/screens/nav-turn.png';
+import navEta from '../../assets/achoti/screens/nav-eta.png';
+import queuePanel from '../../assets/achoti/screens/queue-panel.png';
+import inAction from '../../assets/achoti/in-action.mp4';
 
-const character = import.meta.glob('../../assets/achoti/character/*.jpg', { eager: true, import: 'default' });
-const icons = import.meta.glob('../../assets/achoti/icons/*.png', { eager: true, import: 'default' });
-
-// Files are numbered in deck order, so sorting the paths keeps that order.
-const inOrder = (files) =>
-  Object.keys(files)
-    .sort()
-    .map((path) => files[path]);
-
-const images = (files, notes) =>
-  inOrder(files).map((src, index) => ({ kind: 'image', src, note: notes?.[index] ?? '' }));
+const image = (src, note, caption) => ({ kind: 'image', src, note, ...(caption ? { caption } : {}) });
 
 export const achoti = {
   slug: 'achoti',
@@ -44,97 +44,165 @@ export const achoti = {
   category: 'UX_UI',
 
   hero: {
-    media: { kind: 'image', note: 'אחותי — logo, the app and its character', src: hero },
+    media: { kind: 'image', note: 'ACHOTI — logo, the app and its character', src: hero },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },
 
   title: {
-    tag: 'קורס UX/UI · נעמה קליין ועמית טל',
-    name: 'אחותי',
-    tagline: 'המלווה האישית שלך',
+    tag: '01 · INTRODUCTION · UX/UI · HEALTHCARE',
+    name: 'ACHOTI',
+    tagline: 'Hospital Navigation & Support System',
   },
 
   meta: [
     { label: 'Course', value: 'UX/UI' },
     { label: 'Team', value: 'Neama Klein · Amit Tal' },
-    { label: 'Category', value: 'UX/UI' },
+    { label: 'Category', value: 'UX/UI · Healthcare · Digital Companion' },
+    { label: 'Year', value: '2026' },
   ],
 
   strategy: {
-    heading: 'Strategy',
-    dir: 'rtl',
-    lang: 'he',
     paragraphs: [
-      { lead: 'הבעיה המרכזית:', text: ' התמצאות במרחבים רפואיים מורכבים (בתי חולים) היא חוויה מתסכלת, מלווה בחרדה גבוהה, אובדן זמן יקר, וקשיי ניווט פיזיים וקוגניטיביים. מטופלים ומלווים מגיעים במצבי לחץ (בין אם מדובר בבדיקה שגרתית, הגעה דחופה למיון, או ליווי לידה), מוצאים את עצמם הולכים לאיבוד בין מחלקות, מסדרונות ואגפים, ונאלצים להתמודד עם בירוקרטיה מסורבלת ותורים לא ברורים.' },
-      { lead: 'המסקנות המרכזיות:', text: '' },
-      { lead: 'ביטול החיכוך:', text: ' המשתמש לא צריך לחפש קודים או לשאול אנשים בדרך; האפליקציה חייבת ללוות אותו אוטומטית מרגע היציאה מהבית ועד לכיסא בחדר ההמתנה.' },
-      { lead: 'התאמה למצבי חירום וסטרס:', text: ' עיצוב ממשק חייב להיות נקי, בעל ניגודיות גבוהה (כפי שבא לידי ביטוי בשפת המותג הטורקיזית-ירוקה), עם כפתורים ברורים ונגישים שמפחיתים עומס קוגניטיבי.' },
-      { lead: 'הנגשת מידע מורכב:', text: ' שילוב בין ניווט פיזי מדויק לבין ניהול התיק הרפואי וההנחיות (אילו מסמכים צריך להביא, פענוח זמנים) תחת קורת גג דיגיטלית אחת.' },
-      { lead: 'הפורמט:', text: ' אפליקציית מובייל ייעודית המרכזת את כל מסע המטופל – מהתכנון המוקדם בבית, דרך ההגעה והחניה, הניווט הפנימי במחלקות, ועד לסיכום הביקור.' },
-      { lead: 'התשתית והטכנולוגיה:', text: '' },
-      { lead: 'מפות פנימיות מובנות:', text: ' הסתמכות על מערכת מיפוי פנימית שטעונה מראש באפליקציה ומתעדכנת בענן, מה שמייתר לחלוטין את הצורך בסריקת QR פיזית בשטח בית החולים.' },
-      { lead: 'ניווט פנים-מבני מתקדם:', text: ' שילוב אלמנטים של מציאות רבודה והכוונת צעדים מדויקת על גבי מסך הטלפון למציאת מחלקות, מעליות וחדרי בדיקה מורכבים.' },
-      { lead: 'אוטומציה וסנכרון בזמן אמת:', text: ' חיבור למערכות הניהול של בית החולים המזהות את הגעת המשתמש (למשל בכניסה לחניה או למתחם) ומפעילות אוטומטית את צ׳ק-האין וההנווט ליעד הספציפי (תורים, יולדות או מיון).' },
+      'A personal hospital companion that turns a stressful medical journey into one continuous, reassuring experience — from preparation at home to the exact room inside the hospital.',
     ],
-  },
-
-  brandBook: {
-    heading: 'Graphic Index',
-    labels: {
-      element: 'Logo variations',
-      primaryColors: 'צבעוניות ראשית',
-      secondaryColors: 'צבעוניות משנית',
-      fonts: 'פונט',
-    },
-    logoSrc: logo,
-    elementSrc: logos,
-    primaryColors: [
-      { hex: '#00736C' },
-      { hex: '#00A79D' },
-      { hex: '#B3E5E1' },
-      { hex: '#E0F4F2' },
-      { hex: '#A6360F' },
-      { hex: '#E1582C' },
-      { hex: '#F8D4C5' },
-      { hex: '#FCEDE7' },
-    ],
-    secondaryColors: [
-      { name: '', hex: '#1F2D3D' },
-      { name: '500', hex: '#575C60' },
-      { name: '300', hex: '#D9D9D9' },
-      { name: '100', hex: '#E7E7E7' },
-      { name: 'white', hex: '#FFFFFF' },
-    ],
-    fonts: [{ name: 'אסימון', sample: 'אבג' }],
-    // Per Neama: each icon on its own, wrapping to fit the card.
-    iconSet: inOrder(icons).map((src) => ({ src, name: '' })),
   },
 
   galleries: [
     {
-      heading: 'Mockups',
-      columns: 1,
-      media: [{ kind: 'image', note: 'app screens', src: mockups }],
-    },
-    {
-      // Per Neama: no text here, and the heading in Hebrew.
-      heading: 'עיצוב הדמויות',
+      eyebrow: '02 · The Challenge',
+      heading: 'The Hospital Experience is Not Only Medical',
+      text: [
+        'Patients and families must juggle appointments, preparation instructions, documents, complex corridors, and the constant stress of what happens next. Uncertainty and fragmented information define the journey.',
+      ],
       columns: 2,
+      maxRowHeight: '70svh',
       media: [
-        { kind: 'image', note: 'the four characters', src: lineup },
-        ...images(character, ['character poses', 'in the waiting room', 'arriving by car']),
+        image(sceneCorridor, 'hospital corridor sketch', 'Hospital Corridors'),
+        image(mainThinking, 'the companion, thinking', 'Information Overload'),
       ],
     },
     {
-      heading: 'Wireframes',
-      columns: 1,
-      media: [{ kind: 'image', note: 'wireframes', src: wireframes }],
+      eyebrow: '03 · The Solution',
+      heading: 'A Continuous Digital Companion',
+      text: [
+        'ACHOTI unites every phase of the medical visit into one reassuring narrative: clear preparation at home, contextual guidance upon arrival, and seamless indoor wayfinding from doorstep to consultation.',
+      ],
+      columns: 2,
+      maxRowHeight: '70svh',
+      media: [image(sceneCar, 'arriving by car', 'Journey Preparation'), image(roleSelection, 'role selection screen')],
     },
     {
-      heading: 'Video',
+      eyebrow: '04 · User Flow & Wireframes',
+      heading: 'Structure First. Visual Design Comes Later.',
+      text: [
+        'The flow, hierarchy and pacing were defined before any final interface styling. Each screen focuses on the next immediate decision.',
+      ],
       columns: 1,
-      // TODO(Neama): the explainer video (slide 30) goes here.
-      media: [{ kind: 'video', note: 'סרטון המחשה', reviewOnly: true }],
+      maxRowHeight: '85svh',
+      media: [image(wireframes, 'wireframes', '7-Screen System Architecture')],
+    },
+    {
+      eyebrow: '05 · Visual Identity',
+      heading: 'Clinical Clarity, Without Feeling Clinical.',
+      text: [
+        'The identity combines a calm turquoise system with a warm orange accent. The logo, palette and interface language feel reliable and legible while still carrying a distinctly human tone.',
+      ],
+      columns: 3,
+      media: [
+        image(logoSystem, 'logo system', 'Logo System'),
+        image(palette, 'color palette', 'Color Palette'),
+        image(logoPrimary, 'primary logo'),
+      ],
+    },
+    {
+      eyebrow: '06 · Interface Language',
+      heading: 'A System Built to Stay Readable Under Pressure.',
+      text: [
+        'Typography and iconography are direct, high-contrast and intentionally familiar so users can recognize actions quickly while moving through the hospital.',
+      ],
+      columns: 2,
+      media: [image(typography, 'typography', 'Typography'), image(icons, 'icon system', 'Icon System')],
+    },
+    {
+      eyebrow: '07 · Character Design / Companion System',
+      heading: 'A Human Presence Across the Entire Journey',
+      text: [
+        'The companion is a recurring product cue. Poses communicate context and emotion, while the wider character family keeps the visual language inclusive and consistent.',
+      ],
+      columns: 4,
+      maxRowHeight: '70svh',
+      media: [
+        image(mainStanding, 'the companion', 'Companion Persona'),
+        image(patientUser, 'patient', 'Patient Persona'),
+        image(pregnantUser, 'maternity', 'Maternity Persona'),
+        image(visitorUser, 'visitor', 'Visitor Persona'),
+      ],
+    },
+    {
+      eyebrow: '08 · Core Experience',
+      heading: 'The Journey Adapts to Why You Are Here',
+      text: [
+        'The experience changes according to the user context while keeping orientation immediate and simple. Clear next steps appear precisely when needed.',
+      ],
+      columns: 3,
+      maxRowHeight: '70svh',
+      media: [
+        image(roleSelection, 'role selection screen', '01 · Role & Intake Flow'),
+        image(arrival, 'arrival screen', '02 · Hospital Arrival Check-in'),
+        image(dashboard, 'treatment status screen', '03 · Treatment & Queue Status'),
+      ],
+    },
+    {
+      eyebrow: '09 · Indoor Navigation',
+      heading: 'Wayfinding Becomes the Interface',
+      text: [
+        'The physical environment becomes the main reference. Direction, remaining walking time, accessibility information and the companion stay visible without forcing the user to decode a separate map.',
+      ],
+      columns: 3,
+      maxRowHeight: '70svh',
+      media: [
+        image(navTurn, 'turn guidance', 'Turn Guidance & Destination'),
+        image(indoorNavigation, 'indoor navigation screen'),
+        image(navEta, 'live ETA', 'Live ETA & Accessibility'),
+      ],
+    },
+    {
+      eyebrow: '10 · Treatment Journey',
+      heading: 'A Single Place to Understand What Happens Next',
+      text: [
+        'Current status, upcoming steps and treatments are organized around continuous progress rather than fragmented departments, so patients always know what comes next.',
+      ],
+      columns: 2,
+      maxRowHeight: '70svh',
+      media: [
+        image(queuePanel, 'care pathway and queue tracker', 'Care Pathway & Queue Tracker'),
+        image(dashboard, 'treatment status screen'),
+      ],
+    },
+    {
+      eyebrow: '11 · Product in Motion',
+      heading: 'Experience ACHOTI in Action',
+      text: [
+        'Watch how intuitive transitions and empathetic guidance transform a daunting hospital visit into a calm, confident, and supported experience.',
+      ],
+      columns: 1,
+      maxRowHeight: '80svh',
+      media: [{ kind: 'video', note: 'ACHOTI in action', src: inAction, loop: true }],
+    },
+    {
+      eyebrow: '12 · Final Experience',
+      heading: 'From “Where Do I Go?” to “I Know What Happens Next.”',
+      text: [
+        'A human visual language and contextual guidance turn hospital navigation into a calmer, more understandable experience.',
+      ],
+      columns: 4,
+      maxRowHeight: '70svh',
+      media: [
+        image(roleSelection, 'onboarding role'),
+        image(indoorNavigation, 'indoor wayfinding'),
+        image(dashboard, 'treatment pathway'),
+        image(arrival, 'arrival guidance'),
+      ],
     },
   ],
 
