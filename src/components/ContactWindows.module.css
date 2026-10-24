@@ -120,11 +120,23 @@
   stroke-linejoin: round;
 }
 
-a.row:hover,
-a.row:focus-visible {
+.row:hover,
+.row:focus-visible {
   background: var(--color-frame);
   color: #fff;
   outline: none;
+}
+
+.rowText {
+  display: grid;
+  gap: 2px;
+}
+
+.rowDetail {
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 13px;
+  text-transform: none;
+  opacity: 0.75;
 }
 
 .rowLabel {

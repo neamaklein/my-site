@@ -44,11 +44,16 @@ const InstagramIcon = () => (
   </svg>
 );
 
-// Neama's profiles; her email isn't in yet, so that row doesn't link.
+// Neama's email and profiles, each with its address under the label.
 const ROWS = [
-  { label: 'Email me', Icon: MailIcon },
-  { label: 'LinkedIn', Icon: LinkedInIcon, href: 'https://www.linkedin.com/in/neama-klein-6b8981368/' },
-  { label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/neamak2001/' },
+  { label: 'Email me', Icon: MailIcon, href: 'mailto:neama.klein@gmail.com', detail: 'neama.klein@gmail.com' },
+  {
+    label: 'LinkedIn',
+    Icon: LinkedInIcon,
+    href: 'https://www.linkedin.com/in/neama-klein-6b8981368/',
+    detail: 'Neama Klein',
+  },
+  { label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/neamak2001/', detail: '@neamak2001' },
 ];
 
 export default function ContactWindows({ onClose }) {
@@ -72,11 +77,14 @@ export default function ContactWindows({ onClose }) {
             <h2 className={styles.title}>What should we plan next?</h2>
             <p className={styles.lead}>Let’s talk. Have a project in mind?</p>
             <ul className={styles.rows}>
-              {ROWS.map(({ label, Icon, href }) => {
+              {ROWS.map(({ label, Icon, href, detail }) => {
                 const content = (
                   <>
                     <Icon />
-                    <span className={styles.rowLabel}>{label}</span>
+                    <span className={styles.rowText}>
+                      <span className={styles.rowLabel}>{label}</span>
+                      <span className={styles.rowDetail}>{detail}</span>
+                    </span>
                     <span className={styles.arrow} aria-hidden="true">
                       ↗
                     </span>
@@ -84,13 +92,13 @@ export default function ContactWindows({ onClose }) {
                 );
                 return (
                   <li key={label}>
-                    {href ? (
-                      <a className={styles.row} href={href} target="_blank" rel="noreferrer">
-                        {content}
-                      </a>
-                    ) : (
-                      <span className={styles.row}>{content}</span>
-                    )}
+                    <a
+                      className={styles.row}
+                      href={href}
+                      {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })}
+                    >
+                      {content}
+                    </a>
                   </li>
                 );
               })}
