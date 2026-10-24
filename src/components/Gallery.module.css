@@ -77,6 +77,12 @@
   gap: var(--gutter);
 }
 
+/* `rounded`: media with round corners (per Neama, the Spin Sip posters). */
+.rounded img,
+.rounded video {
+  border-radius: 20px;
+}
+
 /* Rows share one height: each cell grows by its media's width-to-height
    ratio (set once the media loads), so neighbours start and end on the
    same lines instead of leaving ragged bottoms. */

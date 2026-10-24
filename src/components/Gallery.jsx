@@ -222,6 +222,7 @@ export default function Gallery({
   eyebrow,
   textDir,
   textLang,
+  rounded = false,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -353,7 +354,13 @@ export default function Gallery({
           ))}
         </div>
       )}
-      <Rows className={styles.columns} media={media} columns={columns} ratio={ratio} maxRowHeight={maxRowHeight} />
+      <Rows
+        className={`${styles.columns} ${rounded ? styles.rounded : ''}`}
+        media={media}
+        columns={columns}
+        ratio={ratio}
+        maxRowHeight={maxRowHeight}
+      />
       {/* `after`: media below the rows, edge to edge. */}
       {after.map((item, index) => (
         <div className={styles.after} key={index}>

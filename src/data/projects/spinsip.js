@@ -4,17 +4,19 @@
 // compressed for web. Slide 2 (blank in the export) is left out, per
 // Neama; only what the deck shows is here.
 //
-// Still missing: the slide-6 menu photo (Neama is adding it).
+// The menu on a clipboard is Neama's own upload (Instagram post 16).
 //
 // Not from the deck (structural labels only — rename freely):
 //   meta labels/values, gallery headings "Posters" / "In Use".
 
 import logo from '../../assets/spinsip/logo.mp4';
 import hero from '../../assets/spinsip/hero.jpg';
+import useMenu from '../../assets/spinsip/use/01-menu.jpg';
+import useDrink from '../../assets/spinsip/use/02-drink.jpg';
+import useBoxes from '../../assets/spinsip/use/03-boxes.jpg';
 
 const posters = import.meta.glob('../../assets/spinsip/posters/*.png', { eager: true, import: 'default' });
 const icons = import.meta.glob('../../assets/spinsip/icons/*.svg', { eager: true, import: 'default' });
-const inUse = import.meta.glob('../../assets/spinsip/use/*.jpg', { eager: true, import: 'default' });
 
 // Files are numbered in deck order, so sorting the paths keeps that order.
 const inOrder = (files) =>
@@ -51,7 +53,10 @@ export const spinsip = {
     heading: 'Strategy',
     paragraphs: [
       'The brief was to develop a complete visual language for a food stand located inside the Tel Aviv Velodrome, based on research of the space, its atmosphere, and the movement culture surrounding it. The challenge was to translate the feeling of speed, flow, energy, and continuous motion into a branded culinary experience.',
-      { lead: 'Spin Sip', text: ' is a fast-paced pit stop for light bites and quick drinks, designed for people constantly in motion. Inspired by the endless looping movement of the velodrome track, the project transforms a short stop into a moment of recharge - quick fuel, minimal pause, and immediate return to motion.' },
+      {
+        lead: 'Spin Sip',
+        text: ' is a fast-paced pit stop for light bites and quick drinks, designed for people constantly in motion. Inspired by the endless looping movement of the velodrome track, the project transforms a short stop into a moment of recharge - quick fuel, minimal pause, and immediate return to motion.',
+      },
       'The identity system combines dynamic forms, flowing lines, bold typography, and a streamlined spatial experience that reflects the rhythm and intensity of movement.',
     ],
   },
@@ -82,16 +87,19 @@ export const spinsip = {
     {
       heading: 'Posters',
       columns: 3,
+      // Per Neama: round corners.
+      rounded: true,
       media: images(posters, ['Bite.Boost.Go', 'Fuel.the.Next.Lap', 'Light.Fast.Efficient.']),
     },
     {
       heading: 'In Use',
-      columns: 3,
+      // Per Neama: one large, two under it. The menu is her upload.
+      layout: 'lead',
+      columns: 2,
       media: [
-        // TODO(Neama): the slide-6 original goes here; until then the slot
-        // shows only in the review copy.
-        { kind: 'image', note: 'menu on a clipboard', reviewOnly: true },
-        ...images(inUse, ['a drink at the stand', 'BOOST boxes on the counter']),
+        { kind: 'image', note: 'BOOST boxes on the counter', src: useBoxes },
+        { kind: 'image', note: 'menu on a clipboard', src: useMenu },
+        { kind: 'image', note: 'a drink at the stand', src: useDrink },
       ],
     },
   ],
