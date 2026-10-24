@@ -86,6 +86,24 @@ video {
   font-display: swap;
 }
 
+/* Montserrat (OFL), per Neama: the project names on the home page's
+   departures board. */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/Montserrat-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/Montserrat-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --font-serif: 'Instrument Serif', 'New York', Georgia, serif;
 }
