@@ -85,8 +85,10 @@ export const wot = {
     },
     {
       heading: 'Pattern',
-      layout: 'wide',
-      ratio: '6 / 5',
+      // Per Neama: no sticky scrolling here, one under the other, each no
+      // taller than most of the screen.
+      columns: 1,
+      maxRowHeight: '85svh',
       media: images(repeat, ['The Eye of the World', 'The Shadow Rising', "Winter's Heart"]),
     },
   ],
