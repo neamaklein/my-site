@@ -20,9 +20,9 @@
   object-fit: cover;
 }
 
-/* Departures board: a printed sign along the bottom, white on the frame
-   colour (per Neama), one slot per dispatch; the slot the camera is at
-   is lit. */
+/* Departures board along the bottom: white type straight on the film
+   (per Neama), one slot per dispatch; the slot the camera is at is lit
+   and barred. */
 .board {
   position: absolute;
   left: 0;
@@ -32,7 +32,6 @@
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--color-frame);
 }
 
 .board::-webkit-scrollbar {
@@ -40,6 +39,7 @@
 }
 
 .slot {
+  position: relative;
   flex: 1 0 auto;
   display: flex;
   align-items: baseline;
@@ -51,10 +51,11 @@
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.62);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+  /* Straight on the film, with no panel (per Neama): a soft shadow keeps
+     the white legible over the light walls. */
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  transition: color 0.2s ease;
 }
 
 .slot:first-child {
@@ -68,13 +69,24 @@
 .here,
 .slot:hover,
 .slot:focus-visible {
-  background: rgba(255, 255, 255, 0.14);
   color: #fff;
   outline: none;
 }
 
 .here .slotNo {
   opacity: 1;
+}
+
+/* The slot the camera is at: a thin white bar over it (per Neama). */
+.here::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 .hint {
