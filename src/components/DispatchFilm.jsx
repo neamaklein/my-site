@@ -27,6 +27,10 @@ const STATIONS = {
 // nothing until the page is touched).
 const DURATION = 46.4;
 
+// Per Neama: the departures board shows only once the camera has passed
+// the printer at the start (it leaves the frame at about 4.7s).
+const BOARD_FROM = 4.7;
+
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
 // 0 → 1 → 0 across [from, to] seconds, with half-second fades.
@@ -111,6 +115,7 @@ export default function DispatchFilm({ projects }) {
     .sort((a, b) => a.dispatchNumber.localeCompare(b.dispatchNumber))
     .map((project) => ({ project, on: windowed(time, STATIONS[project.dispatchNumber]) > 0 }));
   const here = stations.find((station) => station.on)?.project.slug;
+  const boardIn = clamp((time - BOARD_FROM) / 0.6);
 
   // On a narrow screen the board scrolls sideways: keep the marked slot in
   // view (moving the board only, never the page).
@@ -138,7 +143,16 @@ export default function DispatchFilm({ projects }) {
         {/* Per Neama: a departures board along the bottom, as a printed
             sign: every dispatch by number and name, the one the camera is
             at marked; each opens its project. */}
-        <nav className={styles.board} aria-label="Dispatches" ref={boardRef}>
+        <nav
+          className={styles.board}
+          aria-label="Dispatches"
+          ref={boardRef}
+          style={{
+            opacity: boardIn,
+            visibility: boardIn > 0 ? 'visible' : 'hidden',
+            pointerEvents: boardIn > 0.5 ? 'auto' : 'none',
+          }}
+        >
           {stations.map(({ project, on }) => (
             <Link
               key={project.slug}

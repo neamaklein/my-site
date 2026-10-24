@@ -163,7 +163,7 @@ function DeviceVideo({ item, device }) {
 
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
-function Lead({ heading, media, columns, ratio, leadBleed }) {
+function Lead({ heading, eyebrow, media, columns, ratio, leadBleed }) {
   const [order, setOrder] = useState(() => media.map((_, i) => i));
   useEffect(() => setOrder(media.map((_, i) => i)), [media]);
   const [first, ...rest] = order.map((i) => media[i]).filter(Boolean);
@@ -299,7 +299,9 @@ export default function Gallery({
   }
 
   if (layout === 'lead') {
-    return <Lead heading={heading} media={media} columns={columns} ratio={ratio} leadBleed={leadBleed} />;
+    return (
+      <Lead heading={heading} eyebrow={eyebrow} media={media} columns={columns} ratio={ratio} leadBleed={leadBleed} />
+    );
   }
 
   // With `pinned`, the first media stack in the large cell: each pins
