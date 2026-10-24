@@ -40,19 +40,12 @@ import walkthroughPoster from '../../assets/dimenso/walkthrough/walkthrough-post
 import macbookFrame from '../../assets/dimenso/walkthrough/macbook-frame.webp';
 
 import spatial01 from '../../assets/dimenso/spatial/spatial-01.jpg';
-import spatial02 from '../../assets/dimenso/spatial/spatial-02.jpg';
 import spatial03 from '../../assets/dimenso/spatial/spatial-03.jpg';
 import spatial04 from '../../assets/dimenso/spatial/spatial-04.jpg';
-import spatial05 from '../../assets/dimenso/spatial/spatial-05.jpg';
 import spatial06 from '../../assets/dimenso/spatial/spatial-06.jpg';
 import spatial07 from '../../assets/dimenso/spatial/spatial-07.jpg';
 import spatial08 from '../../assets/dimenso/spatial/spatial-08.jpg';
-import spatial09 from '../../assets/dimenso/spatial/spatial-09.jpg';
-import spatial10 from '../../assets/dimenso/spatial/spatial-10.jpg';
-import spatial11 from '../../assets/dimenso/spatial/spatial-11.jpg';
-import spatial12 from '../../assets/dimenso/spatial/spatial-12.jpg';
 import spatial13 from '../../assets/dimenso/spatial/spatial-13.jpg';
-import spatial14 from '../../assets/dimenso/spatial/spatial-14.jpg';
 
 export const dimenso = {
   slug: 'dimenso',
@@ -224,24 +217,12 @@ export const dimenso = {
     },
   ],
 
+  // Per Neama: no image twice in a row. The Figma strip held seven renders
+  // each twice (01/02, 03/11, 04/05, 06/12, 07/10, 08/09, 13/14 are the
+  // same picture); each now shows once, and the strip loops.
   spatialRenders: {
     note: 'Interior renders — physical application of the Dimenso identity (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
-    images: [
-      spatial01,
-      spatial02,
-      spatial03,
-      spatial04,
-      spatial05,
-      spatial06,
-      spatial07,
-      spatial08,
-      spatial09,
-      spatial10,
-      spatial11,
-      spatial12,
-      spatial13,
-      spatial14,
-    ],
+    images: [spatial01, spatial03, spatial04, spatial06, spatial07, spatial08, spatial13],
   },
 
   footer: {
