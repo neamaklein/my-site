@@ -9,15 +9,14 @@ import styles from './ContactWindows.module.css';
 //
 // Design only for now (per Neama): the form doesn't send yet.
 // Project types: Amit's list and the site's own categories, together
-// (per Neama), "Other" last.
+// (per Neama; spatial branding and experience as one), "Other" last.
 const PROJECT_TYPES = [
   'Branding',
   'Packaging',
   'UX / UI',
   'Website / Digital',
   'Creative / Campaign',
-  'Spatial Branding',
-  'Spatial Experience',
+  'Spatial Branding / Experience',
   'Book Covers',
   'Other',
 ];
