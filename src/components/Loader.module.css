@@ -147,7 +147,7 @@
   86.389% { transform: scaleY(0.1); }
 }
 
-/* Set like the dispatch tag: JetBrains Mono, in capitals. */
+/* Set like the dispatch tag: in capitals. */
 .text {
   margin: 0;
   font-family: var(--font-mono);

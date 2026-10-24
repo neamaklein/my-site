@@ -15,14 +15,15 @@
      project page; the project colors stay inside the work. */
   --color-frame: #4e14a0;
 
-  /* One family: the Apple system font (SF on Mac and iPhone, with its own
-     Hebrew), Inter elsewhere. Hierarchy comes from size and weight only.
-     Mono is kept for the shipping "moments" (dispatch number, tag line,
-     end of dispatch, the conveyor). */
-  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  /* One family, per Neama: Montserrat (Regular and Bold), everywhere,
+     the shipping "moments" (dispatch number, tag line, end of dispatch)
+     included. Hebrew, which Montserrat doesn't have, falls back to the
+     system font (SF on Mac and iPhone). Hierarchy comes from size and
+     weight only. */
+  --font-system: 'Montserrat', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   --font-display: var(--font-system);
   --font-body: var(--font-system);
-  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --font-mono: var(--font-system);
 
   /* Type scale (px): 17 body · 21 lead · 28 subhead · 48–64 section ·
      80–128 project name. Tight tracking on large sizes, as Apple does. */
