@@ -34,7 +34,8 @@
   animation-delay: 0.08s;
 }
 
-/* The window's bar: the film's purple sign, a mono label in white. */
+/* The window's bar: the film's purple sign, its label in white. All
+   the windows' type is Montserrat (per Neama). */
 .bar {
   display: flex;
   align-items: center;
@@ -43,7 +44,7 @@
   padding: 0 8px 0 20px;
   background: var(--color-frame);
   color: #fff;
-  font-family: var(--font-mono);
+  font-family: 'Montserrat', var(--font-body);
   font-size: var(--tag-size);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -56,7 +57,7 @@
   border-radius: 50%;
   background: none;
   color: inherit;
-  font: 400 22px/1 var(--font-body);
+  font: 400 22px/1 'Montserrat', var(--font-body);
   cursor: pointer;
 }
 
@@ -169,7 +170,7 @@
 }
 
 .field span {
-  font-family: var(--font-mono);
+  font-family: 'Montserrat', var(--font-body);
   font-size: var(--tag-size);
   letter-spacing: 0.12em;
   text-transform: uppercase;

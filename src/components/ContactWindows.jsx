@@ -4,7 +4,7 @@ import styles from './ContactWindows.module.css';
 // Per Neama: clicking Instagram, LinkedIn or "Email me" at the end of the
 // home film floats two windows over it, Contact and Send a message, in the
 // site's own language (warm white like the film's walls, the frame purple,
-// mono labels, Montserrat). The copy is the film's own ("What should we
+// all type in Montserrat). The copy is the film's own ("What should we
 // plan next?", "Let's talk. Have a project in mind?").
 //
 // Design only for now (per Neama): the form doesn't send yet.
