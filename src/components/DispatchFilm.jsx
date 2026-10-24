@@ -148,7 +148,9 @@ export default function DispatchFilm({ projects }) {
               data-here={on ? '' : undefined}
             >
               <span className={styles.slotNo}>{project.dispatchNumber}</span>
-              <span className={styles.slotName}>{project.title.name}</span>
+              <span className={styles.slotName} data-name={project.title.name}>
+                {project.title.name}
+              </span>
             </Link>
           ))}
         </nav>

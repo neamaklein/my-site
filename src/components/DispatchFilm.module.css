@@ -67,7 +67,26 @@
   opacity: 0.6;
 }
 
+/* Per Neama: names are regular, and turn bold for the slot the camera is
+   at or the pointer is on. The bold width is held in advance (a hidden
+   bold copy) so the board doesn't shift as a name thickens. */
 .slotName {
+  display: inline-flex;
+  flex-direction: column;
+  font-weight: 400;
+}
+
+.slotName::after {
+  content: attr(data-name);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 700;
+}
+
+.here .slotName,
+.slot:hover .slotName,
+.slot:focus-visible .slotName {
   font-weight: 700;
 }
 
