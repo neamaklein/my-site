@@ -20,8 +20,9 @@
   object-fit: cover;
 }
 
-/* Departures board: a printed sign along the bottom, one slot per
-   dispatch; the slot the camera is at is inked in the frame colour. */
+/* Departures board: a printed sign along the bottom, white on the frame
+   colour (per Neama), one slot per dispatch; the slot the camera is at
+   is lit. */
 .board {
   position: absolute;
   left: 0;
@@ -31,8 +32,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--color-bg);
-  border-top: 1px solid var(--color-frame);
+  background: var(--color-frame);
 }
 
 .board::-webkit-scrollbar {
@@ -45,13 +45,13 @@
   align-items: baseline;
   gap: 12px;
   padding: 18px 20px;
-  border-left: 1px solid var(--color-frame);
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
   font-family: var(--font-mono);
   font-size: var(--tag-size);
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
   white-space: nowrap;
-  color: var(--color-frame);
+  color: rgba(255, 255, 255, 0.62);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
@@ -68,8 +68,8 @@
 .here,
 .slot:hover,
 .slot:focus-visible {
-  background: var(--color-frame);
-  color: var(--color-bg);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
   outline: none;
 }
 
