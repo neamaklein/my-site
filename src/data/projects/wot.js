@@ -75,7 +75,8 @@ export const wot = {
       columns: 3,
       fillLast: true,
       gap: 6,
-      media: images(series, TITLES),
+      // Per Neama: The Eye of the World isn't needed here.
+      media: images(series, TITLES).filter((item) => item.note !== 'The Eye of the World'),
     },
     {
       heading: 'Cover & Back',
