@@ -55,7 +55,6 @@ function windowed(t, [from, to], fade = 0.5) {
 
 export default function DispatchFilm({ projects }) {
   const trackRef = useRef(null);
-  const stageRef = useRef(null);
   const videoRef = useRef(null);
   const boardRef = useRef(null);
   const [time, setTime] = useState(0);
@@ -164,7 +163,7 @@ export default function DispatchFilm({ projects }) {
 
   return (
     <section ref={trackRef} className={styles.track} aria-label="Creative Dispatch — scroll to walk through">
-      <div className={styles.stage} ref={stageRef}>
+      <div className={styles.stage}>
         <video
           ref={videoRef}
           className={styles.video}
@@ -179,9 +178,7 @@ export default function DispatchFilm({ projects }) {
         {projects.map((project) => {
           const callout = CALLOUTS[project.dispatchNumber];
           const opacity = callout ? calloutIn(time, callout) : 0;
-          return opacity > 0 ? (
-            <StationLabel key={project.slug} project={project} time={time} opacity={opacity} stageRef={stageRef} />
-          ) : null;
+          return opacity > 0 ? <StationLabel key={project.slug} project={project} opacity={opacity} /> : null;
         })}
 
         {/* Per Neama: a departures board along the bottom, as a printed

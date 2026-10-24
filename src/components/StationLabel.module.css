@@ -1,51 +1,10 @@
 /* The station label: the contact windows' language (light beige, round
-   corners, a purple bar, Montserrat), beside the model. */
-.layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.lines {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-}
-
-.lines line {
-  stroke: #fff;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.35));
-}
-
-/* The point on the model; a wider touch area than the dot shows. */
-.dot {
-  position: absolute;
-  width: 44px;
-  height: 44px;
-  translate: -50% -50%;
-  border-radius: 50%;
-}
-
-.dot::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow:
-    0 0 0 4px rgba(255, 255, 255, 0.3),
-    0 1px 10px rgba(0, 0, 0, 0.4);
-}
-
+   corners, a purple bar, Montserrat), beside the model and low in the
+   frame, just above the board (per Neama: not over the station). */
 .label {
   --pad: clamp(24px, 2.4vw, 34px);
   position: absolute;
-  top: clamp(72px, 21svh, 200px);
+  bottom: calc(clamp(64px, 9svh, 88px) + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   width: clamp(300px, 30vw, 430px);
@@ -140,17 +99,11 @@
   outline-offset: 3px;
 }
 
-/* Phones: the film is cropped to its middle, so the model may be off
-   screen; the label sits above the board, full width, with no line. */
+/* Phones: the film is cropped to its middle; the label runs full width
+   above the board. */
 @media (max-width: 760px) {
-  .lines,
-  .dot {
-    display: none;
-  }
-
   .label {
     --pad: 20px;
-    top: auto;
     left: 16px;
     right: 16px;
     bottom: calc(64px + env(safe-area-inset-bottom, 0px));
