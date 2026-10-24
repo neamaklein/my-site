@@ -228,9 +228,7 @@ export default function DispatchFilm({ projects }) {
             ))}
           </div>
         )}
-        {contact && (
-          <ContactWindows onClose={closeContact} categories={[...new Set(projects.map((p) => p.category))]} />
-        )}
+        {contact && <ContactWindows onClose={closeContact} />}
       </div>
     </section>
   );

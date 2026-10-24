@@ -8,7 +8,19 @@ import styles from './ContactWindows.module.css';
 // plan next?", "Let's talk. Have a project in mind?").
 //
 // Design only for now (per Neama): the form doesn't send yet.
-// Project types are the site's own categories.
+// Project types: Amit's list and the site's own categories, together
+// (per Neama), "Other" last.
+const PROJECT_TYPES = [
+  'Branding',
+  'Packaging',
+  'UX / UI',
+  'Website / Digital',
+  'Creative / Campaign',
+  'Spatial Branding',
+  'Spatial Experience',
+  'Book Covers',
+  'Other',
+];
 
 const MailIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -39,7 +51,7 @@ const ROWS = [
   { label: 'Instagram', Icon: InstagramIcon, href: 'https://www.instagram.com/neamak2001/' },
 ];
 
-export default function ContactWindows({ onClose, categories = [] }) {
+export default function ContactWindows({ onClose }) {
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
@@ -105,8 +117,8 @@ export default function ContactWindows({ onClose, categories = [] }) {
                 <option value="" disabled>
                   Select an option
                 </option>
-                {categories.map((category) => (
-                  <option key={category}>{category}</option>
+                {PROJECT_TYPES.map((type) => (
+                  <option key={type}>{type}</option>
                 ))}
               </select>
             </label>
