@@ -204,7 +204,7 @@ export default function DispatchFilm({ projects }) {
         </nav>
 
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
-          SCROLL ↓
+          SCROLL TO EXPLORE ↓
         </p>
 
         {/* The film's frame as the video covers the stage, so each spot
