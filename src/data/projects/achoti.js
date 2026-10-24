@@ -36,7 +36,7 @@ import walkthrough from '../../assets/achoti/app-walkthrough.mp4';
 import walkthroughPoster from '../../assets/achoti/app-walkthrough-poster.jpg';
 import phoneFrame from '../../assets/achoti/phone-frame.webp';
 
-const icons = import.meta.glob('../../assets/achoti/icons/*.png', { eager: true, import: 'default' });
+const icons = import.meta.glob('../../assets/achoti/icons/*.svg', { eager: true, import: 'default' });
 const inOrder = (files) =>
   Object.keys(files)
     .sort()
@@ -102,6 +102,8 @@ export const achoti = {
     fonts: [{ name: 'אסימון', sample: 'אבג' }],
     // Each icon on its own, wrapping to fit the card.
     iconSet: inOrder(icons).map((src) => ({ src, name: '' })),
+    // Figma SVGs at the size they were drawn, not stretched to the grid row.
+    iconNatural: true,
   },
 
   galleries: [

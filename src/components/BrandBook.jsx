@@ -81,6 +81,7 @@ export default function BrandBook({
   pairLogoColors = false,
   iconsSrc,
   iconSet,
+  iconNatural = false,
   primaryColors,
   secondaryColors,
   icons,
@@ -137,7 +138,7 @@ export default function BrandBook({
           <Block label={labels.icons} className={styles.left}>
             {iconSet?.length > 0 ? (
               // One cell per icon (per Neama), wrapping to fit any width.
-              <div className={styles.iconGrid}>
+              <div className={iconNatural ? `${styles.iconGrid} ${styles.iconNatural}` : styles.iconGrid}>
                 {iconSet.map((icon) => (
                   <img key={icon.src} className={styles.iconCell} src={icon.src} alt={icon.name} />
                 ))}

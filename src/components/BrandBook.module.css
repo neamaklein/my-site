@@ -93,6 +93,16 @@
   object-fit: contain;
 }
 
+/* Icons kept at their drawn proportions to one another, scaled down
+   together. */
+.iconNatural {
+  align-items: center;
+}
+.iconNatural .iconCell {
+  height: auto;
+  zoom: 0.7;
+}
+
 .iconNames {
   font-family: var(--font-body);
   font-weight: 500;
@@ -195,6 +205,9 @@
   .iconGrid {
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
     gap: 12px 8px;
+  }
+  .iconNatural .iconCell {
+    zoom: 0.55;
   }
   .icons {
     max-height: 160px;
