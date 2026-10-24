@@ -93,7 +93,7 @@
 }
 
 .dense .row {
-  gap: 12px;
+  gap: var(--lead-gap, 12px);
 }
 
 .cell {
@@ -215,7 +215,7 @@
    row is smaller than the page gutter, so it reads as one group. */
 .lead {
   display: grid;
-  gap: 12px;
+  gap: var(--lead-gap, 12px);
 }
 
 /* Edge to edge (per Neama): the first image across the whole window, up
@@ -242,7 +242,7 @@
 
 .dense {
   display: grid;
-  gap: 12px;
+  gap: var(--lead-gap, 12px);
 }
 
 /* 3-column grid, first item spans 2×2. Square items keep the big one

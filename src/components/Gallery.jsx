@@ -175,7 +175,7 @@ function DeviceVideo({ item, device }) {
 
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
-function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast }) {
+function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast, gap }) {
   const [order, setOrder] = useState(() => media.map((_, i) => i));
   useEffect(() => setOrder(media.map((_, i) => i)), [media]);
   const [first, ...rest] = order.map((i) => media[i]).filter(Boolean);
@@ -189,7 +189,10 @@ function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast }) 
   return (
     <section className={styles.wrap}>
       <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
-      <div className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}>
+      <div
+        className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}
+        style={gap !== undefined ? { '--lead-gap': `${gap}px` } : undefined}
+      >
         {leadBleed ? (
           <div className={styles.leadBleed}>
             <Media item={first} ratio={ratio} />
@@ -236,6 +239,7 @@ export default function Gallery({
   textLang,
   rounded = false,
   fillLast = false,
+  gap,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -322,6 +326,7 @@ export default function Gallery({
         ratio={ratio}
         leadBleed={leadBleed}
         fillLast={fillLast}
+        gap={gap}
       />
     );
   }
