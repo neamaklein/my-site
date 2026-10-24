@@ -1,0 +1,168 @@
+/* The station label: the contact windows' language (light beige, round
+   corners, a purple bar, Montserrat), beside the model. */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lines {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.lines line {
+  stroke: #fff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* The point on the model; a wider touch area than the dot shows. */
+.dot {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  translate: -50% -50%;
+  border-radius: 50%;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.3),
+    0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+.label {
+  --pad: clamp(24px, 2.4vw, 34px);
+  position: absolute;
+  top: clamp(72px, 21svh, 200px);
+  display: flex;
+  flex-direction: column;
+  width: clamp(300px, 30vw, 430px);
+  overflow: hidden;
+  border-radius: 24px;
+  background: #ecdfd0;
+  box-shadow: 0 30px 60px -24px rgba(40, 16, 70, 0.45);
+  color: var(--color-frame);
+  text-decoration: none;
+}
+
+.left {
+  left: clamp(20px, 6vw, 96px);
+}
+
+.right {
+  right: clamp(20px, 6vw, 96px);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  padding: 0 var(--pad);
+  background: var(--color-frame);
+  color: #fff;
+  font:
+    400 13px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad);
+}
+
+.category {
+  font:
+    400 13px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin-top: 10px;
+  font:
+    700 clamp(36px, 3.8vw, 54px) / 1.02 'Montserrat',
+    var(--font-body);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.tagline {
+  margin-top: 8px;
+  font:
+    400 clamp(16px, 1.35vw, 19px) / 1.45 'Montserrat',
+    var(--font-body);
+  color: var(--color-ink);
+}
+
+.open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding: 17px 22px;
+  border-radius: 16px;
+  background: rgba(78, 20, 160, 0.08);
+  font:
+    700 14px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.label:hover .open,
+.label:focus-visible .open {
+  background: var(--color-frame);
+  color: #fff;
+}
+
+.label:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Phones: the film is cropped to its middle, so the model may be off
+   screen; the label sits above the board, full width, with no line. */
+@media (max-width: 760px) {
+  .lines,
+  .dot {
+    display: none;
+  }
+
+  .label {
+    --pad: 20px;
+    top: auto;
+    left: 16px;
+    right: 16px;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+  }
+
+  .name {
+    font-size: 32px;
+  }
+
+  .open {
+    margin-top: 16px;
+    padding: 14px 18px;
+  }
+}
