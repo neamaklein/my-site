@@ -90,8 +90,22 @@ export const wot = {
     },
     {
       heading: 'Cover & Back',
-      columns: 2,
-      media: images(flat, ['The Eye of the World', 'The Great Hunt', 'A Crown of Swords', 'The Gathering Storm']),
+      // Per Neama: one large, the rest small under it, like The Series.
+      // The Great Hunt (her annotated cover & back) leads; a small one
+      // clicked swaps into the large place.
+      layout: 'lead',
+      columns: 3,
+      fillLast: true,
+      gap: 6,
+      media: (() => {
+        const [eye, hunt, crown, storm] = images(flat, [
+          'The Eye of the World',
+          'The Great Hunt',
+          'A Crown of Swords',
+          'The Gathering Storm',
+        ]);
+        return [hunt, eye, crown, storm];
+      })(),
     },
     {
       heading: 'Pattern',
