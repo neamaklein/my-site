@@ -13,7 +13,8 @@ import styles from './Loader.module.css';
 // out around her as she keeps typing. Shown once per visit: the flag is
 // kept for the tab's session, so moving between projects never shows it.
 const SEEN = 'loader-seen';
-const MIN_SHOW = 3000; // one full typing loop, blink included
+const MIN_SHOW = 900;
+const MAX_WAIT = 1800;
 const FADE = 350;
 
 // Her layers, cut from the illustration, each placed where it sits in the
@@ -39,7 +40,11 @@ function pageReady() {
       : new Promise((resolve) => window.addEventListener('load', resolve, { once: true }));
   const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
   const min = new Promise((resolve) => setTimeout(resolve, MIN_SHOW));
-  return Promise.all([loaded, fonts, min]);
+  const ready = Promise.race([
+    Promise.all([loaded, fonts]),
+    new Promise((resolve) => setTimeout(resolve, MAX_WAIT)),
+  ]);
+  return Promise.all([ready, min]);
 }
 
 export default function Loader() {
