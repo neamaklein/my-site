@@ -7,6 +7,7 @@
     "dev": "vite",
     "edit": "VITE_ROUTER=hash VITE_LOCAL_EDIT=1 vite --port 5174 --strictPort",
     "build": "vite build",
+    "test": "node --test worker/*.test.js",
     "deploy:cf": "CF_DEPLOY=1 cf deploy",
     "preview": "vite preview",
     "lint": "eslint ."
