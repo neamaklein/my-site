@@ -35,6 +35,9 @@ import campaign02 from '../../assets/dimenso/marketing/campaign-02.jpg';
 import campaign03 from '../../assets/dimenso/marketing/campaign-03.jpg';
 import campaign04 from '../../assets/dimenso/marketing/campaign-04.jpg';
 
+import planGround from '../../assets/dimenso/plans/plan-ground.jpg';
+import planUpper from '../../assets/dimenso/plans/plan-upper.jpg';
+import elevation from '../../assets/dimenso/plans/elevation.jpg';
 import walkthroughVideo from '../../assets/dimenso/walkthrough/walkthrough.mp4';
 import walkthroughPoster from '../../assets/dimenso/walkthrough/walkthrough-poster.jpg';
 import macbookFrame from '../../assets/dimenso/walkthrough/macbook-frame.webp';
@@ -199,6 +202,18 @@ export const dimenso = {
         { kind: 'image', note: 'billboard', src: campaign02 },
         { kind: 'image', note: 'AR bench installation', src: campaign03 },
         { kind: 'image', note: 'light-projection street installation', src: campaign04 },
+      ],
+    },
+    {
+      // Per Neama: her plans (iD_plans_A3, iD_elevation_cyan), before the
+      // video, each named under it. The names are descriptive labels, not
+      // from her files — rename freely.
+      heading: 'Plans',
+      columns: 1,
+      media: [
+        { kind: 'image', note: 'ground floor plan', src: planGround, caption: 'Ground Floor Plan', captionBelow: true },
+        { kind: 'image', note: 'upper floor plan', src: planUpper, caption: 'Upper Floor Plan', captionBelow: true },
+        { kind: 'image', note: 'front elevation', src: elevation, caption: 'Front Elevation', captionBelow: true },
       ],
     },
     {
