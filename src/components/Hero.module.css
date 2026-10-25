@@ -62,3 +62,34 @@
   color: #fff;
   mix-blend-mode: difference;
 }
+
+/* Upright phones (per Neama): the hero picture whole, at its own width
+   and proportions, not cropped to fill a screen-tall box. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .hero {
+    height: auto;
+    min-height: 0;
+  }
+
+  .bg {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .bgImage {
+    display: block;
+    height: auto;
+    aspect-ratio: var(--phone-ratio, auto);
+  }
+
+  .content {
+    position: absolute;
+  }
+
+  /* The page's text starts right under the picture: no scroll hint
+     across it. */
+  .scroll {
+    display: none;
+  }
+}
