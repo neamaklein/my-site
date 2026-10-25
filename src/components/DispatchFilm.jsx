@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobile from '../assets/home/film-mobile.mp4';
+import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
@@ -275,13 +276,18 @@ export default function DispatchFilm({ projects }) {
         <video
           ref={videoRef}
           className={styles.video}
-          src={src}
+          // Upright phones: Neama's 1080×1920 HEVC where the device plays it,
+          // the 720×1280 H.264 for everything else (per Neama).
+          src={tall ? undefined : src}
           poster={tall ? posterMobile : poster}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
-        />
+        >
+          {tall && <source src={filmMobileHevc} type='video/mp4; codecs="hvc1"' />}
+          {tall && <source src={filmMobile} type="video/mp4" />}
+        </video>
 
         {projects.map((project) => {
           const callout = CALLOUTS[project.dispatchNumber];
