@@ -6,7 +6,7 @@ import filmMobile from '../assets/home/film-mobile.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
-import NameCardZoom from './NameCardZoom.jsx';
+import NameCardZoom, { preloadNameCardZoom } from './NameCardZoom.jsx';
 import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
 import { REVIEW } from '../review/flags.js';
 import styles from './DispatchFilm.module.css';
@@ -256,6 +256,10 @@ export default function DispatchFilm({ projects }) {
   const closeContact = useCallback(() => setContact(false), []);
   const [nameCard, setNameCard] = useState(false);
   const closeNameCard = useCallback(() => setNameCard(false), []);
+  const zoomAhead = useRef(null);
+  useEffect(() => {
+    if (atEnd && !zoomAhead.current) zoomAhead.current = preloadNameCardZoom(tall);
+  }, [atEnd, tall]);
 
   // On a narrow screen the board scrolls sideways: keep the marked slot in
   // view (moving the board only, never the page).

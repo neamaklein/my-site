@@ -1,9 +1,10 @@
-/* Over the film, covering the stage just as the film does. */
+/* Over the film, covering the stage just as the film does. No
+   background: until the zoom's first frame is ready, the film's last frame
+   (the same picture) shows through, so there is no flash (per Neama). */
 .layer {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: #f3e6da;
 }
 
 .video {

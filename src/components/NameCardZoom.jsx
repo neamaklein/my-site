@@ -34,6 +34,16 @@ const FACTS = [
   { label: 'Focus', detail: 'Brand / UX UI / Digital / Spatial', Icon: FocusIcon },
 ];
 
+// Fetch the zoom ahead, once the card can be clicked, so it starts at once.
+export function preloadNameCardZoom(tall) {
+  const video = document.createElement('video');
+  video.preload = 'auto';
+  video.muted = true;
+  video.src = tall ? zoomTall : zoom;
+  video.load();
+  return video;
+}
+
 export default function NameCardZoom({ tall, onClose }) {
   const [ended, setEnded] = useState(false);
   useEffect(() => {
