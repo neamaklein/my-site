@@ -46,27 +46,14 @@
   object-fit: cover;
 }
 
-/* Phones (per Neama: the collages were a little too small): less side
-   margin, and the three overlap a touch, the middle one in front, so each
-   is about a fifth larger. */
+/* Phones (per Neama: the collages were a little too small, but keep
+   the space between them): almost no side margin and a narrow gap, so
+   each is larger. */
 @media (max-width: 768px) {
   .rowCard {
-    padding: 0 10px;
+    padding: 0 8px;
   }
   .row {
-    --gap: -12px;
-    display: flex;
-    justify-content: center;
-  }
-  .row > * {
-    flex: 0 0 calc((100% + 24px) / 3);
-    min-width: 0;
-  }
-  .row > * + * {
-    margin-left: var(--gap);
-  }
-  .row > :nth-child(2) {
-    position: relative;
-    z-index: 1;
+    --gap: 6px;
   }
 }
