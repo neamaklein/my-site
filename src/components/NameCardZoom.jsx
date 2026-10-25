@@ -58,6 +58,8 @@ export default function NameCardZoom({ tall, onClose }) {
         <section className={`${styles.about} ${tall ? styles.aboutTall : ''}`} aria-label="About me">
           <header className={styles.bar}>About me</header>
           <div className={styles.body}>
+            {/* Per Neama (her pick). */}
+            <h2 className={styles.title}>Off the grid.</h2>
             <p className={styles.text}>{ABOUT}</p>
             {/* TODO(Neama): the CV file to link. */}
             <button type="button" className={styles.cv}>

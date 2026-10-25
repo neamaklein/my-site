@@ -59,6 +59,18 @@
   padding: var(--pad);
 }
 
+/* The contact window's title. */
+.title {
+  margin: 0 0 -8px;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-frame);
+}
+
 .text {
   margin: 0;
   font-family: 'Montserrat', var(--font-body);
@@ -93,7 +105,7 @@
 }
 
 /* Based in / Focus: side by side, like the contact rows (tinted purple,
-   an icon, the label over its detail); stacked on an upright phone. */
+   an icon, the label over its detail). */
 .facts {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -103,8 +115,9 @@
   list-style: none;
 }
 
+/* Per Neama: not on an upright phone. */
 .aboutTall .facts {
-  grid-template-columns: 1fr;
+  display: none;
 }
 
 .fact {
