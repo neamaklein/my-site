@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import film1080 from '../assets/home/film-1080.mp4';
+import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,7 +160,9 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  const src = { small: film720, wide: film1080 }[cut];
+  // Wide screens: Neama's 1920×1080 HEVC, as she made it (22.6 MiB, under
+  // Cloudflare's limit, so it ships with the site, not from R2).
+  const src = { small: film720, wide: filmWideHevc }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
