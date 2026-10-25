@@ -1,7 +1,14 @@
 # Neama Klein portfolio
 
-React + Vite site, deployed to GitHub Pages (`base: '/my-site/'`). Work happens on
-branch `claude/neama-klein-portfolio-p59918`.
+React + Vite site, live at https://neama.design (Cloudflare) with a copy on
+GitHub Pages (`base: '/my-site/'`). Work happens on branch
+`claude/neama-klein-portfolio-p59918`; every push there is tested and deployed
+automatically.
+
+**Before changing anything other than page content (config, packages,
+workflows, `worker/`, routing, the contact form, big media, git branches or
+history, hosting, domains), read `.claude/skills/site-setup/SKILL.md` and
+follow it.** It lists what must never be changed, even on request.
 
 ## Working with Neama
 
