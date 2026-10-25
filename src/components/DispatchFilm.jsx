@@ -8,7 +8,6 @@ import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
 import NameCardZoom, { preloadNameCardZoom } from './NameCardZoom.jsx';
 import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
-import { REVIEW } from '../review/flags.js';
 import styles from './DispatchFilm.module.css';
 
 // Home page: Neama's Creative Dispatch film (Blender render), played by
@@ -42,7 +41,7 @@ const BOARD_FROM = 4.7;
 // The film's last frame (the camera settles at about 45.9s): where its
 // Instagram, LinkedIn and "Contact" sit, in % of the frame (1920×1080, or
 // 1080×1920 for the vertical cut). Each opens the contact windows (per
-// Neama). Review copy only until her details are in. Contact follows the
+// Neama). Contact follows the
 // button's own pill, tilt included (per Neama), so its halo follows it.
 // The name card on the desk plays her zoom onto it instead (per Neama);
 // it stands at an angle, so its halo traces the card's outline, measured
@@ -252,7 +251,7 @@ export default function DispatchFilm({ projects }) {
   const here = stations.find((station) => station.on)?.project.slug;
   const boardIn = clamp((time - BOARD_FROM) / 0.6);
   const [contact, setContact] = useState(false);
-  const atEnd = REVIEW && time >= CONTACT_FROM;
+  const atEnd = time >= CONTACT_FROM;
   const closeContact = useCallback(() => setContact(false), []);
   const [nameCard, setNameCard] = useState(false);
   const closeNameCard = useCallback(() => setNameCard(false), []);

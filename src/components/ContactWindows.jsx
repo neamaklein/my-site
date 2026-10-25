@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './ContactWindows.module.css';
 
 // Per Neama: clicking Instagram, LinkedIn or "Email me" at the end of the
@@ -7,7 +7,10 @@ import styles from './ContactWindows.module.css';
 // all type in Montserrat). The copy is the film's own ("What should we
 // plan next?", "Let's talk. Have a project in mind?").
 //
-// Design only for now (per Neama): the form doesn't send yet.
+// The form posts to /api/contact (worker/index.js), which emails Neama. A
+// Cloudflare Turnstile check in invisible mode keeps bots out without
+// showing anything; the send button's own label reports progress. Builds
+// without that endpoint (GitHub Pages, Vercel) fall back to "Email me".
 // Project types: Amit's list and the site's own categories, together
 // (per Neama; spatial branding and experience as one), "Other" last.
 const PROJECT_TYPES = [
@@ -20,6 +23,28 @@ const PROJECT_TYPES = [
   'Book Covers',
   'Other',
 ];
+
+const CONTACT_EMAIL = 'neama.klein@gmail.com';
+const TURNSTILE_SITEKEY = '0x4AAAAAAFldYYnyqN8uB3rR';
+const SEND_LABEL = {
+  idle: 'Send message ↗',
+  sending: 'Sending…',
+  sent: 'Sent. Thank you ✓',
+  failed: 'Couldn’t send. Email me instead ↗',
+};
+
+let turnstileScript;
+function loadTurnstile() {
+  turnstileScript ||= new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.onload = () => resolve(window.turnstile);
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+  return turnstileScript;
+}
 
 const MailIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -56,11 +81,67 @@ const ROWS = [
 ];
 
 export default function ContactWindows({ onClose }) {
+  const [status, setStatus] = useState('idle');
+  const checkSlot = useRef(null);
+  const widget = useRef(null);
+  const token = useRef(null);
+
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+
+  useEffect(() => {
+    let gone = false;
+    loadTurnstile()
+      .then((turnstile) => {
+        if (gone || !checkSlot.current) return;
+        widget.current = turnstile.render(checkSlot.current, {
+          sitekey: TURNSTILE_SITEKEY,
+          callback: (value) => (token.current = value),
+          'expired-callback': () => (token.current = null),
+        });
+      })
+      .catch(() => {}); // no check means no token: sending then fails over to "Email me"
+    return () => {
+      gone = true;
+      if (widget.current != null) window.turnstile?.remove(widget.current);
+    };
+  }, []);
+
+  // The check runs on its own as the window opens; a quick sender waits up to 5s for it.
+  const waitForToken = async () => {
+    for (let i = 0; i < 50 && !token.current; i += 1) await new Promise((r) => setTimeout(r, 100));
+    return token.current;
+  };
+
+  async function send(e) {
+    e.preventDefault();
+    if (status === 'sending') return;
+    if (status === 'failed') {
+      window.location.href = `mailto:${CONTACT_EMAIL}`;
+      return;
+    }
+    const form = e.currentTarget;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...Object.fromEntries(new FormData(form)), token: await waitForToken() }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      form.reset();
+      setStatus('sent');
+    } catch {
+      setStatus('failed');
+    } finally {
+      // A token is good for one check only.
+      token.current = null;
+      if (widget.current != null) window.turnstile?.reset(widget.current);
+    }
+  }
 
   return (
     <div className={styles.layer} role="dialog" aria-modal="true" aria-label="Contact" onClick={onClose}>
@@ -115,14 +196,14 @@ export default function ContactWindows({ onClose }) {
           <header className={styles.bar}>
             <span>Send a message</span>
           </header>
-          <form className={`${styles.body} ${styles.form}`} onSubmit={(e) => e.preventDefault()}>
+          <form className={`${styles.body} ${styles.form}`} onSubmit={send}>
             <label className={styles.field}>
               <span>Name</span>
-              <input type="text" name="name" autoComplete="name" />
+              <input type="text" name="name" autoComplete="name" required maxLength={200} />
             </label>
             <label className={styles.field}>
               <span>Email</span>
-              <input type="email" name="email" autoComplete="email" />
+              <input type="email" name="email" autoComplete="email" required maxLength={254} />
             </label>
             <label className={`${styles.field} ${styles.wide}`}>
               <span>Project type</span>
@@ -137,12 +218,14 @@ export default function ContactWindows({ onClose }) {
             </label>
             <label className={`${styles.field} ${styles.wide}`}>
               <span>Message</span>
-              <textarea name="message" rows={5} />
+              <textarea name="message" rows={5} required maxLength={5000} />
             </label>
-            <button type="submit" className={`${styles.send} ${styles.wide}`}>
-              Send message ↗
+            <button type="submit" className={`${styles.send} ${styles.wide}`} aria-live="polite">
+              {SEND_LABEL[status]}
             </button>
           </form>
+          {/* Invisible spam check: Turnstile puts its hidden frame here. */}
+          <div ref={checkSlot} className={styles.check} />
         </section>
       </div>
     </div>
