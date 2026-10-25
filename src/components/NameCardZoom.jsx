@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import zoom from '../assets/home/name-card-zoom.mp4';
 import zoomTall from '../assets/home/name-card-zoom-mobile.mp4';
+import zoomBack from '../assets/home/name-card-zoom-reverse.mp4';
+import zoomBackTall from '../assets/home/name-card-zoom-mobile-reverse.mp4';
 import styles from './NameCardZoom.module.css';
 
 // Per Neama: the name card on the desk in the film's last frame opens her
@@ -8,7 +10,9 @@ import styles from './NameCardZoom.module.css';
 // frame it starts from; upright phones get her vertical cut of it) and
 // holds on the card, where her About me window
 // rises beside it (in the contact windows' style; her words). The round
-// arrow, as on the contact windows, goes back. Under her words, as in her
+// arrow, as on the contact windows, goes back: the zoom plays in reverse
+// (a reversed copy of the clip, from wherever the zoom had got to) and
+// lands on the film's last frame (per Neama). Under her words, as in her
 // reference: View CV, then where she is based and her focus.
 const ABOUT =
   'When I’m not designing, you’ll find me dancing, doing Pilates, or trying something new in the kitchen. I love traveling and getting lost in richly imagined worlds, whether in books or anime. And my one requirement for a good evening? A glass of wine.';
@@ -44,27 +48,68 @@ export function preloadNameCardZoom(tall) {
   return video;
 }
 
+// The window rises while the camera is still settling on the card, not
+// after the whole clip (per Neama: waiting for the end took too long).
+const ABOUT_AT = 2;
+// The camera stops moving 2.55s in (both cuts); the rest of the clip holds
+// on the card, so the way back skips that hold.
+const MOTION_END = 2.55;
+
 export default function NameCardZoom({ tall, onClose }) {
   const [ended, setEnded] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [reversing, setReversing] = useState(false);
+  const forward = useRef(null);
+  const backward = useRef(null);
+
+  const goBack = useCallback(() => {
+    if (leaving) return;
+    const from = forward.current;
+    const to = backward.current;
+    setLeaving(true);
+    if (!from || !to || !to.duration) {
+      onClose();
+      return;
+    }
+    from.pause();
+    to.currentTime = Math.max(0, to.duration - Math.min(from.currentTime, MOTION_END));
+    to.play().catch(onClose);
+  }, [leaving, onClose]);
+
   useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && onClose();
+    const onKey = (e) => e.key === 'Escape' && goBack();
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
+  }, [goBack]);
 
   return (
     <div className={styles.layer} role="dialog" aria-modal="true" aria-label="Neama Klein">
       <video
+        ref={forward}
         className={styles.video}
         src={tall ? zoomTall : zoom}
         autoPlay
         muted
         playsInline
         aria-hidden="true"
+        onTimeUpdate={(e) => e.currentTarget.currentTime >= ABOUT_AT && setEnded(true)}
         onEnded={() => setEnded(true)}
         onError={() => setEnded(true)}
       />
-      {ended && (
+      {/* The way back: shown once it is playing, over the forward clip. */}
+      <video
+        ref={backward}
+        className={`${styles.video} ${styles.backward} ${reversing ? styles.shown : ''}`}
+        src={tall ? zoomBackTall : zoomBack}
+        preload="auto"
+        muted
+        playsInline
+        aria-hidden="true"
+        onPlaying={() => setReversing(true)}
+        onEnded={onClose}
+        onError={() => leaving && onClose()}
+      />
+      {ended && !leaving && (
         <section className={`${styles.about} ${tall ? styles.aboutTall : ''}`} aria-label="About me">
           <header className={styles.bar}>About me</header>
           <div className={styles.body}>
@@ -89,11 +134,13 @@ export default function NameCardZoom({ tall, onClose }) {
           </div>
         </section>
       )}
-      <button type="button" className={styles.back} onClick={onClose} aria-label="Back to the site">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M19 12H5M11 6l-6 6 6 6" />
-        </svg>
-      </button>
+      {!leaving && (
+        <button type="button" className={styles.back} onClick={goBack} aria-label="Back to the site">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 12H5M11 6l-6 6 6 6" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 }

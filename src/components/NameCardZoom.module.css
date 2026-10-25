@@ -14,6 +14,16 @@
   object-fit: cover;
 }
 
+.backward {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+
+.backward.shown {
+  visibility: visible;
+}
+
 /* About me: a window like the contact ones (beige, round corners, the
    purple bar), beside the card where the zoom ends; on an upright phone,
    along the bottom. */
