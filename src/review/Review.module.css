@@ -477,6 +477,40 @@
   white-space: nowrap;
 }
 
+/* Wide / Mobile: the site as on a desktop, or in a phone frame. */
+.viewToggle {
+  display: inline-flex;
+}
+
+.viewToggle button + button {
+  border-left: 0;
+}
+
+/* The phone view: the page dims behind a phone-sized frame of the site. */
+.phoneLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+  display: grid;
+  place-items: center;
+  background: rgba(40, 16, 70, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.phone {
+  overflow: hidden;
+  border-radius: 36px;
+  background: #fff;
+  box-shadow: 0 0 0 10px #1a1a1a, 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+}
+
+.phone iframe {
+  display: block;
+  border: 0;
+  transform-origin: top left;
+}
+
 /* Folded: just the Tools button in the corner. */
 .bar .barToggle {
   order: 99;

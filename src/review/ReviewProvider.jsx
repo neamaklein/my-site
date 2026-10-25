@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import ExpertScan from './ExpertScan.jsx';
 import SerifTrial from './SerifTrial.jsx';
+import { PhoneFrame, ViewToggle, useView } from './PhonePreview.jsx';
+import { IN_PHONE } from './flags.js';
 import Inspector from './Inspector.jsx';
 import { applyEdits, describe, findEl, identify, pageScope } from './editing.js';
 import styles from './Review.module.css';
@@ -93,6 +95,7 @@ export function ReviewProvider({ children }) {
       }
       return !open;
     });
+  const [view, setView] = useView();
   const [docs, setDocs] = useState({});
   // Changes not saved yet: {key, fields, meta}; a null field means "remove".
   const [draft, setDraft] = useState(null);
@@ -439,7 +442,8 @@ export function ReviewProvider({ children }) {
           onRevert={revert}
         />
       )}
-      {ENABLED && (
+      {ENABLED && !IN_PHONE && view === 'mobile' && <PhoneFrame />}
+      {ENABLED && !IN_PHONE && (
         <div className={styles.bar} role="region" aria-label="Review tools" data-review-ui>
           {!editing && (
             <button type="button" className={styles.barToggle} aria-expanded={barOpen} onClick={toggleBar}>
@@ -448,6 +452,7 @@ export function ReviewProvider({ children }) {
           )}
           {(barOpen || editing) && (
           <>
+          <ViewToggle view={view} setView={setView} />
           <SerifTrial />
           <ExpertScan />
           {editing && (

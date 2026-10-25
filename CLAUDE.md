@@ -28,7 +28,8 @@ https://claude.ai/artifact/QHioNtRsrjth9wFGNvipmy
 - Publish `review-build/index.html` with `root: review-build` to that URL;
   pass new asset files in `files` and `null` for removed ones.
 - Review-only code is gated by `REVIEW` in `src/review/flags.js` (the in-page
-  editor in `src/review/`). Her edits live in the artifact db, collection
+  editor in `src/review/`). Tools → Wide / Mobile shows the whole site in a
+  phone-sized frame (`src/review/PhonePreview.jsx`). Her edits live in the artifact db, collection
   `media`; once a change is baked into the site, delete its doc.
 - Local editing: `npm run edit` (port 5174, hash routing) runs the same
   editor on Neama's machine; records go to `review-local/media.json` and
