@@ -44,8 +44,9 @@ const BOARD_FROM = 4.7;
 // Neama). Review copy only until her details are in. Contact follows the
 // button's own pill, tilt included (per Neama), so its halo follows it.
 // The name card on the desk plays her zoom onto it instead (per Neama);
-// it stands at an angle, so its halo traces the card's outline: corners
-// in frame pixels within the spot, clockwise from top left.
+// it stands at an angle, so its halo traces the card's outline, measured
+// off the last frame: corners (and each corner's radius) in frame pixels
+// within the spot, clockwise from top left.
 const CONTACT_FROM = 45.9;
 const SPOTS = {
   wide: [
@@ -54,11 +55,17 @@ const SPOTS = {
     { label: 'Contact', left: 40.15, top: 60.96, width: 10.2, height: 5.89, rotate: 5.56 },
     {
       label: 'Neama Klein',
-      left: 72.24,
-      top: 53.52,
-      width: 13.23,
-      height: 28.15,
-      card: { w: 254, h: 304, r: 14, blur: [7, 16], points: [[27.5, 0], [253.5, 8.5], [194, 304], [0, 281]] },
+      left: 72.22,
+      top: 53.13,
+      width: 13.36,
+      height: 28.6,
+      card: {
+        w: 256.6,
+        h: 308.9,
+        r: [26, 17, 18, 27],
+        blur: [7, 16],
+        points: [[29.4, 0], [256.6, 14.8], [182.9, 308.9], [0, 288.6]],
+      },
     },
   ],
   tall: [
@@ -67,27 +74,33 @@ const SPOTS = {
     { label: 'Contact', left: 21.39, top: 55.18, width: 15.12, height: 2.72, rotate: 4.05 },
     {
       label: 'Neama Klein',
-      left: 67.87,
-      top: 51.35,
-      width: 17.69,
-      height: 12.34,
-      card: { w: 191, h: 237, r: 11, blur: [12, 28], points: [[19, 0], [190.5, 8.5], [151.5, 237], [0, 213]] },
+      left: 67.84,
+      top: 51.19,
+      width: 17.94,
+      height: 12.53,
+      card: {
+        w: 193.7,
+        h: 240.6,
+        r: [22, 16, 14, 18],
+        blur: [12, 28],
+        points: [[19.8, 0], [193.7, 9.5], [137.7, 240.6], [0, 228.1]],
+      },
     },
   ],
 };
 
-// A polygon with rounded corners, as an SVG path.
-function roundedPath(points, r) {
+// A polygon with rounded corners (a radius per corner), as an SVG path.
+function roundedPath(points, radii) {
   const n = points.length;
-  const toward = ([x, y], [tx, ty]) => {
+  const toward = ([x, y], [tx, ty], r) => {
     const d = Math.hypot(tx - x, ty - y);
     return [x + ((tx - x) * r) / d, y + ((ty - y) * r) / d];
   };
   return (
     points
       .map((p, i) => {
-        const a = toward(p, points[(i + n - 1) % n]);
-        const b = toward(p, points[(i + 1) % n]);
+        const a = toward(p, points[(i + n - 1) % n], radii[i]);
+        const b = toward(p, points[(i + 1) % n], radii[i]);
         return `${i ? 'L' : 'M'}${a} Q${p} ${b}`;
       })
       .join(' ') + ' Z'
