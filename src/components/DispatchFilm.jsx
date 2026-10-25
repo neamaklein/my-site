@@ -2,7 +2,6 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
-import filmMobile from '../assets/home/film-mobile.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
@@ -161,7 +160,7 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  const src = { tall: filmMobile, small: film720, wide: film1080 }[cut];
+  const src = { small: film720, wide: film1080 }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
@@ -276,8 +275,8 @@ export default function DispatchFilm({ projects }) {
         <video
           ref={videoRef}
           className={styles.video}
-          // Upright phones: Neama's 1080×1920 HEVC where the device plays it,
-          // the 720×1280 H.264 for everything else (per Neama).
+          // Upright phones: Neama's 1080×1920 HEVC only (per Neama: the few
+          // devices that can't play HEVC are accepted).
           src={tall ? undefined : src}
           poster={tall ? posterMobile : poster}
           muted
@@ -286,7 +285,6 @@ export default function DispatchFilm({ projects }) {
           aria-hidden="true"
         >
           {tall && <source src={filmMobileHevc} type='video/mp4; codecs="hvc1"' />}
-          {tall && <source src={filmMobile} type="video/mp4" />}
         </video>
 
         {projects.map((project) => {

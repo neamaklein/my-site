@@ -24,7 +24,7 @@ for f in $OUT/assets/film-1080-*.mp4; do
 done
 # The vertical HEVC film (11 MB) stays, but is the lighter H.264 one there.
 for f in $OUT/assets/film-mobile-hevc-*.mp4; do
-  [ -f "$f" ] && cp src/assets/home/film-mobile.mp4 "$f"
+  [ -f "$f" ] && cp scripts/review/film-mobile-review.mp4 "$f"
 done
 for f in $OUT/assets/walkthrough-*.mp4; do
   [ -f "$f" ] && cp scripts/review/walkthrough-review.mp4 "$f"
