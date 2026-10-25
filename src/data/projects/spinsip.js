@@ -9,6 +9,7 @@
 // Not from the deck (structural labels only — rename freely):
 //   meta labels/values, gallery headings "Posters" / "In Use".
 
+import quicksand from '../../assets/spinsip/font-quicksand.svg';
 import logo from '../../assets/spinsip/logo.mp4';
 import hero from '../../assets/spinsip/hero.jpg';
 import useMenu from '../../assets/spinsip/use/01-menu.jpg';
@@ -80,7 +81,7 @@ export const spinsip = {
       { name: 'orange boost', hex: '#F27121' },
       { name: 'pit stop beige', hex: '#FFECCC' },
     ],
-    fonts: [{ name: 'Quicksand' }, { name: 'Pauza' }],
+    fonts: [{ name: 'Quicksand', specimen: quicksand }, { name: 'Pauza' }],
   },
 
   galleries: [

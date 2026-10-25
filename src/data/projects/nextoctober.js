@@ -12,6 +12,7 @@
 //   black, and isn't in the folder as an image).
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
+import inter from '../../assets/nextoctober/font-inter.svg';
 import hero from '../../assets/nextoctober/hero.jpg';
 import logo from '../../assets/nextoctober/logo.png';
 import saveStory from '../../assets/nextoctober/save/01-story.jpg';
@@ -70,7 +71,7 @@ export const nextoctober = {
       { name: 'Memory', hex: '#F89E23' },
       { name: 'Active Choice', hex: '#FFF8F4' },
     ],
-    fonts: [{ name: 'Polin' }, { name: 'Inter' }],
+    fonts: [{ name: 'Polin' }, { name: 'Inter', specimen: inter }],
   },
 
   galleries: [

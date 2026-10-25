@@ -15,6 +15,7 @@
 // Credits: Neama's name always comes first wherever a collaborator is named.
 
 import hero from '../../assets/achoti/hero.jpg';
+import asimon from '../../assets/achoti/font-asimon.svg';
 import logo from '../../assets/achoti/logo.png';
 import logos from '../../assets/achoti/logos.png';
 import sceneCorridor from '../../assets/achoti/scenes/scene-corridor.png';
@@ -106,7 +107,8 @@ export const achoti = {
       { name: '', hex: '#E7E7E7' },
       { name: 'white', hex: '#FFFFFF' },
     ],
-    fonts: [{ name: 'אסימון', sample: 'אבג' }],
+    // The sample in Asimon itself: its outlines from the deck's type slide.
+    fonts: [{ name: 'אסימון', sample: 'אבג', specimen: asimon }],
     // Each icon on its own, wrapping to fit the card.
     iconSet: inOrder(icons).map((src) => ({ src, name: '' })),
     // Figma SVGs at the size they were drawn, not stretched to the grid row.

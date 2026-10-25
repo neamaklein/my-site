@@ -171,6 +171,14 @@
   line-height: 1;
 }
 
+.specimen {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 100%;
+  align-self: flex-start;
+}
+
 .fontName {
   font-size: 13px;
   color: var(--color-secondary);

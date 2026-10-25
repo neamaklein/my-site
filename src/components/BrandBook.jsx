@@ -159,7 +159,14 @@ export default function BrandBook({
             <div className={styles.fonts}>
               {fonts.map((font) => (
                 <div className={styles.fontCard} key={font.name}>
-                  <span className={styles.sample}>{font.sample || 'Aa'}</span>
+                  {/* `specimen`: the sample drawn in the font itself (outlines from
+                      Neama's file, or the free font), so it shows without the
+                      font installed (per Neama). */}
+                  {font.specimen ? (
+                    <img className={styles.specimen} src={font.specimen} alt={font.sample || 'Aa'} />
+                  ) : (
+                    <span className={styles.sample}>{font.sample || 'Aa'}</span>
+                  )}
                   <span className={styles.fontName}>{font.name}</span>
                 </div>
               ))}
