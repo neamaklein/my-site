@@ -191,6 +191,15 @@
   .half {
     grid-column: span 1;
   }
+  /* `stackOnPhone`: the icons card on its own row, the fonts card in a
+     row of its own above it (per Neama, ACHOTI). */
+  .belowOnPhone {
+    grid-column: 1 / -1;
+    order: 1;
+  }
+  .fullOnPhone {
+    grid-column: 1 / -1;
+  }
   .block {
     gap: 12px;
     padding: 16px;

@@ -15,9 +15,10 @@ import styles from './DispatchFilm.module.css';
 // scrolling — forward as you scroll down, back as you scroll up. When the
 // camera reaches a station, a card names its project and opens it. The
 // film carries its own words (label, wall signs, LET'S TALK); the cards
-// are the only HTML on top. Encoded with a keyframe every 6 frames so
-// seeking stays smooth; phones held upright get Neama's vertical cut
-// (720×1280), other small screens the 720p copy.
+// are the only HTML on top. Encoded with frequent keyframes so seeking
+// stays smooth (the wide 1080p one every 12 frames at CRF 20, per Neama's
+// ask for a sharper picture; the others every 6). Phones held upright get
+// Neama's vertical cut (720×1280), other small screens the 720p copy.
 
 // Seconds in the film where each station's box is open, by dispatch number.
 const STATIONS = {

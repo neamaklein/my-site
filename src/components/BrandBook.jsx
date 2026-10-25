@@ -82,6 +82,7 @@ export default function BrandBook({
   iconsSrc,
   iconSet,
   iconNatural = false,
+  stackOnPhone = false,
   primaryColors,
   secondaryColors,
   icons,
@@ -135,7 +136,7 @@ export default function BrandBook({
         )}
 
         {(iconSet?.length > 0 || iconsSrc || icons?.length > 0) && (
-          <Block label={labels.icons} className={styles.left}>
+          <Block label={labels.icons} className={`${styles.left} ${stackOnPhone ? styles.belowOnPhone : ''}`}>
             {iconSet?.length > 0 ? (
               // One cell per icon (per Neama), wrapping to fit any width.
               <div className={iconNatural ? `${styles.iconGrid} ${styles.iconNatural}` : styles.iconGrid}>
@@ -151,7 +152,10 @@ export default function BrandBook({
           </Block>
         )}
         {fonts?.length > 0 && (
-          <Block label={labels.fonts} className={iconSet?.length || iconsSrc || icons?.length ? styles.right : styles.full}>
+          <Block
+            label={labels.fonts}
+            className={`${iconSet?.length || iconsSrc || icons?.length ? styles.right : styles.full} ${stackOnPhone ? styles.fullOnPhone : ''}`}
+          >
             <div className={styles.fonts}>
               {fonts.map((font) => (
                 <div className={styles.fontCard} key={font.name}>

@@ -17,9 +17,10 @@ head = head.replace('<title>Neama Klein — Portfolio</title>', '<title>Neama Kl
 open(p, 'w').write(head.strip() + '\n<div id="root"></div>\n')
 PY
 # The artifact caps files at 15 MB: swap in the lighter 720p walkthrough.
-# Same for the home film: the 720p copy (the 1080p one is over the cap).
+# Same for the home film: a lighter 1080p copy (keyframe every second,
+# 2.45 Mb/s), since the site's one is over the cap.
 for f in $OUT/assets/film-1080-*.mp4; do
-  [ -f "$f" ] && cp $OUT/assets/film-720-*.mp4 "$f"
+  [ -f "$f" ] && cp scripts/review/film-review.mp4 "$f"
 done
 for f in $OUT/assets/walkthrough-*.mp4; do
   [ -f "$f" ] && cp scripts/review/walkthrough-review.mp4 "$f"

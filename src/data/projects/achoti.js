@@ -104,6 +104,8 @@ export const achoti = {
     iconSet: inOrder(icons).map((src) => ({ src, name: '' })),
     // Figma SVGs at the size they were drawn, not stretched to the grid row.
     iconNatural: true,
+    // Per Neama: on a phone, fonts in a row above the icons.
+    stackOnPhone: true,
   },
 
   galleries: [

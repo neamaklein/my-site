@@ -24,7 +24,8 @@ Neama comments on a review copy published as a claude.ai artifact:
 https://claude.ai/artifact/QHioNtRsrjth9wFGNvipmy
 
 - Build: `sh scripts/make-review.sh` → `review-build/` (hash routing; the
-  walkthrough is swapped for a 720p copy, since artifact files cap at ~15MB).
+  walkthrough and the home film are swapped for lighter copies in `scripts/review/`,
+  since artifact files cap at ~15MB).
 - Publish `review-build/index.html` with `root: review-build` to that URL;
   pass new asset files in `files` and `null` for removed ones.
 - Review-only code is gated by `REVIEW` in `src/review/flags.js` (the in-page
