@@ -95,9 +95,9 @@ export const achoti = {
     ],
     secondaryColors: [
       { name: '', hex: '#1F2D3D' },
-      { name: '500', hex: '#575C60' },
-      { name: '300', hex: '#D9D9D9' },
-      { name: '100', hex: '#E7E7E7' },
+      { name: '', hex: '#575C60' },
+      { name: '', hex: '#D9D9D9' },
+      { name: '', hex: '#E7E7E7' },
       { name: 'white', hex: '#FFFFFF' },
     ],
     fonts: [{ name: 'אסימון', sample: 'אבג' }],
@@ -150,6 +150,8 @@ export const achoti = {
         'The companion is a recurring product cue. Poses communicate context and emotion, while the wider character family keeps the visual language inclusive and consistent.',
       ],
       columns: 4,
+      // Per Neama: on a phone, two over two, so the captions don't collide.
+      phoneColumns: 2,
       maxRowHeight: '70svh',
       media: [
         image(mainStanding, 'the companion', 'Companion Persona'),

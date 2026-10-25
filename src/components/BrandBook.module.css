@@ -227,7 +227,7 @@
      padding, 12px between rows, 8px between neighbours. */
   .swatches {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
     gap: 12px 8px;
   }
   .swatch {
@@ -247,7 +247,9 @@
     gap: 2px;
     color: var(--color-ink);
     font-weight: 600;
-    overflow-wrap: anywhere;
+    font-size: 12px;
+    /* Per Neama: a colour code never breaks onto a second line. */
+    white-space: nowrap;
   }
   .swatchText > span:last-child:not(:first-child) {
     font-weight: 400;

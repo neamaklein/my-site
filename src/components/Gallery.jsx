@@ -4,6 +4,20 @@ import MediaPlaceholder from './MediaPlaceholder.jsx';
 import { REVIEW } from '../review/flags.js';
 import styles from './Gallery.module.css';
 
+// True on a phone-width screen, following resizes.
+const PHONE = '(max-width: 760px)';
+function usePhone() {
+  const [phone, setPhone] = useState(() => window.matchMedia?.(PHONE).matches ?? false);
+  useEffect(() => {
+    const query = window.matchMedia?.(PHONE);
+    if (!query) return undefined;
+    const update = () => setPhone(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  return phone;
+}
+
 // An item with a caption (a drawing's title and scale) is set as a figure,
 // the caption small above the media.
 function Media({ item, ratio }) {
@@ -249,9 +263,12 @@ export default function Gallery({
   rounded = false,
   fillLast = false,
   gap,
+  phoneColumns,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
+  // `phoneColumns`: a different row length on a phone (the rows layout).
+  const phone = usePhone();
   // A section whose every slot is still waiting shows only in the review copy.
   if (media.length === 0) return null;
   if (layout === 'stack') {
@@ -399,7 +416,7 @@ export default function Gallery({
       <Rows
         className={`${styles.columns} ${rounded ? styles.rounded : ''}`}
         media={media}
-        columns={columns}
+        columns={phone && phoneColumns ? phoneColumns : columns}
         ratio={ratio}
         maxRowHeight={maxRowHeight}
       />
