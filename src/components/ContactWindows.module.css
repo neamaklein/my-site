@@ -318,3 +318,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Holds the invisible Turnstile check; takes no space in the layout. */
+.check {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}

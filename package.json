@@ -7,6 +7,8 @@
     "dev": "vite",
     "edit": "VITE_ROUTER=hash VITE_LOCAL_EDIT=1 vite --port 5174 --strictPort",
     "build": "vite build",
+    "test": "node --test worker/*.test.js",
+    "deploy:cf": "CF_DEPLOY=1 cf deploy",
     "preview": "vite preview",
     "lint": "eslint ."
   },
@@ -16,8 +18,10 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
+    "@cloudflare/vite-plugin": "^2.0.0-beta.v.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "cf": "^1.0.0-beta.21",
     "eslint": "^8.57.0",
-    "vite": "^5.4.8"
+    "vite": "^7.3.7"
   }
 }

@@ -5,3 +5,5 @@ dist/
 review-build/
 review-local/
 neama-klein-portfolio.zip
+.vercel
+.cloudflare/

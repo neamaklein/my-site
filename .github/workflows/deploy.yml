@@ -1,23 +1,26 @@
-name: Deploy to GitHub Pages
+name: Test and deploy
+
+# Every push and pull request is tested. Pushes to the working branch then
+# deploy the tested build to both sites:
+#   - Cloudflare: https://neama.design (needs the CLOUDFLARE_API_TOKEN and
+#     CLOUDFLARE_ACCOUNT_ID repository secrets)
+#   - GitHub Pages: https://neamaklein.github.io/my-site/
+# Other branches (including the older `main`) are tested but never deployed,
+# so they can't put an old version live.
 
 on:
   push:
-    branches:
-      - main
-      - claude/neama-klein-portfolio-p59918
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
+env:
+  CF_SEND_TELEMETRY: 'false'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,17 +29,91 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+
+      - name: Contact form tests
+        run: npm test
+
+      - name: Build for GitHub Pages
+        run: npm run build
+
+      - name: Build the review copy
+        run: sh scripts/make-review.sh
+
+      - name: Build for Cloudflare
+        run: npx cf build
+        env:
+          CF_DEPLOY: '1'
+
+      - name: Check no file is over Cloudflare's 25 MiB limit
+        run: |
+          big=$(find .cloudflare/output -type f -size +25600k)
+          if [ -n "$big" ]; then
+            echo "::error::Over Cloudflare's 25 MiB per-file limit (add to R2_VIDEOS in vite.config.js and upload to the R2 bucket):"
+            echo "$big"
+            exit 1
+          fi
+
+      - name: Check the Cloudflare build deploys (dry run, no upload)
+        run: npx cf deploy --prebuilt --mode production --dry-run
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
-  deploy:
-    needs: build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-build
+          path: .cloudflare/output
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy-cloudflare:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/claude/neama-klein-portfolio-p59918'
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-cloudflare
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: cloudflare-build
+          path: .cloudflare/output
+
+      - name: Deploy the tested build to neama.design
+        run: npx cf deploy --prebuilt --mode production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Check the live site
+        run: |
+          # Only the first byte of the video, not all 27 MB.
+          check() { code=$(curl -s -o /dev/null -r 0-0 -w '%{http_code}' "$1"); echo "$1 -> $code"; [ "$code" = "$2" ]; }
+          check https://neama.design/ 200
+          check https://neama.design/work/dimenso 200
+          check https://neama.design/api/contact 405
+          check https://media.neama.design/film-1080.mp4 206
+
+  deploy-pages:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/claude/neama-klein-portfolio-p59918'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
