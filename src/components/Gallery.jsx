@@ -34,13 +34,18 @@ function Media({ item, ratio }) {
     />
   );
   if (!item.caption) return media;
+  const caption = (
+    <figcaption className={`${styles.caption} ${item.captionBelow ? styles.captionBelow : ''}`}>
+      {item.caption}
+      {item.scale && <span className={styles.scale}>Scale {item.scale}</span>}
+    </figcaption>
+  );
+  // `captionBelow`: the name under the media (a screen's title).
   return (
     <figure className={styles.figure}>
-      <figcaption className={styles.caption}>
-        {item.caption}
-        {item.scale && <span className={styles.scale}>Scale {item.scale}</span>}
-      </figcaption>
+      {!item.captionBelow && caption}
       {media}
+      {item.captionBelow && caption}
     </figure>
   );
 }

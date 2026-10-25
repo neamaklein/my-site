@@ -24,7 +24,13 @@ import mainStanding from '../../assets/achoti/characters/main-standing.png';
 import patientUser from '../../assets/achoti/characters/patient-user.png';
 import pregnantUser from '../../assets/achoti/characters/pregnant-user.png';
 import visitorUser from '../../assets/achoti/characters/visitor-user.png';
-import wireframes from '../../assets/achoti/wireframes.png';
+import wireframe1 from '../../assets/achoti/wireframes/wireframe-01.png';
+import wireframe2 from '../../assets/achoti/wireframes/wireframe-02.png';
+import wireframe3 from '../../assets/achoti/wireframes/wireframe-03.png';
+import wireframe4 from '../../assets/achoti/wireframes/wireframe-04.png';
+import wireframe5 from '../../assets/achoti/wireframes/wireframe-05.png';
+import wireframe6 from '../../assets/achoti/wireframes/wireframe-06.png';
+import wireframe7 from '../../assets/achoti/wireframes/wireframe-07.png';
 import roleSelection from '../../assets/achoti/screens/role-selection.png';
 import arrival from '../../assets/achoti/screens/arrival.png';
 import dashboard from '../../assets/achoti/screens/dashboard.png';
@@ -139,9 +145,20 @@ export const achoti = {
       text: [
         'The flow, hierarchy and pacing were defined before any final interface styling. Each screen focuses on the next immediate decision.',
       ],
-      columns: 1,
-      maxRowHeight: '85svh',
-      media: [image(wireframes, 'wireframes', '7-Screen System Architecture')],
+      // Per Neama, as on Amit's page: the seven screens, each named under
+      // it (her captions and screens).
+      columns: 4,
+      phoneColumns: 2,
+      maxRowHeight: '60svh',
+      media: [
+        [wireframe1, '01 · Onboarding Flow'],
+        [wireframe2, '02 · Role & Intake Selection'],
+        [wireframe3, '03 · Route Wayfinding'],
+        [wireframe4, '04 · Treatment Status'],
+        [wireframe5, '05 · Spatial Perspective'],
+        [wireframe6, '06 · Action Dashboard'],
+        [wireframe7, '07 · Summary & Next Steps'],
+      ].map(([src, caption]) => ({ ...image(src, 'wireframe', caption), captionBelow: true })),
     },
     {
       eyebrow: '05 · Character Design / Companion System',

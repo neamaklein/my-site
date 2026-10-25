@@ -167,6 +167,11 @@
   color: var(--color-ink);
 }
 
+.captionBelow {
+  margin: 12px 0 0;
+  font-size: 13px;
+}
+
 .scale {
   font-weight: 400;
   color: var(--color-secondary);
