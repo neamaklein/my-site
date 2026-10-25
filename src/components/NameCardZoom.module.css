@@ -59,13 +59,98 @@
   text-transform: uppercase;
 }
 
+.body {
+  display: grid;
+  gap: 20px;
+  padding: var(--pad);
+}
+
 .text {
   margin: 0;
-  padding: var(--pad);
   font-family: 'Montserrat', var(--font-body);
   font-size: clamp(15px, 1.15vw, 18px);
   line-height: 1.6;
   color: var(--color-frame);
+}
+
+/* View CV: a pill in the frame purple. */
+.cv {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-frame);
+  color: #fff;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cv:hover,
+.cv:focus-visible {
+  background: #3a0e7a;
+  outline: none;
+}
+
+/* Based in / Focus: side by side, like the contact rows (tinted purple,
+   an icon, the label over its detail); stacked on an upright phone. */
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aboutTall .facts {
+  grid-template-columns: 1fr;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(78, 20, 160, 0.08);
+  color: var(--color-frame);
+}
+
+.fact svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.factText {
+  display: grid;
+  gap: 2px;
+}
+
+.factLabel {
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.factDetail {
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 14px;
+  line-height: 1.35;
 }
 
 @keyframes rise {

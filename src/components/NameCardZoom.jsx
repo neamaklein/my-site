@@ -6,9 +6,30 @@ import styles from './NameCardZoom.module.css';
 // short zoom onto it. It plays once over the film (which ends on the same
 // frame it starts from) and holds on the card, where her About me window
 // rises beside it (in the contact windows' style; her words). The round
-// arrow, as on the contact windows, goes back.
+// arrow, as on the contact windows, goes back. Under her words, as in her
+// reference: View CV, then where she is based and her focus.
 const ABOUT =
   'When I’m not designing, you’ll find me dancing, doing Pilates, or trying something new in the kitchen. I love traveling and getting lost in richly imagined worlds, whether in books or anime. And my one requirement for a good evening? A glass of wine.';
+
+const PinIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" />
+    <circle cx="12" cy="9.5" r="2.5" />
+  </svg>
+);
+
+const FocusIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="8.5" r="4.5" />
+    <circle cx="8.5" cy="14.5" r="4.5" />
+    <circle cx="15.5" cy="14.5" r="4.5" />
+  </svg>
+);
+
+const FACTS = [
+  { label: 'Based in', detail: 'Rishon LeZion, Israel', Icon: PinIcon },
+  { label: 'Focus', detail: 'Brand / UX UI / Digital / Spatial', Icon: FocusIcon },
+];
 
 export default function NameCardZoom({ tall, onClose }) {
   const [ended, setEnded] = useState(false);
@@ -33,7 +54,24 @@ export default function NameCardZoom({ tall, onClose }) {
       {ended && (
         <section className={`${styles.about} ${tall ? styles.aboutTall : ''}`} aria-label="About me">
           <header className={styles.bar}>About me</header>
-          <p className={styles.text}>{ABOUT}</p>
+          <div className={styles.body}>
+            <p className={styles.text}>{ABOUT}</p>
+            {/* TODO(Neama): the CV file to link. */}
+            <button type="button" className={styles.cv}>
+              View CV <span aria-hidden="true">↗</span>
+            </button>
+            <ul className={styles.facts}>
+              {FACTS.map(({ label, detail, Icon }) => (
+                <li key={label} className={styles.fact}>
+                  <Icon />
+                  <span className={styles.factText}>
+                    <span className={styles.factLabel}>{label}</span>
+                    <span className={styles.factDetail}>{detail}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       )}
       <button type="button" className={styles.back} onClick={onClose} aria-label="Back to the site">
