@@ -57,3 +57,15 @@
     --space-stack: 24px;
   }
 }
+
+/* Phones (per Neama: the headings were huge): the whole scale a size
+   smaller, so a project name or section heading fits in a line or two. */
+@media (max-width: 760px) {
+  :root,
+  html[data-serif] {
+    --text-lead: 17px;
+    --text-subhead: 19px;
+    --text-section: 26px;
+    --text-name: 40px;
+  }
+}
