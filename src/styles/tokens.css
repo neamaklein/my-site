@@ -10,10 +10,12 @@
   --color-secondary: #6e6e73;
   --color-band: #f5f5f7;
   --color-border: #d2d2d7;
-  /* The portfolio's own color: the conveyor purple from the home-page
-     film. It marks the frame (nav, labels, rules, links) on every
-     project page; the project colors stay inside the work. */
-  --color-frame: #4e14a0;
+  /* The portfolio's own color: the purple of the home-page film's space
+     (per Neama: the hue of the sign and the conveyor in the rendered
+     frames, #4f1e5f, made a little more saturated). It marks the frame
+     (nav, labels, rules, links) on every page; the project colors stay
+     inside the work. */
+  --color-frame: #52146a;
 
   /* One family, per Neama: Montserrat (Regular and Bold), everywhere,
      the shipping "moments" (dispatch number, tag line, end of dispatch)
