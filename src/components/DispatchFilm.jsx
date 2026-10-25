@@ -43,22 +43,88 @@ const BOARD_FROM = 4.7;
 // 1080×1920 for the vertical cut). Each opens the contact windows (per
 // Neama). Review copy only until her details are in. Contact follows the
 // button's own pill, tilt included (per Neama), so its halo follows it.
-// The name card on the desk plays her zoom onto it instead (per Neama).
+// The name card on the desk plays her zoom onto it instead (per Neama);
+// it stands at an angle, so its halo traces the card's outline: corners
+// in frame pixels within the spot, clockwise from top left.
 const CONTACT_FROM = 45.9;
 const SPOTS = {
   wide: [
     { label: 'Instagram', left: 70.6, top: 25.9, width: 10.2, height: 4.6 },
     { label: 'LinkedIn', left: 82.8, top: 25.9, width: 8.6, height: 4.6 },
     { label: 'Contact', left: 40.15, top: 60.96, width: 10.2, height: 5.89, rotate: 5.56 },
-    { label: 'Neama Klein', left: 72.4, top: 53.5, width: 12.9, height: 28, card: true },
+    {
+      label: 'Neama Klein',
+      left: 72.24,
+      top: 53.52,
+      width: 13.23,
+      height: 28.15,
+      card: { w: 254, h: 304, r: 14, blur: [7, 16], points: [[27.5, 0], [253.5, 8.5], [194, 304], [0, 281]] },
+    },
   ],
   tall: [
     { label: 'Instagram', left: 65.5, top: 38, width: 15, height: 3.2 },
     { label: 'LinkedIn', left: 83, top: 38, width: 13, height: 3.2 },
     { label: 'Contact', left: 21.39, top: 55.18, width: 15.12, height: 2.72, rotate: 4.05 },
-    { label: 'Neama Klein', left: 67.9, top: 51.3, width: 17.5, height: 12.2, card: true },
+    {
+      label: 'Neama Klein',
+      left: 67.87,
+      top: 51.35,
+      width: 17.69,
+      height: 12.34,
+      card: { w: 191, h: 237, r: 11, blur: [12, 28], points: [[19, 0], [190.5, 8.5], [151.5, 237], [0, 213]] },
+    },
   ],
 };
+
+// A polygon with rounded corners, as an SVG path.
+function roundedPath(points, r) {
+  const n = points.length;
+  const toward = ([x, y], [tx, ty]) => {
+    const d = Math.hypot(tx - x, ty - y);
+    return [x + ((tx - x) * r) / d, y + ((ty - y) * r) / d];
+  };
+  return (
+    points
+      .map((p, i) => {
+        const a = toward(p, points[(i + n - 1) % n]);
+        const b = toward(p, points[(i + 1) % n]);
+        return `${i ? 'L' : 'M'}${a} Q${p} ${b}`;
+      })
+      .join(' ') + ' Z'
+  );
+}
+
+// The name card's halo: its outline, blurred, kept outside the card so the
+// card itself stays clear (as the other spots' glow is).
+function CardHalo({ w, h, r, blur, points }) {
+  const d = roundedPath(points, r);
+  const pad = blur[1] * 3;
+  const area = { x: -pad, y: -pad, width: w + pad * 2, height: h + pad * 2 };
+  return (
+    <svg className={styles.halo} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <filter id="card-halo" filterUnits="userSpaceOnUse" {...area}>
+          <feGaussianBlur in="SourceGraphic" stdDeviation={blur[0]} result="near" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation={blur[1]} result="far" />
+          <feComponentTransfer in="far" result="farSoft">
+            <feFuncA type="linear" slope="0.5" />
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode in="farSoft" />
+            <feMergeNode in="near" />
+          </feMerge>
+        </filter>
+        <mask id="card-outside" maskUnits="userSpaceOnUse" {...area}>
+          <rect {...area} fill="#fff" />
+          <path d={d} fill="#000" />
+        </mask>
+      </defs>
+      <g mask="url(#card-outside)">
+        <path d={d} fill="rgba(255, 255, 255, 0.85)" filter="url(#card-halo)" />
+      </g>
+    </svg>
+  );
+}
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
@@ -257,7 +323,9 @@ export default function DispatchFilm({ projects }) {
                 }}
                 onClick={() => (spot.card ? setNameCard(true) : setContact(true))}
                 aria-label={spot.label}
-              />
+              >
+                {spot.card && <CardHalo {...spot.card} />}
+              </button>
             ))}
           </div>
         )}
