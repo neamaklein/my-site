@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import zoom from '../assets/home/name-card-zoom.mp4';
+import zoomTall from '../assets/home/name-card-zoom-mobile.mp4';
 import styles from './NameCardZoom.module.css';
 
 // Per Neama: the name card on the desk in the film's last frame opens her
 // short zoom onto it. It plays once over the film (which ends on the same
-// frame it starts from) and holds on the card, where her About me window
+// frame it starts from; upright phones get her vertical cut of it) and
+// holds on the card, where her About me window
 // rises beside it (in the contact windows' style; her words). The round
 // arrow, as on the contact windows, goes back. Under her words, as in her
 // reference: View CV, then where she is based and her focus.
@@ -43,8 +45,8 @@ export default function NameCardZoom({ tall, onClose }) {
   return (
     <div className={styles.layer} role="dialog" aria-modal="true" aria-label="Neama Klein">
       <video
-        className={`${styles.video} ${tall ? styles.tall : ''}`}
-        src={zoom}
+        className={styles.video}
+        src={tall ? zoomTall : zoom}
         autoPlay
         muted
         playsInline

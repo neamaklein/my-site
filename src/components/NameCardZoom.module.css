@@ -13,12 +13,6 @@
   object-fit: cover;
 }
 
-/* The zoom is wide only: on an upright phone, centre the card (left of
-   centre as the zoom ends); it is wider than the phone, so its edges crop. */
-.tall {
-  object-position: 20% center;
-}
-
 /* About me: a window like the contact ones (beige, round corners, the
    purple bar), beside the card where the zoom ends; on an upright phone,
    along the bottom. */
