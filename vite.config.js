@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { cloudflare } from '@cloudflare/vite-plugin';
 import { randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, createReadStream } from 'node:fs';
 import { extname, join } from 'node:path';
@@ -84,8 +85,31 @@ function localEdits() {
   };
 }
 
+// `npm run deploy:cf` (CF_DEPLOY=1) builds for Cloudflare.
+const CLOUDFLARE = process.env.CF_DEPLOY === '1';
+
+// Over Cloudflare's 25 MiB per-file cap: its build links these videos from
+// the R2 bucket `neama-media` instead of copying them into the build.
+const R2_URL = 'https://media.neama.design';
+const R2_VIDEOS = ['film-1080.mp4', 'walkthrough.mp4'];
+function mediaFromR2(url) {
+  return {
+    name: 'media-from-r2',
+    enforce: 'pre',
+    load(id) {
+      const file = R2_VIDEOS.find((name) => id.endsWith(`/${name}`));
+      if (file) return `export default ${JSON.stringify(`${url}/${file}`)};`;
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), ...(process.env.VITE_LOCAL_EDIT === '1' ? [localEdits()] : [])],
-  // GitHub Pages serves this repo from /my-site/, not the domain root.
-  base: '/my-site/',
+  plugins: [
+    react(),
+    ...(process.env.VITE_LOCAL_EDIT === '1' ? [localEdits()] : []),
+    ...(CLOUDFLARE ? [mediaFromR2(R2_URL), cloudflare()] : []),
+  ],
+  // GitHub Pages serves this repo from /my-site/; Vercel (which sets VERCEL=1
+  // while building) and Cloudflare serve it from the domain root.
+  base: CLOUDFLARE || process.env.VERCEL ? '/' : '/my-site/',
 });

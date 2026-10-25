@@ -7,12 +7,12 @@ import { ReviewProvider } from './review/ReviewProvider.jsx';
 import './review/localBackend.js';
 import './styles/global.css';
 
-// GitHub Pages uses real URLs under /my-site/. The review copy published
-// as a claude.ai page (VITE_ROUTER=hash) can't rely on its own path, so
-// it routes through the URL hash instead.
+// GitHub Pages and Vercel use real URLs under Vite's `base` (/my-site/ or
+// /). The review copy published as a claude.ai page (VITE_ROUTER=hash)
+// can't rely on its own path, so it routes through the URL hash instead.
 const useHash = import.meta.env.VITE_ROUTER === 'hash';
 const Router = useHash ? HashRouter : BrowserRouter;
-const routerProps = useHash ? {} : { basename: '/my-site/' };
+const routerProps = useHash ? {} : { basename: import.meta.env.BASE_URL };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
