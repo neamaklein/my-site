@@ -51,8 +51,7 @@ export const wot = {
   category: 'BOOK_COVERS',
 
   hero: {
-    // The file is 16:9 with black bars either side of its 3:2 picture.
-    media: { kind: 'video', note: 'the covers, one after another', src: hero, phoneRatio: '3 / 2' },
+    media: { kind: 'video', note: 'the covers, one after another', src: hero },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },
 

@@ -50,7 +50,8 @@ export const achoti = {
   category: 'UX_UI',
 
   hero: {
-    media: { kind: 'image', note: 'ACHOTI — logo, the app and its character', src: hero },
+    // Neama's waiting-room illustration (her upload); whole on phones.
+    media: { kind: 'image', note: 'ACHOTI — the waiting room', src: hero, phoneWhole: true },
     scrollLabel: 'SCROLL_TO_UNBOX',
   },
 

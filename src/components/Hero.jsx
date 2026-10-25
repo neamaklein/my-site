@@ -12,16 +12,11 @@ export default function Hero({ heading, subtitle, scrollLabel, intro, media }) {
   const bgSrc = override?.url || media?.src;
   // `media.position`: the point of the image kept in view when the screen
   // crops it (a phone, say), as CSS object-position.
-  // `phoneRatio`: the picture's own shape on an upright phone, where the
-  // file has bars of its own (cropped away, as the screen-tall box did).
-  const bgStyle =
-    media?.position || media?.phoneRatio
-      ? { objectPosition: media.position, '--phone-ratio': media.phoneRatio }
-      : undefined;
+  const bgStyle = media?.position ? { objectPosition: media.position } : undefined;
   const bgIsVideo = override ? override.contentType.startsWith('video/') : media?.kind === 'video';
 
   return (
-    <section className={styles.hero}>
+    <section className={`${styles.hero} ${media?.phoneWhole ? styles.whole : ''}`}>
       {intro && <HeroIntro />}
       <div className={styles.bg}>
         {bgSrc && bgIsVideo ? (

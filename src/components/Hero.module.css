@@ -63,33 +63,31 @@
   mix-blend-mode: difference;
 }
 
-/* Upright phones (per Neama): the hero picture whole, at its own width
-   and proportions, not cropped to fill a screen-tall box. */
+/* `phoneWhole` (per Neama, ACHOTI): on an upright phone the picture shows
+   whole, at its own width and proportions, not cropped to a screen-tall
+   box; the scroll hint would sit across it there, so it is left out. */
 @media (max-width: 760px) and (orientation: portrait) {
-  .hero {
+  .whole {
     height: auto;
     min-height: 0;
   }
 
-  .bg {
+  .whole .bg {
     position: relative;
     inset: auto;
     width: 100%;
   }
 
-  .bgImage {
+  .whole .bgImage {
     display: block;
     height: auto;
-    aspect-ratio: var(--phone-ratio, auto);
   }
 
-  .content {
+  .whole .content {
     position: absolute;
   }
 
-  /* The page's text starts right under the picture: no scroll hint
-     across it. */
-  .scroll {
+  .whole .scroll {
     display: none;
   }
 }
