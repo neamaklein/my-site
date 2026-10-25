@@ -206,14 +206,14 @@ export const dimenso = {
     },
     {
       // Per Neama: her plans (iD_plans_A3, iD_elevation_cyan), before the
-      // video, each named under it. The names are descriptive labels, not
+      // video, each named above it. The names are descriptive labels, not
       // from her files — rename freely.
       heading: 'Plans',
       columns: 1,
       media: [
-        { kind: 'image', note: 'ground floor plan', src: planGround, caption: 'Ground Floor Plan', captionBelow: true },
-        { kind: 'image', note: 'upper floor plan', src: planUpper, caption: 'Upper Floor Plan', captionBelow: true },
-        { kind: 'image', note: 'front elevation', src: elevation, caption: 'Front Elevation', captionBelow: true },
+        { kind: 'image', note: 'ground floor plan', src: planGround, caption: 'Ground Floor Plan' },
+        { kind: 'image', note: 'upper floor plan', src: planUpper, caption: 'Upper Floor Plan' },
+        { kind: 'image', note: 'front elevation', src: elevation, caption: 'Front Elevation' },
       ],
     },
     {
