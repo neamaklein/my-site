@@ -18,11 +18,12 @@ const PinIcon = () => (
   </svg>
 );
 
+// A target (per Neama: not the three circles).
 const FocusIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="12" cy="8.5" r="4.5" />
-    <circle cx="8.5" cy="14.5" r="4.5" />
-    <circle cx="15.5" cy="14.5" r="4.5" />
+    <circle cx="12" cy="12" r="8.5" />
+    <circle cx="12" cy="12" r="4.5" />
+    <circle cx="12" cy="12" r="0.8" />
   </svg>
 );
 
