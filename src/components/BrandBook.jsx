@@ -98,13 +98,20 @@ export default function BrandBook({
         {logoSrc && (
           <Block
             label={labels.logo}
-            className={morphologySrc !== undefined ? styles.narrow : pairLogoColors ? styles.half : styles.full}
+            className={
+              morphologySrc !== undefined
+                ? `${styles.narrow} ${styles.fullOnPhone}`
+                : pairLogoColors
+                  ? styles.half
+                  : styles.full
+            }
           >
             <Logo src={logoSrc} kind={logoKind} scale={logoScale} fill={logoFill} />
           </Block>
         )}
         {morphologySrc !== undefined && (
-          <Block label={labels.morphology} className={styles.wide}>
+          // Per Neama: on a phone the logo and its morphology each take a row.
+          <Block label={labels.morphology} className={`${styles.wide} ${styles.fullOnPhone}`}>
             <MediaPlaceholder
               kind={morphologyKind}
               note="logo construction / grid"
