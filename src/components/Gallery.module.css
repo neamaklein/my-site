@@ -168,8 +168,10 @@
 }
 
 .captionBelow {
+  justify-content: center;
   margin: 12px 0 0;
   font-size: 13px;
+  text-align: center;
 }
 
 .scale {

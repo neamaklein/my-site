@@ -56,7 +56,7 @@ function Media({ item, ratio }) {
 // With `onPick`, each item is a button that reports its index. With
 // `maxRowHeight` (a CSS length), a row narrows and centres so it is never
 // taller than that.
-function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast = false }) {
+function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast = false, evenLast = false }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -91,16 +91,37 @@ function Rows({ media, columns, ratio, className, onPick, maxRowHeight, fillLast
         row.style.marginInline = 'auto';
       }
     };
+    // `evenLast`: a short last row's items take the width of the first
+    // row's, centred, rather than growing to fill the row.
+    const evenOut = () => {
+      if (!evenLast) return;
+      const all = [...root.children];
+      const last = all[all.length - 1];
+      const first = all[0]?.querySelector('[data-cell]');
+      if (all.length < 2 || !first || last.children.length >= all[0].children.length) return;
+      last.style.justifyContent = 'center';
+      last.style.maxWidth = 'none';
+      [...last.children].forEach((cell) => {
+        cell.style.flex = `0 0 ${first.offsetWidth}px`;
+      });
+    };
     root.querySelectorAll('img, video').forEach(fit);
+    evenOut();
+    const resize = new ResizeObserver(evenOut);
+    resize.observe(root);
     // load does not bubble, but it does pass ancestors on the way down.
-    const onLoad = (e) => fit(e.target);
+    const onLoad = (e) => {
+      fit(e.target);
+      evenOut();
+    };
     root.addEventListener('load', onLoad, true);
     root.addEventListener('loadedmetadata', onLoad, true);
     return () => {
       root.removeEventListener('load', onLoad, true);
       root.removeEventListener('loadedmetadata', onLoad, true);
+      resize.disconnect();
     };
-  }, [media, maxRowHeight, columns]);
+  }, [media, maxRowHeight, columns, evenLast]);
 
   const rows = [];
   for (let i = 0; i < media.length; i += columns) rows.push(media.slice(i, i + columns));
@@ -269,6 +290,7 @@ export default function Gallery({
   fillLast = false,
   gap,
   phoneColumns,
+  evenLast = false,
 }) {
   // Slots still waiting for their media show only in the review copy.
   const media = useMemo(() => allMedia.filter((item) => REVIEW || !item.reviewOnly), [allMedia]);
@@ -422,6 +444,7 @@ export default function Gallery({
         className={`${styles.columns} ${rounded ? styles.rounded : ''}`}
         media={media}
         columns={phone && phoneColumns ? phoneColumns : columns}
+        evenLast={evenLast}
         ratio={ratio}
         maxRowHeight={maxRowHeight}
       />

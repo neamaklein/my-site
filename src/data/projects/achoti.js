@@ -151,6 +151,8 @@ export const achoti = {
       // it (her captions and screens).
       columns: 4,
       phoneColumns: 2,
+      // Per Neama: the last screen no larger than the others.
+      evenLast: true,
       maxRowHeight: '60svh',
       media: [
         [wireframe1, '01 · Onboarding Flow'],
