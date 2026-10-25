@@ -206,6 +206,13 @@
   }
   /* `stackOnPhone`: the icons card on its own row, the fonts card in a
      row of its own above it (per Neama, ACHOTI). */
+  /* A logo on its own row (per Neama: it sat badly): its full size in the
+     layout itself, not enlarged past its box by the desktop scale. */
+  .fullOnPhone .logo:not(.logoFill) {
+    max-height: 120px;
+    scale: none !important;
+    margin: 4px auto 8px;
+  }
   .belowOnPhone {
     grid-column: 1 / -1;
     order: 1;
