@@ -477,6 +477,11 @@
   white-space: nowrap;
 }
 
+/* The phone view's Edit button and status, in this bar. */
+.phoneTools {
+  display: contents;
+}
+
 /* Wide / Mobile: the site as on a desktop, or in a phone frame. */
 .viewToggle {
   display: inline-flex;

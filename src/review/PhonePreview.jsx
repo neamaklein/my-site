@@ -20,20 +20,25 @@ function read() {
 }
 
 // The same site, as a document of its own: this page's stylesheets and
-// scripts, and its claude.ai connection handed down.
+// scripts, and its claude.ai connection handed down. Its address is a
+// blob: one, so <base> points its relative URLs (images, fonts, the dev
+// server's) back at this page's; the router allows for <base>.
 function frameUrl() {
-  const tags = [...document.querySelectorAll('link[rel="stylesheet"], script[type="module"][src]')]
-    .map((el) =>
-      el.tagName === 'LINK'
-        ? `<link rel="stylesheet" crossorigin href="${el.href}">`
-        : `<script type="module" crossorigin src="${el.src}"></script>`,
-    )
+  // Inline module scripts too: on `npm run edit` the dev server's React
+  // preamble is one.
+  const tags = [...document.querySelectorAll('link[rel="stylesheet"], script[type="module"]')]
+    .map((el) => {
+      if (el.tagName === 'LINK') return `<link rel="stylesheet" crossorigin href="${el.href}">`;
+      if (el.src) return `<script type="module" crossorigin src="${el.src}"></script>`;
+      return `<script type="module">${el.textContent}</script>`;
+    })
     .join('\n');
   const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="${document.baseURI}">
 <script>try { window.claude = parent.claude; } catch (e) {}</script>
 ${tags}
 </head>

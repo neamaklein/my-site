@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import ExpertScan from './ExpertScan.jsx';
 import SerifTrial from './SerifTrial.jsx';
 import { PhoneFrame, ViewToggle, useView } from './PhonePreview.jsx';
@@ -68,6 +69,41 @@ const ERRORS = {
 };
 
 const EDIT_FIELDS = ['assetId', 'size', 'offset', 'font', 'css'];
+
+// The phone view (PhonePreview.jsx) edits the phone layout only: its
+// records are kept beside the wide ones under the same key plus `~m`, and
+// laid over them there (per Neama). The wide view never reads them.
+const PHONE = '~m';
+const storeKey = (key) => (IN_PHONE ? key + PHONE : key);
+function viewOf(all) {
+  const view = {};
+  Object.entries(all).forEach(([id, data]) => {
+    if (!id.endsWith(PHONE)) view[id] = data;
+  });
+  if (!IN_PHONE) return view;
+  Object.entries(all).forEach(([id, data]) => {
+    if (!id.endsWith(PHONE)) return;
+    const key = id.slice(0, -PHONE.length);
+    const base = view[key] || {};
+    view[key] = {
+      ...base,
+      ...data,
+      ...(base.css || data.css ? { css: { ...base.css, ...data.css } } : {}),
+      ...(base.font || data.font ? { font: { ...base.font, ...data.font } } : {}),
+    };
+  });
+  return view;
+}
+
+// The phone view's controls go up into the page around it: its Edit
+// button into the tools bar's slot, its inspector beside the phone.
+const hostDoc = () => {
+  try {
+    return window.parent.document;
+  } catch {
+    return null;
+  }
+};
 const hasEdits = (data) => EDIT_FIELDS.some((field) => data[field]);
 
 // Anything inside a media slot (a placeholder's labels) picks the slot,
@@ -96,7 +132,9 @@ export function ReviewProvider({ children }) {
       return !open;
     });
   const [view, setView] = useView();
-  const [docs, setDocs] = useState({});
+  // Every saved record (`raw`), and the ones this view shows (`docs`).
+  const [raw, setRaw] = useState({});
+  const docs = useMemo(() => viewOf(raw), [raw]);
   // Changes not saved yet: {key, fields, meta}; a null field means "remove".
   const [draft, setDraft] = useState(null);
   const [selected, setSelected] = useState(null); // {key, kind: media|text|element, label, path?}
@@ -105,10 +143,27 @@ export function ReviewProvider({ children }) {
   const [, setTick] = useState(0); // re-render after the DOM settles
   const caps = useRef({ db: null, assets: null });
   const fileInput = useRef(null);
-  const docsRef = useRef(docs);
+  const rawRef = useRef(raw);
   const draftRef = useRef(null);
   const saveTimer = useRef(null);
-  docsRef.current = docs;
+  rawRef.current = raw;
+  const [phoneSlot, setPhoneSlot] = useState(null);
+
+  // The phone view waits for its slot in the tools bar around it.
+  useEffect(() => {
+    if (!IN_PHONE) return undefined;
+    const find = () => hostDoc()?.getElementById('phone-tools');
+    const timer = setInterval(() => {
+      const slot = find();
+      if (slot !== phoneSlot) setPhoneSlot(slot || null);
+    }, 500);
+    return () => clearInterval(timer);
+  }, [phoneSlot]);
+
+  // Leaving for the phone view ends editing here.
+  useEffect(() => {
+    if (view === 'mobile' && !IN_PHONE) setEditing(false);
+  }, [view]);
 
   useEffect(() => {
     if (!ENABLED || !window.claude?.use) return undefined;
@@ -123,7 +178,7 @@ export function ReviewProvider({ children }) {
           snap.docs.forEach((doc) => {
             next[doc.id] = doc.data() || {};
           });
-          setDocs(next);
+          setRaw(next);
         },
         () => setStatus('Lost the connection to saved edits. Reload the page.'),
       );
@@ -174,13 +229,13 @@ export function ReviewProvider({ children }) {
     clearTimeout(saveTimer.current);
     const pending = draftRef.current;
     if (!pending || !caps.current.db) return;
-    const data = { ...(docsRef.current[pending.key] || {}), ...pending.meta };
+    const data = { ...(rawRef.current[storeKey(pending.key)] || {}), ...pending.meta };
     Object.entries(pending.fields).forEach(([field, value]) => {
       if (value === null) delete data[field];
       else data[field] = value;
     });
     try {
-      await writeDoc(pending.key, data);
+      await writeDoc(storeKey(pending.key), data);
       setStatus('Saved.');
     } catch {
       setStatus('Could not save. Try again.');
@@ -374,8 +429,8 @@ export function ReviewProvider({ children }) {
     try {
       await commit();
       const result = await assets.upload(file);
-      await writeDoc(selected.key, {
-        ...(docsRef.current[selected.key] || {}),
+      await writeDoc(storeKey(selected.key), {
+        ...(rawRef.current[storeKey(selected.key)] || {}),
         assetId: result.id,
         contentType: result.contentType,
         fileName: file.name,
@@ -394,8 +449,8 @@ export function ReviewProvider({ children }) {
     try {
       await commit();
       // eslint-disable-next-line no-unused-vars
-      const { assetId, contentType, fileName, ...rest } = docsRef.current[selected.key] || {};
-      await writeDoc(selected.key, rest);
+      const { assetId, contentType, fileName, ...rest } = rawRef.current[storeKey(selected.key)] || {};
+      await writeDoc(storeKey(selected.key), rest);
       setStatus('Back to the original.');
     } catch {
       setStatus('Could not restore the original. Try again.');
@@ -418,31 +473,72 @@ export function ReviewProvider({ children }) {
         })
     : [];
 
+  const inspector = ENABLED && editing && (
+    <Inspector
+      selected={selected}
+      record={record}
+      computed={el ? getComputedStyle(el) : null}
+      isMedia={Boolean(el && (el.dataset.mediaKey || /^(IMG|VIDEO)$/.test(el.tagName)))}
+      hasText={Boolean(el && (el.innerText || '').trim())}
+      canReplace={selected?.kind === 'media'}
+      replaced={Boolean(selected && overrides[selected.key])}
+      busy={busy}
+      edits={edits}
+      setCss={setCss}
+      setOffset={setOffset}
+      restyle={restyle}
+      resize={resize}
+      resetAll={resetAll}
+      select={select}
+      onUpload={() => fileInput.current?.click()}
+      onRevert={revert}
+    />
+  );
+
+  const editControls = (
+    <>
+      {editing && (
+        <>
+          <span className={styles.status} aria-live="polite">
+            {status || (selected ? `Selected: ${selected.label}` : 'Click anything on the page to edit it')}
+          </span>
+          <input
+            id="review-media-file"
+            ref={fileInput}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
+            hidden
+            onChange={(event) => upload(event.target.files?.[0])}
+          />
+        </>
+      )}
+      {canEdit && (
+        <button
+          type="button"
+          className={styles.toggle}
+          aria-pressed={editing}
+          onClick={() => {
+            if (draftRef.current) commit();
+            setEditing((value) => !value);
+            setSelected(null);
+            setStatus('');
+          }}
+        >
+          {editing ? 'Done' : IN_PHONE ? 'Edit mobile' : 'Edit'}
+        </button>
+      )}
+    </>
+  );
+
+  const host = IN_PHONE ? hostDoc() : null;
+  const phoneView = !IN_PHONE && view === 'mobile';
+
   return (
     <ReviewContext.Provider value={contextValue}>
       {children}
-      {ENABLED && editing && (
-        <Inspector
-          selected={selected}
-          record={record}
-          computed={el ? getComputedStyle(el) : null}
-          isMedia={Boolean(el && (el.dataset.mediaKey || /^(IMG|VIDEO)$/.test(el.tagName)))}
-          hasText={Boolean(el && (el.innerText || '').trim())}
-          canReplace={selected?.kind === 'media'}
-          replaced={Boolean(selected && overrides[selected.key])}
-          busy={busy}
-          edits={edits}
-          setCss={setCss}
-          setOffset={setOffset}
-          restyle={restyle}
-          resize={resize}
-          resetAll={resetAll}
-          select={select}
-          onUpload={() => fileInput.current?.click()}
-          onRevert={revert}
-        />
-      )}
-      {ENABLED && !IN_PHONE && view === 'mobile' && <PhoneFrame />}
+      {IN_PHONE ? inspector && host && createPortal(inspector, host.body) : inspector}
+      {IN_PHONE && phoneSlot && createPortal(editControls, phoneSlot)}
+      {ENABLED && phoneView && <PhoneFrame />}
       {ENABLED && !IN_PHONE && (
         <div className={styles.bar} role="region" aria-label="Review tools" data-review-ui>
           {!editing && (
@@ -451,42 +547,15 @@ export function ReviewProvider({ children }) {
             </button>
           )}
           {(barOpen || editing) && (
-          <>
-          <ViewToggle view={view} setView={setView} />
-          <SerifTrial />
-          <ExpertScan />
-          {editing && (
             <>
-              <span className={styles.status} aria-live="polite">
-                {status || (selected ? `Selected: ${selected.label}` : 'Click anything on the page to edit it')}
-              </span>
-              <input
-                id="review-media-file"
-                ref={fileInput}
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
-                hidden
-                onChange={(event) => upload(event.target.files?.[0])}
-              />
+              <ViewToggle view={view} setView={setView} />
+              <SerifTrial />
+              <ExpertScan />
+              {!phoneView && editControls}
             </>
           )}
-          {canEdit && (
-            <button
-              type="button"
-              className={styles.toggle}
-              aria-pressed={editing}
-              onClick={() => {
-                if (draftRef.current) commit();
-                setEditing((value) => !value);
-                setSelected(null);
-                setStatus('');
-              }}
-            >
-              {editing ? 'Done' : 'Edit'}
-            </button>
-          )}
-          </>
-          )}
+          {/* The phone view's own Edit button and status land here. */}
+          {phoneView && <span id="phone-tools" className={styles.phoneTools} />}
         </div>
       )}
     </ReviewContext.Provider>
