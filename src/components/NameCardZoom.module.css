@@ -79,7 +79,8 @@
   color: var(--color-frame);
 }
 
-/* View CV: a pill in the frame purple. */
+/* View CV: a pill, light purple at rest; the frame purple on hover and
+   press (per Neama). */
 .cv {
   justify-self: start;
   display: inline-flex;
@@ -88,19 +89,24 @@
   padding: 14px 24px;
   border: 0;
   border-radius: 999px;
-  background: var(--color-frame);
-  color: #fff;
+  background: rgba(78, 20, 160, 0.14);
+  color: var(--color-frame);
   font-family: 'Montserrat', var(--font-body);
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .cv:hover,
+.cv:active,
 .cv:focus-visible {
-  background: #3a0e7a;
+  background: var(--color-frame);
+  color: #fff;
   outline: none;
 }
 
@@ -118,6 +124,38 @@
 /* Per Neama: not on an upright phone. */
 .aboutTall .facts {
   display: none;
+}
+
+/* Upright phone: compact, so the window stays below the card (per
+   Neama), which ends about 61% of the way down the frame. */
+.aboutTall {
+  --pad: 16px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  border-radius: 20px;
+}
+
+.aboutTall .bar {
+  min-height: 34px;
+  font-size: 11px;
+}
+
+.aboutTall .body {
+  gap: 10px;
+}
+
+.aboutTall .title {
+  margin: 0;
+  font-size: 22px;
+}
+
+.aboutTall .text {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.aboutTall .cv {
+  padding: 10px 18px;
+  font-size: 12px;
 }
 
 .fact {
