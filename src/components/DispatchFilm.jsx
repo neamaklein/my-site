@@ -2,7 +2,9 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
+import filmMobile from '../assets/home/film-mobile.mp4';
 import poster from '../assets/home/film-poster.jpg';
+import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
 import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
 import { REVIEW } from '../review/flags.js';
@@ -13,7 +15,8 @@ import styles from './DispatchFilm.module.css';
 // camera reaches a station, a card names its project and opens it. The
 // film carries its own words (label, wall signs, LET'S TALK); the cards
 // are the only HTML on top. Encoded with a keyframe every 6 frames so
-// seeking stays smooth; phones get the 720p copy.
+// seeking stays smooth; phones held upright get Neama's vertical cut
+// (720×1280), other small screens the 720p copy.
 
 // Seconds in the film where each station's box is open, by dispatch number.
 const STATIONS = {
@@ -35,15 +38,23 @@ const DURATION = 46.4;
 const BOARD_FROM = 4.7;
 
 // The film's last frame (the camera settles at about 45.9s): where its
-// Instagram, LinkedIn and "Email me" sit, in % of the 1920×1080 frame.
-// Each opens the contact windows (per Neama). Review copy only until her
-// details are in.
+// Instagram, LinkedIn and "Contact" sit, in % of the frame (1920×1080, or
+// 1080×1920 for the vertical cut). Each opens the contact windows (per
+// Neama). Review copy only until her details are in. Contact follows the
+// button's own pill, tilt included (per Neama), so its halo follows it.
 const CONTACT_FROM = 45.9;
-const SPOTS = [
-  { label: 'Instagram', left: 70.6, top: 25.9, width: 10.2, height: 4.6 },
-  { label: 'LinkedIn', left: 82.8, top: 25.9, width: 8.6, height: 4.6 },
-  { label: 'Email me', left: 39.8, top: 60.2, width: 10.9, height: 7.9 },
-];
+const SPOTS = {
+  wide: [
+    { label: 'Instagram', left: 70.6, top: 25.9, width: 10.2, height: 4.6 },
+    { label: 'LinkedIn', left: 82.8, top: 25.9, width: 8.6, height: 4.6 },
+    { label: 'Contact', left: 40.15, top: 60.96, width: 10.2, height: 5.89, rotate: 5.56 },
+  ],
+  tall: [
+    { label: 'Instagram', left: 65.5, top: 38, width: 15, height: 3.2 },
+    { label: 'LinkedIn', left: 83, top: 38, width: 13, height: 3.2 },
+    { label: 'Contact', left: 21.39, top: 55.18, width: 15.12, height: 2.72, rotate: 4.05 },
+  ],
+};
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
@@ -58,7 +69,15 @@ export default function DispatchFilm({ projects }) {
   const videoRef = useRef(null);
   const boardRef = useRef(null);
   const [time, setTime] = useState(0);
-  const [src] = useState(() => (window.matchMedia?.('(max-width: 900px)').matches ? film720 : film1080));
+  const [cut] = useState(() =>
+    window.matchMedia?.('(max-width: 900px) and (orientation: portrait)').matches
+      ? 'tall'
+      : window.matchMedia?.('(max-width: 900px)').matches
+        ? 'small'
+        : 'wide',
+  );
+  const tall = cut === 'tall';
+  const src = { tall: filmMobile, small: film720, wide: film1080 }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
@@ -168,7 +187,7 @@ export default function DispatchFilm({ projects }) {
           ref={videoRef}
           className={styles.video}
           src={src}
-          poster={poster}
+          poster={tall ? posterMobile : poster}
           muted
           playsInline
           preload="auto"
@@ -217,8 +236,8 @@ export default function DispatchFilm({ projects }) {
         {/* The film's frame as the video covers the stage, so each spot
             sits on its word at any screen size. */}
         {atEnd && (
-          <div className={styles.frame}>
-            {SPOTS.map((spot) => (
+          <div className={`${styles.frame} ${tall ? styles.frameTall : ''}`}>
+            {SPOTS[tall ? 'tall' : 'wide'].map((spot) => (
               <button
                 key={spot.label}
                 type="button"
@@ -228,6 +247,7 @@ export default function DispatchFilm({ projects }) {
                   top: `${spot.top}%`,
                   width: `${spot.width}%`,
                   height: `${spot.height}%`,
+                  rotate: spot.rotate ? `${spot.rotate}deg` : undefined,
                 }}
                 onClick={() => setContact(true)}
                 aria-label={spot.label}

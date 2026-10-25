@@ -82,11 +82,10 @@ export const wot = {
     },
     {
       // Per Neama: the characters sheet (her upload) as its own section,
-      // above Cover & Back, under her heading; narrower than the page so the
-      // tall sheet reads as a list.
+      // above Cover & Back, under her heading, across the full width.
       heading: 'דמויות',
       columns: 1,
-      media: [{ kind: 'image', note: 'the characters', src: characters, size: { width: 60, align: 'center' } }],
+      media: [{ kind: 'image', note: 'the characters', src: characters }],
     },
     {
       heading: 'Cover & Back',

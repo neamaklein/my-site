@@ -149,19 +149,29 @@
   pointer-events: none;
 }
 
+.frameTall {
+  width: max(100%, calc(100svh * 9 / 16));
+  aspect-ratio: 9 / 16;
+}
+
 .spot {
   position: absolute;
   padding: 0;
   border: 0;
-  border-radius: 6px;
+  /* Rounded all round, so the glow follows Contact's pill and sits softly
+     around the words. */
+  border-radius: 999px;
   background: transparent;
   cursor: pointer;
   pointer-events: auto;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.25s ease;
 }
 
+/* Per Neama: a soft halo, not a drawn line. */
 .spot:hover,
 .spot:focus-visible {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 0 12px 3px rgba(255, 255, 255, 0.7),
+    0 0 32px 10px rgba(255, 255, 255, 0.35);
   outline: none;
 }
