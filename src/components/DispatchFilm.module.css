@@ -167,6 +167,11 @@
   transition: box-shadow 0.25s ease;
 }
 
+/* The name card: its own rounded corners, not a pill. */
+.card {
+  border-radius: 12% / 8%;
+}
+
 /* Per Neama: a soft halo, not a drawn line. */
 .spot:hover,
 .spot:focus-visible {

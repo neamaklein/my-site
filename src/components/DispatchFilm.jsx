@@ -6,6 +6,7 @@ import filmMobile from '../assets/home/film-mobile.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
+import NameCardZoom from './NameCardZoom.jsx';
 import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
 import { REVIEW } from '../review/flags.js';
 import styles from './DispatchFilm.module.css';
@@ -42,17 +43,20 @@ const BOARD_FROM = 4.7;
 // 1080×1920 for the vertical cut). Each opens the contact windows (per
 // Neama). Review copy only until her details are in. Contact follows the
 // button's own pill, tilt included (per Neama), so its halo follows it.
+// The name card on the desk plays her zoom onto it instead (per Neama).
 const CONTACT_FROM = 45.9;
 const SPOTS = {
   wide: [
     { label: 'Instagram', left: 70.6, top: 25.9, width: 10.2, height: 4.6 },
     { label: 'LinkedIn', left: 82.8, top: 25.9, width: 8.6, height: 4.6 },
     { label: 'Contact', left: 40.15, top: 60.96, width: 10.2, height: 5.89, rotate: 5.56 },
+    { label: 'Neama Klein', left: 72.4, top: 53.5, width: 12.9, height: 28, card: true },
   ],
   tall: [
     { label: 'Instagram', left: 65.5, top: 38, width: 15, height: 3.2 },
     { label: 'LinkedIn', left: 83, top: 38, width: 13, height: 3.2 },
     { label: 'Contact', left: 21.39, top: 55.18, width: 15.12, height: 2.72, rotate: 4.05 },
+    { label: 'Neama Klein', left: 67.9, top: 51.3, width: 17.5, height: 12.2, card: true },
   ],
 };
 
@@ -170,6 +174,8 @@ export default function DispatchFilm({ projects }) {
   const [contact, setContact] = useState(false);
   const atEnd = REVIEW && time >= CONTACT_FROM;
   const closeContact = useCallback(() => setContact(false), []);
+  const [nameCard, setNameCard] = useState(false);
+  const closeNameCard = useCallback(() => setNameCard(false), []);
 
   // On a narrow screen the board scrolls sideways: keep the marked slot in
   // view (moving the board only, never the page).
@@ -241,7 +247,7 @@ export default function DispatchFilm({ projects }) {
               <button
                 key={spot.label}
                 type="button"
-                className={styles.spot}
+                className={`${styles.spot} ${spot.card ? styles.card : ''}`}
                 style={{
                   left: `${spot.left}%`,
                   top: `${spot.top}%`,
@@ -249,13 +255,14 @@ export default function DispatchFilm({ projects }) {
                   height: `${spot.height}%`,
                   rotate: spot.rotate ? `${spot.rotate}deg` : undefined,
                 }}
-                onClick={() => setContact(true)}
+                onClick={() => (spot.card ? setNameCard(true) : setContact(true))}
                 aria-label={spot.label}
               />
             ))}
           </div>
         )}
         {contact && <ContactWindows onClose={closeContact} />}
+        {nameCard && <NameCardZoom tall={tall} onClose={closeNameCard} />}
       </div>
     </section>
   );
