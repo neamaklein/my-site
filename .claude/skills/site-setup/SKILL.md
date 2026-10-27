@@ -33,11 +33,16 @@ Neama asks  ->  you edit files  ->  commit + push to the working branch
 - **neama.design and www.neama.design:** a Cloudflare Worker named
   `neama-klein-portfolio` (config: `cloudflare.config.ts`). It serves the
   built site and runs `worker/index.js` for `/api/*`.
-- **Big videos:** Cloudflare refuses any file over 25 MiB. `film-1080.mp4`
-  and `walkthrough.mp4` are over that, so the Cloudflare build links them
-  from the R2 bucket `neama-media` at `https://media.neama.design` instead
-  (the `R2_VIDEOS` list in `vite.config.js`). The copies in `src/assets/`
-  are still used by the other builds.
+- **Videos:** every video under 25 MiB ships inside the site and is served
+  from neama.design itself. Cloudflare refuses any file over 25 MiB, so two
+  big H.264 files are linked from the R2 bucket `neama-media` at
+  `https://media.neama.design` instead (the `R2_VIDEOS` list in
+  `vite.config.js`): `walkthrough.mp4` (DIMENSO) and `film-1080.mp4` (the
+  old wide home film, kept there as the H.264 fallback; see "Video formats").
+  The copies in `src/assets/` are still used by the other builds.
+- **Home film now (since 25 Oct 2026):** wide screens play Neama's
+  `film-wide-hevc.mp4`, upright phones `film-mobile-hevc.mp4`, other small
+  screens `film-720.mp4` (H.264). Both HEVC files have no H.264 fallback yet.
 - **Contact form:** "Send a message" posts to `/api/contact`
   (`worker/index.js`). Cloudflare Turnstile (invisible) blocks bots; the
   message is emailed to `neama.klein@gmail.com` from `contact@neama.design`,
@@ -72,6 +77,44 @@ Before adding any file, check its size. If a file is over **25 MiB**:
 2. If it must stay large, stop: it has to be uploaded to the R2 bucket and
    added to `R2_VIDEOS`, which only Igor can do. Do not push it; CI will fail
    and nothing will go live.
+
+**Never name a new video `film-1080.mp4` or `walkthrough.mp4`**, in any
+folder. Those two names are swapped for the R2 copies in the Cloudflare
+build, so the new file would never reach neama.design and the old video
+would keep showing. Use a new name (as `film-wide-hevc.mp4` did).
+
+## Video formats
+
+- **H.264 plays in every browser. HEVC (H.265) does not:** it is smaller for
+  the same quality, but browsers without HEVC support (typically Firefox,
+  some Windows PCs, Linux; support keeps changing) show only the poster
+  still, and the home film does not move when scrolling. HEVC is fine **as
+  long as an H.264 copy is offered as a fallback** (below).
+- **Scroll-driven films need frequent keyframes.** The home film is played
+  by scrolling, so the browser jumps around in it constantly. Ask for a
+  keyframe every **12 frames** (wide) or **6 frames** (phone): in export
+  apps this is "keyframe interval" or "max keyframe distance". Neama's
+  current HEVC films have one every 45 frames, so scrolling, especially back
+  up, may stutter. This makes the file bigger; it must stay under 25 MiB.
+- **Fallback, how to do it (only if Neama agrees):** in
+  `src/components/DispatchFilm.jsx`, give the `<video>` two `<source>`
+  children, HEVC first, H.264 second; the browser plays the first one it
+  can. Do not set `src` on the element as well. For wide screens the H.264
+  source is `film1080` (import `../assets/home/film-1080.mp4`, which the
+  Cloudflare build already links to R2); for upright phones it is
+  `filmMobile` (import `../assets/home/film-mobile.mp4`). That file was
+  moved to `scripts/review/` on 25 Oct; bring the H.264 phone film back with
+  `git restore --source=5809196 src/assets/home/film-mobile.mp4` (leave the
+  `scripts/review/` copy where it is). Keep `film-720.mp4` as it is. Sketch:
+  ```jsx
+  <video ... src={cut === 'small' ? film720 : undefined}>
+    {cut !== 'small' && <source src={tall ? filmMobileHevc : filmWideHevc} type='video/mp4; codecs="hvc1"' />}
+    {cut !== 'small' && <source src={tall ? filmMobile : film1080} type="video/mp4" />}
+  </video>
+  ```
+  Then push, wait for the run, and check on neama.design that the page
+  source lists both files. If possible, open the home page in Firefox: the
+  film should play and scroll.
 
 ## Never do these, even if Neama asks
 
