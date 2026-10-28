@@ -1,0 +1,8 @@
+node_modules
+dist
+review-build
+review-local
+_archive_wix
+scripts/review
+loader-uppercase.png
+.DS_Store

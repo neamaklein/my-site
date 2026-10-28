@@ -1,0 +1,200 @@
+/* The scroll length sets the pace: about a screen of scrolling for every
+   two and a half seconds of film. */
+.track {
+  position: relative;
+  height: 1900vh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  /* clip, not just hidden: a spot cropped off a narrow screen must not
+     scroll the stage sideways when it takes focus. */
+  overflow: clip;
+  background: #f3e6da;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Departures board along the bottom: white type straight on the film
+   (per Neama), one slot per dispatch; the slot the camera is at is lit
+   and barred. */
+.board {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.board::-webkit-scrollbar {
+  display: none;
+}
+
+.slot {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 18px 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.7);
+  /* Straight on the film, with no panel (per Neama): a soft shadow keeps
+     the white legible over the light walls. */
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  transition: color 0.2s ease;
+}
+
+.slot:first-child {
+  border-left: 0;
+}
+
+.slotNo {
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* Per Neama: names are regular, and turn bold for the slot the camera is
+   at or the pointer is on. The bold width is held in advance (a hidden
+   bold copy) so the board doesn't shift as a name thickens. */
+.slotName {
+  display: inline-flex;
+  flex-direction: column;
+  font-weight: 400;
+}
+
+.slotName::after {
+  content: attr(data-name);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 700;
+}
+
+.here .slotName,
+.slot:hover .slotName,
+.slot:focus-visible .slotName {
+  font-weight: 700;
+}
+
+.here,
+.slot:hover,
+.slot:focus-visible {
+  color: #fff;
+  outline: none;
+}
+
+.here .slotNo {
+  opacity: 1;
+}
+
+/* The slot the camera is at: a thin white bar over it (per Neama). */
+.here::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--tag-size) * 1.2 + 36px + var(--edge) + env(safe-area-inset-bottom, 0px));
+  translate: -50% 0;
+  margin: 0;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--tag-size);
+  letter-spacing: var(--tag-tracking);
+  text-transform: uppercase;
+  /* Per Neama: white, straight on the film, like the board. */
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 640px) {
+  .slot {
+    padding: 14px 16px;
+  }
+}
+
+/* The 16:9 film frame as object-fit: cover lays it on the stage. */
+.frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(100svh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.frameTall {
+  width: max(100%, calc(100svh * 9 / 16));
+  aspect-ratio: 9 / 16;
+}
+
+.spot {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  /* Rounded all round, so the glow follows Contact's pill and sits softly
+     around the words. */
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: box-shadow 0.25s ease;
+}
+
+/* The name card: no box glow; its halo follows the card's own outline
+   (per Neama). */
+.spot.card:hover,
+.spot.card:focus-visible {
+  box-shadow: none;
+}
+
+.halo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.card:hover .halo,
+.card:focus-visible .halo {
+  opacity: 1;
+}
+
+/* Per Neama: a soft halo, not a drawn line. */
+.spot:hover,
+.spot:focus-visible {
+  box-shadow:
+    0 0 12px 3px rgba(255, 255, 255, 0.7),
+    0 0 32px 10px rgba(255, 255, 255, 0.35);
+  outline: none;
+}

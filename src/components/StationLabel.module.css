@@ -1,0 +1,139 @@
+/* The station label: the contact windows' language (light beige, round
+   corners, a purple bar, Montserrat), beside the model and low in the
+   frame, just above the board (per Neama: not over the station, and
+   small enough to clear the models and their boxes). */
+.label {
+  --pad: clamp(18px, 1.7vw, 26px);
+  position: absolute;
+  bottom: calc(clamp(64px, 9svh, 88px) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  width: clamp(250px, 22vw, 330px);
+  overflow: hidden;
+  border-radius: 20px;
+  background: #ecdfd0;
+  box-shadow: 0 30px 60px -24px rgba(40, 14, 48, 0.45);
+  color: var(--color-frame);
+  text-decoration: none;
+}
+
+.left {
+  left: clamp(20px, 6vw, 96px);
+}
+
+.right {
+  right: clamp(20px, 6vw, 96px);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--pad);
+  background: var(--color-frame);
+  color: #fff;
+  font:
+    400 12px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad);
+}
+
+.category {
+  font:
+    400 12px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin-top: 6px;
+  font:
+    700 clamp(26px, 2.5vw, 38px) / 1.02 'Montserrat',
+    var(--font-body);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.tagline {
+  margin-top: 6px;
+  font:
+    400 clamp(14px, 1.05vw, 16px) / 1.4 'Montserrat',
+    var(--font-body);
+  color: var(--color-ink);
+}
+
+.open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(82, 20, 106, 0.08);
+  font:
+    700 12px 'Montserrat',
+    var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.label:hover .open,
+.label:focus-visible .open {
+  background: var(--color-frame);
+  color: #fff;
+}
+
+.label:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Phones: the film is cropped to its middle; the label runs full width
+   above the board. */
+@media (max-width: 760px) {
+  .label {
+    --pad: 14px;
+    left: 16px;
+    right: 16px;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    border-radius: 16px;
+  }
+
+  .bar {
+    min-height: 32px;
+    font-size: 11px;
+  }
+
+  .category {
+    font-size: 11px;
+  }
+
+  .name {
+    margin-top: 4px;
+    font-size: 22px;
+  }
+
+  .tagline {
+    margin-top: 4px;
+    font-size: 13px;
+  }
+
+  .open {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+}

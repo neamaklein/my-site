@@ -1,6 +1,9 @@
-# dependencies
 node_modules/
+dist/
 .vscode/
 .idea/
-.wix/
-jsconfig.json
+review-build/
+review-local/
+neama-klein-portfolio.zip
+.vercel
+.cloudflare/
