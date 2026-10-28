@@ -19,8 +19,12 @@ PY
 # The artifact caps files at 15 MB: swap in the lighter 720p walkthrough.
 # Same for the home film: a lighter 1080p copy (keyframe every second,
 # 2.45 Mb/s), since the site's one is over the cap.
-for f in $OUT/assets/film-1080-*.mp4; do
+for f in $OUT/assets/film-wide-hevc-*.mp4; do
   [ -f "$f" ] && cp scripts/review/film-review.mp4 "$f"
+done
+# The vertical HEVC film (11 MB) stays, but is the lighter H.264 one there.
+for f in $OUT/assets/film-mobile-hevc-*.mp4; do
+  [ -f "$f" ] && cp scripts/review/film-mobile-review.mp4 "$f"
 done
 for f in $OUT/assets/walkthrough-*.mp4; do
   [ -f "$f" ] && cp scripts/review/walkthrough-review.mp4 "$f"

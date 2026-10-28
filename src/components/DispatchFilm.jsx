@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import film1080 from '../assets/home/film-1080.mp4';
+import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
 import film720 from '../assets/home/film-720.mp4';
-import filmMobile from '../assets/home/film-mobile.mp4';
+import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
@@ -160,7 +160,9 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  const src = { tall: filmMobile, small: film720, wide: film1080 }[cut];
+  // Wide screens: Neama's 1920×1080 HEVC, as she made it (22.6 MiB, under
+  // Cloudflare's limit, so it ships with the site, not from R2).
+  const src = { small: film720, wide: filmWideHevc }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
@@ -275,13 +277,17 @@ export default function DispatchFilm({ projects }) {
         <video
           ref={videoRef}
           className={styles.video}
-          src={src}
+          // Upright phones: Neama's 1080×1920 HEVC only (per Neama: the few
+          // devices that can't play HEVC are accepted).
+          src={tall ? undefined : src}
           poster={tall ? posterMobile : poster}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
-        />
+        >
+          {tall && <source src={filmMobileHevc} type='video/mp4; codecs="hvc1"' />}
+        </video>
 
         {projects.map((project) => {
           const callout = CALLOUTS[project.dispatchNumber];

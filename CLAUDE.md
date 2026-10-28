@@ -10,6 +10,28 @@ workflows, `worker/`, routing, the contact form, big media, git branches or
 history, hosting, domains), read `.claude/skills/site-setup/SKILL.md` and
 follow it.** It lists what must never be changed, even on request.
 
+## Open suggestion for Neama (raise it once, then remove this section)
+
+At the start of the next session, before her request, tell Neama briefly
+(in Hebrew, multiple choice, in her terms):
+
+- Her new home films are HEVC only. Visitors whose browser can't play HEVC
+  (often Firefox, some Windows PCs) see just the still image and the film
+  doesn't move when they scroll, and laptops are where most people view
+  portfolios.
+- Suggest a fallback: browsers that can play HEVC keep her new files, the
+  rest get the earlier H.264 films, so nobody loses the film. Her design and
+  her files stay as they are.
+- Also mention, as a separate option: re-exporting with a keyframe every 12
+  frames (wide) / 6 (phone) would make scrolling smoother; hers have one
+  every 45.
+
+Offer: (a) add the fallback, (b) also re-export with more keyframes, (c)
+keep it as it is. Do what she picks (how-to: the site-setup skill, "Video
+formats"), then delete this section in the same commit and push. If she
+picks (c), delete this section and note her choice in the comment above
+the `<video>` in `src/components/DispatchFilm.jsx`.
+
 ## Working with Neama
 
 - Reply in Hebrew, as a design peer. She prefers multiple-choice questions.
@@ -22,7 +44,8 @@ follow it.** It lists what must never be changed, even on request.
 
 - Data: `src/data/projects/*.js`, listed in `src/data/projects/index.js`
   (`comingSoon` reserves dispatch numbers for projects not built yet).
-- Assets: `src/assets/<slug>/`. Videos: H.264, no audio, `+faststart`.
+- Assets: `src/assets/<slug>/`. Videos: H.264, no audio, `+faststart`; HEVC
+  only with an H.264 fallback (see the site-setup skill, "Video formats").
 - DIMENSO source: Figma file `RzHu5E5HREe8x9XzR8aF0j` (Portfolio).
 
 ## Review copy (claude.ai artifact)
