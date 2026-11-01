@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
+import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,9 +160,12 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: Neama's 1920×1080 HEVC, as she made it (22.6 MiB, under
-  // Cloudflare's limit, so it ships with the site, not from R2).
-  const src = { small: film720, wide: filmWideHevc }[cut];
+  // Wide screens: the 1080p H.264 (keyframe every 12 frames), which Cloudflare
+  // serves from R2 with range requests, so it scrubs in every browser. Neama's
+  // HEVC export (src/assets/home/film-wide-hevc.mp4) stuck on the poster in
+  // her desktop Chrome and Safari: neama.design's static assets don't answer
+  // range requests; it can come back once they do.
+  const src = { small: film720, wide: film1080 }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
