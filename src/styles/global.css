@@ -70,15 +70,6 @@ video {
 /* Instrument Serif (OFL; license beside the files), on trial in the
    review copy: <html data-serif="voice|sections|all"> picks where it
    applies. Without the attribute (the live site) nothing changes. */
-/* Asimon DemiBold (Avraham Cornfeld), per Neama: the home page's Hello title. */
-@font-face {
-  font-family: 'Asimon';
-  src: url('../assets/fonts/Asimon-DemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
 @font-face {
   font-family: 'Instrument Serif';
   src: url('../assets/fonts/InstrumentSerif-Regular.woff2') format('woff2');
