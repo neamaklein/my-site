@@ -128,6 +128,10 @@
   flex: 1 0 auto;
   display: flex;
   align-items: baseline;
+  /* Per Neama: the same space around every name, so the gap between any two
+     is equal: each slot grows by the same amount and holds its name in the
+     middle (the divider then sits halfway between names). */
+  justify-content: center;
   gap: 12px;
   padding: 18px 20px;
   border-left: 1px solid rgba(255, 255, 255, 0.22);
