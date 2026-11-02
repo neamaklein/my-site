@@ -42,7 +42,7 @@
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(72px, 9svh, 100px) max(24px, calc(100% - 600px));
+  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) clamp(72px, 9svh, 100px) max(24px, calc(100% - 540px));
   /* Per Neama: no fade, the words in white, large. A soft shadow (not a panel) keeps them readable on the light film. */
   color: #fff;
   text-shadow: 0 1px 3px rgba(40, 8, 56, 0.6), 0 2px 26px rgba(40, 8, 56, 0.6);
@@ -55,6 +55,7 @@
   /* Per Neama: Helvetica. A system font (no file ships): Helvetica Neue / Helvetica on Apple devices, Arial elsewhere. */
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
+  white-space: nowrap;
   font-size: clamp(40px, 5.4vw, 90px);
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -79,7 +80,7 @@
   padding: 14px 28px;
   border: 0;
   border-radius: 999px;
-  background: #ff5a1f;
+  background: var(--color-frame);
   color: #fff;
   font-family: 'Montserrat', var(--font-body);
   font-weight: 700;
@@ -88,7 +89,7 @@
   text-transform: uppercase;
   cursor: pointer;
   box-shadow:
-    0 8px 24px -6px rgba(255, 90, 31, 0.65),
+    0 8px 24px -6px rgba(82, 20, 106, 0.55),
     0 0 0 3px rgba(255, 255, 255, 0.85);
   transition:
     transform 0.2s ease,
@@ -97,7 +98,7 @@
 
 .contactBtn:hover,
 .contactBtn:focus-visible {
-  background: #ff7440;
+  background: #6d2a8a;
   transform: translateY(-1px);
   outline: none;
 }
