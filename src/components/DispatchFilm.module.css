@@ -93,7 +93,6 @@
   text-transform: uppercase;
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 1px 3px rgba(40, 8, 56, 0.7), 0 2px 18px rgba(40, 8, 56, 0.6);
   cursor: pointer;
   transition: color 0.2s ease;
 }
