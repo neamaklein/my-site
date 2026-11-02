@@ -399,7 +399,7 @@ export default function DispatchFilm({ projects }) {
               <button
                 key={spot.label}
                 type="button"
-                className={`${styles.spot} ${spot.card ? styles.card : ''}`}
+                className={`${styles.spot} ${spot.card ? styles.card : ''} ${spot.rotate && !spot.card ? styles.pill : ''}`}
                 style={{
                   left: `${spot.left}%`,
                   top: `${spot.top}%`,
