@@ -42,7 +42,7 @@
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(72px, 9svh, 100px) max(24px, calc(100% - 700px));
+  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(72px, 9svh, 100px) max(24px, calc(100% - 600px));
   /* Per Neama: no fade, the words in white, large. A soft shadow (not a panel) keeps them readable on the light film. */
   color: #fff;
   text-shadow: 0 1px 3px rgba(40, 8, 56, 0.6), 0 2px 26px rgba(40, 8, 56, 0.6);
