@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import film1080 from '../assets/home/film-1080.mp4';
+import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,12 +160,13 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: the 1080p H.264 (keyframe every 12 frames), which Cloudflare
-  // serves from R2 with range requests, so it scrubs in every browser. Neama's
-  // HEVC export (src/assets/home/film-wide-hevc.mp4) stuck on the poster in
-  // her desktop Chrome and Safari: neama.design's static assets don't answer
-  // range requests; it can come back once they do.
-  const src = { small: film720, wide: film1080 }[cut];
+  // Wide screens: Neama's updated 1920x1080 HEVC (14 MB, a keyframe every 12
+  // frames), tried again at her request (2 Nov). Earlier her HEVC export stuck
+  // on the poster in her desktop Chrome and Safari: neama.design's static
+  // assets don't answer range requests (the H.264 film-1080.mp4, linked from
+  // R2, does). If it sticks again: wide: film1080 (import
+  // '../assets/home/film-1080.mp4') puts the H.264 back.
+  const src = { small: film720, wide: filmWideHevc }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
