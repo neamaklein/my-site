@@ -27,7 +27,7 @@ export function calloutIn(time, { from, to }) {
   return clamp((time - start) / 0.3) * clamp((end - time) / 0.3);
 }
 
-const categoryLabel = (category) => category.replace('UX_UI', 'UX/UI').replace(/_/g, ' ');
+export const categoryLabel = (category) => category.replace('UX_UI', 'UX/UI').replace(/_/g, ' ');
 
 export default function StationLabel({ project, opacity }) {
   const callout = CALLOUTS[project.dispatchNumber];

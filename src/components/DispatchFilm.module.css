@@ -23,6 +23,81 @@
   object-fit: cover;
 }
 
+/* A dark fade under the board (per Neama: it was barely readable). */
+.boardFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(130px, 22svh, 220px);
+  background: linear-gradient(to top, rgba(28, 6, 40, 0.82), rgba(28, 6, 40, 0.5) 45%, rgba(28, 6, 40, 0));
+  pointer-events: none;
+}
+
+/* The printer label's words as UI, over the film, on a light fade (per
+   Neama: on the label they are too small to read). */
+.hello {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(28px, 6svh, 64px) var(--edge) clamp(90px, 16svh, 170px);
+  background: linear-gradient(to bottom, rgba(255, 250, 244, 0.92), rgba(255, 250, 244, 0.7) 55%, rgba(255, 250, 244, 0));
+  color: var(--color-frame);
+  pointer-events: none;
+}
+
+.helloTitle {
+  margin: 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: clamp(30px, 4.4vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.helloText {
+  max-width: 34ch;
+  margin: 14px 0 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+/* A bright Contact button, top right, along the whole film (per Neama). */
+.contactBtn {
+  position: absolute;
+  top: clamp(14px, 2.4svh, 28px);
+  right: var(--edge);
+  z-index: 2;
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #ff5a1f;
+  color: #fff;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow:
+    0 8px 24px -6px rgba(255, 90, 31, 0.65),
+    0 0 0 3px rgba(255, 255, 255, 0.85);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.contactBtn:hover,
+.contactBtn:focus-visible {
+  background: #ff7440;
+  transform: translateY(-1px);
+  outline: none;
+}
+
 /* Departures board along the bottom: white type straight on the film
    (per Neama), one slot per dispatch; the slot the camera is at is lit
    and barred. */
@@ -50,11 +125,11 @@
   padding: 18px 20px;
   border-left: 1px solid rgba(255, 255, 255, 0.22);
   font-family: 'Montserrat', var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.88);
   /* Straight on the film, with no panel (per Neama): a soft shadow keeps
      the white legible over the light walls. */
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
@@ -135,6 +210,16 @@
 @media (max-width: 640px) {
   .slot {
     padding: 14px 16px;
+  }
+  .hello {
+    padding-bottom: 80px;
+  }
+  .helloText {
+    max-width: 30ch;
+  }
+  .contactBtn {
+    padding: 11px 20px;
+    font-size: 12px;
   }
 }
 

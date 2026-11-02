@@ -7,7 +7,7 @@ import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
 import NameCardZoom, { preloadNameCardZoom } from './NameCardZoom.jsx';
-import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
+import StationLabel, { CALLOUTS, calloutIn, categoryLabel } from './StationLabel.jsx';
 import styles from './DispatchFilm.module.css';
 
 // Home page: Neama's Creative Dispatch film (Blender render), played by
@@ -298,6 +298,13 @@ export default function DispatchFilm({ projects }) {
           return opacity > 0 ? <StationLabel key={project.slug} project={project} opacity={opacity} /> : null;
         })}
 
+        {/* Per Neama: a dark fade under the board, so the names read. */}
+        <div
+          className={styles.boardFade}
+          style={{ opacity: boardIn, visibility: boardIn > 0 ? 'visible' : 'hidden' }}
+          aria-hidden="true"
+        />
+
         {/* Per Neama: a departures board along the bottom, as a printed
             sign: every dispatch by number and name, the one the camera is
             at marked; each opens its project. */}
@@ -320,12 +327,32 @@ export default function DispatchFilm({ projects }) {
               data-here={on ? '' : undefined}
             >
               <span className={styles.slotNo}>{project.dispatchNumber}</span>
-              <span className={styles.slotName} data-name={project.title.name}>
-                {project.title.name}
+              {/* Per Neama: each slot names the kind of project (its category). */}
+              <span className={styles.slotName} data-name={categoryLabel(project.category)}>
+                {categoryLabel(project.category)}
               </span>
             </Link>
           ))}
         </nav>
+
+        {/* Per Neama: the printer label's words, as UI over the film (the
+            label itself is too small to read), on a light fade. They are the
+            label's own words. */}
+        <div className={styles.hello} style={{ opacity: 1 - clamp((time - 4.2) / 1.2) }} aria-hidden={time > 5.4}>
+          <p className={styles.helloTitle}>
+            Hello
+            <br />
+            I’m Neama :)
+          </p>
+          <p className={styles.helloText}>
+            I’m a visual designer who loves bringing ideas to life with color, typography, and space.
+          </p>
+        </div>
+
+        {/* Per Neama: a bright, clear Contact button along the whole film. */}
+        <button type="button" className={styles.contactBtn} onClick={() => setContact(true)}>
+          Contact
+        </button>
 
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
           SCROLL TO EXPLORE ↓
