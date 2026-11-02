@@ -44,7 +44,8 @@ export default function StationLabel({ project, opacity }) {
       <span className={styles.body}>
         <span className={styles.category}>{categoryLabel(project.category)}</span>
         <span className={styles.name}>{project.title.name}</span>
-        {project.title.tagline && <span className={styles.tagline}>{project.title.tagline}</span>}
+        {/* Always there, so every window has the same height (per Neama). */}
+        <span className={styles.tagline}>{project.title.tagline}</span>
         <span className={styles.open}>
           <span>Open the box</span>
           <span aria-hidden="true">↗</span>
