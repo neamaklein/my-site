@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
+import filmWide from '../assets/home/film-wide-h264.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,13 +160,12 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: Neama's updated 1920x1080 HEVC (14 MB, a keyframe every 12
-  // frames), tried again at her request (2 Nov). Earlier her HEVC export stuck
-  // on the poster in her desktop Chrome and Safari: neama.design's static
-  // assets don't answer range requests (the H.264 film-1080.mp4, linked from
-  // R2, does). If it sticks again: wide: film1080 (import
-  // '../assets/home/film-1080.mp4') puts the H.264 back.
-  const src = { small: film720, wide: filmWideHevc }[cut];
+  // Wide screens: Neama's updated 1920x1080 film as H.264 (14.5 MB, no audio,
+  // +faststart, a keyframe every second), her export of 2 Nov. The same render
+  // as her HEVC export (film-wide-hevc.mp4, unused now), but H.264 plays in
+  // every browser. It ships with the site (under Cloudflare's 25 MiB per
+  // file), so neama.design serves it, not R2.
+  const src = { small: film720, wide: filmWide }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
