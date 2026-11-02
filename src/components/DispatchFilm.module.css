@@ -40,10 +40,11 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  width: min(100%, 720px);
+  width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(96px, 14svh, 150px) clamp(24px, 4vw, 64px);
-  background: linear-gradient(to top, rgba(255, 250, 244, 0.94), rgba(255, 250, 244, 0.72) 55%, rgba(255, 250, 244, 0));
+  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(96px, 14svh, 150px) max(24px, calc(100% - 680px));
+  /* A soft pool behind the words only, so the rest of the belt stays in full colour. */
+  background: radial-gradient(ellipse 520px 62% at calc(100% - 340px) 66%, rgba(255, 250, 244, 0.94) 0%, rgba(255, 250, 244, 0.9) 45%, rgba(255, 250, 244, 0) 100%);
   color: var(--color-frame);
   text-align: left;
   pointer-events: none;
@@ -195,25 +196,29 @@
 
 .hint {
   position: absolute;
-  left: 50%;
+  left: var(--edge);
   bottom: calc(var(--tag-size) * 1.2 + 36px + var(--edge) + env(safe-area-inset-bottom, 0px));
-  translate: -50% 0;
   margin: 0;
   padding: 6px 10px;
   font-family: var(--font-mono);
   font-size: var(--tag-size);
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
-  /* Per Neama: white, straight on the film, like the board. */
-  color: #fff;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  /* Bottom left, in the frame purple: white vanished on the light film. */
+  color: var(--color-frame);
+  text-shadow: 0 1px 12px rgba(255, 250, 244, 0.8);
 }
 
 @media (max-width: 640px) {
+  .hint {
+    bottom: calc(var(--edge) + env(safe-area-inset-bottom, 0px));
+    padding-left: 0;
+  }
   .slot {
     padding: 14px 16px;
   }
   .hello {
+    background: radial-gradient(ellipse 90% 62% at 40% 66%, rgba(255, 250, 244, 0.94) 0%, rgba(255, 250, 244, 0.9) 45%, rgba(255, 250, 244, 0) 100%);
     padding-bottom: 96px;
   }
   .helloText {
