@@ -279,9 +279,13 @@
     max-width: 30ch;
   }
   /* The same side margin as the page, for the buttons and the board. */
+  /* Per Neama: on phones the three buttons sit in the middle, with room
+     above them (not against the edge). */
   .topBar {
-    top: 4px;
-    right: calc(var(--m) - 16px);
+    top: 14px;
+    left: 0;
+    right: 0;
+    justify-content: center;
   }
   .board {
     padding-inline: calc(var(--m) - 16px);
