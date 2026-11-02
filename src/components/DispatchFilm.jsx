@@ -336,7 +336,7 @@ export default function DispatchFilm({ projects }) {
         </nav>
 
         {/* Per Neama: the printer label's words, as UI over the film (the
-            label itself is too small to read), on a light fade. They are the
+            label itself is too small to read), on a light fade (bottom right). They are the
             label's own words. */}
         <div className={styles.hello} style={{ opacity: 1 - clamp((time - 4.2) / 1.2) }} aria-hidden={time > 5.4}>
           <p className={styles.helloTitle}>
