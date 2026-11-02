@@ -267,8 +267,16 @@ export default function DispatchFilm({ projects }) {
     setAboutPending(true);
     window.scrollTo(0, el.offsetTop + el.offsetHeight - window.innerHeight);
   }, []);
+  // Work: the walk's first project (its station), where the board is up.
+  const openWork = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const t = (STATIONS['01'][0] + STATIONS['01'][1]) / 2;
+    const range = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: el.offsetTop + (range * t) / (DURATION - 0.05), behavior: 'smooth' });
+  }, []);
   const zoomAhead = useRef(null);
-  // About me waits for the film to reach its last frame, then plays the zoom.
+  // About waits for the film to reach its last frame, then plays the zoom.
   useEffect(() => {
     if (aboutPending && atEnd) {
       setAboutPending(false);
@@ -363,16 +371,19 @@ export default function DispatchFilm({ projects }) {
           </p>
         </div>
 
-        {/* Per Neama: Contact and About me together along the top, in the
+        {/* Per Neama: Contact, Work and About together along the top, in the
             board's language (white type on the film, no fade).
             About me goes to the film's last frame and plays the zoom onto
             the name card. */}
-        <nav className={styles.topBar} aria-label="Contact and About me">
+        <nav className={styles.topBar} aria-label="Contact, Work and About">
           <button type="button" className={styles.topItem} onClick={() => setContact(true)}>
             <span className={styles.slotName} data-name="Contact">Contact</span>
           </button>
+          <button type="button" className={styles.topItem} onClick={openWork}>
+            <span className={styles.slotName} data-name="Work">Work</span>
+          </button>
           <button type="button" className={styles.topItem} onClick={openAbout}>
-            <span className={styles.slotName} data-name="About me">About me</span>
+            <span className={styles.slotName} data-name="About">About</span>
           </button>
         </nav>
 
