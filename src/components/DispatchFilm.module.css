@@ -221,14 +221,14 @@
   position: absolute;
   left: 50%;
   translate: -50% 0;
-  bottom: calc(var(--tag-size) * 1.2 + 36px + var(--edge) + env(safe-area-inset-bottom, 0px));
+  bottom: calc(clamp(24px, 5svh, 48px) + env(safe-area-inset-bottom, 0px));
   margin: 0;
   padding: 6px 10px;
   font-family: var(--font-mono);
   font-size: var(--tag-size);
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
-  /* Per Neama: in the middle of the frame, a muted white. */
+  /* Per Neama: in the middle of the frame, low, a muted white. */
   color: rgba(255, 255, 255, 0.72);
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
 }
