@@ -42,7 +42,8 @@ Neama asks  ->  you edit files  ->  commit + push to the working branch
   The copies in `src/assets/` are still used by the other builds.
 - **Home film now (since 25 Oct 2026):** wide screens play Neama's
   `film-wide-hevc.mp4`, upright phones `film-mobile-hevc.mp4`, other small
-  screens `film-720.mp4` (H.264). Both HEVC files have no H.264 fallback yet.
+  screens `film-720.mp4` (H.264). Since 2 Nov 2026 both HEVC films have an
+  H.264 fallback (`film-1080.mp4`, `film-mobile.mp4`), per Neama.
 - **Contact form:** "Send a message" posts to `/api/contact`
   (`worker/index.js`). Cloudflare Turnstile (invisible) blocks bots; the
   message is emailed to `neama.klein@gmail.com` from `contact@neama.design`,

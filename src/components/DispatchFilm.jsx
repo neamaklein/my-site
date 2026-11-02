@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigationType } from 'react-router-dom';
 import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
+import film1080 from '../assets/home/film-1080.mp4';
+import filmMobile from '../assets/home/film-mobile.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
@@ -160,9 +162,11 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: Neama's 1920×1080 HEVC, as she made it (22.6 MiB, under
-  // Cloudflare's limit, so it ships with the site, not from R2).
-  const src = { small: film720, wide: filmWideHevc }[cut];
+  // Wide screens and upright phones: Neama's HEVC films, as she made them,
+  // with the earlier H.264 cut as a fallback for browsers that can't play
+  // HEVC (per Neama). Other small screens: the 720p copy.
+  const hevc = tall ? filmMobileHevc : filmWideHevc;
+  const h264 = tall ? filmMobile : film1080;
   const { state } = useLocation();
   const navigation = useNavigationType();
 
@@ -277,16 +281,15 @@ export default function DispatchFilm({ projects }) {
         <video
           ref={videoRef}
           className={styles.video}
-          // Upright phones: Neama's 1080×1920 HEVC only (per Neama: the few
-          // devices that can't play HEVC are accepted).
-          src={tall ? undefined : src}
+          src={cut === 'small' ? film720 : undefined}
           poster={tall ? posterMobile : poster}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
         >
-          {tall && <source src={filmMobileHevc} type='video/mp4; codecs="hvc1"' />}
+          {cut !== 'small' && <source src={hevc} type='video/mp4; codecs="hvc1"' />}
+          {cut !== 'small' && <source src={h264} type="video/mp4" />}
         </video>
 
         {projects.map((project) => {
