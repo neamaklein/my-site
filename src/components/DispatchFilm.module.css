@@ -71,17 +71,7 @@
 }
 
 /* Contact and About me along the top, in the board's language (per Neama):
-   white type straight on the film, regular turning bold, a dark fade under. */
-.topFade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: clamp(90px, 14svh, 140px);
-  background: linear-gradient(to bottom, rgba(28, 6, 40, 0.7), rgba(28, 6, 40, 0.4) 45%, rgba(28, 6, 40, 0));
-  pointer-events: none;
-}
-
+   white type straight on the film, regular turning bold, no fade (per Neama). */
 .topBar {
   position: absolute;
   top: 0;
@@ -103,7 +93,7 @@
   text-transform: uppercase;
   white-space: nowrap;
   color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 3px rgba(40, 8, 56, 0.7), 0 2px 18px rgba(40, 8, 56, 0.6);
   cursor: pointer;
   transition: color 0.2s ease;
 }

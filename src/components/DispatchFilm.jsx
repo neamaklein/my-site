@@ -364,10 +364,9 @@ export default function DispatchFilm({ projects }) {
         </div>
 
         {/* Per Neama: Contact and About me together along the top, in the
-            board's language (white type on the film, a dark fade under it).
+            board's language (white type on the film, no fade).
             About me goes to the film's last frame and plays the zoom onto
             the name card. */}
-        <div className={styles.topFade} aria-hidden="true" />
         <nav className={styles.topBar} aria-label="Contact and About me">
           <button type="button" className={styles.topItem} onClick={() => setContact(true)}>
             <span className={styles.slotName} data-name="Contact">Contact</span>
