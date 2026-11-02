@@ -406,7 +406,6 @@ export default function DispatchFilm({ projects }) {
                   width: `${spot.width}%`,
                   height: `${spot.height}%`,
                   rotate: spot.rotate ? `${spot.rotate}deg` : undefined,
-                  '--card-y': spot.card ? `${(spot.card.points[1][1] / spot.card.h) * 100}%` : undefined,
                 }}
                 onClick={() => (spot.card ? setNameCard(true) : setContact(true))}
                 aria-label={spot.label}
