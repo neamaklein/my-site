@@ -8,9 +8,9 @@ import styles from './StationLabel.module.css';
 // When each model is out of its box (seconds in the film), and the side
 // of the frame it leaves free for the label.
 export const CALLOUTS = {
-  '01': { side: 'right', nudge: true, from: 9, to: 10.5 },
+  '01': { side: 'right', nudge: 10, from: 9, to: 10.5 },
   '02': { side: 'left', from: 14, to: 15.5 },
-  '03': { side: 'right', nudge: true, from: 19, to: 20.5 },
+  '03': { side: 'right', nudge: 18, from: 19, to: 20.5 },
   '04': { side: 'left', from: 24, to: 25.5 },
   '05': { side: 'right', from: 29, to: 30.5 },
   '06': { side: 'left', from: 34, to: 35.5 },
@@ -37,7 +37,12 @@ export default function StationLabel({ project, opacity }) {
     <Link
       to={`/work/${project.slug}`}
       className={`${styles.label} ${styles[callout.side]} ${callout.nudge ? styles.nudge : ''}`}
-      style={{ opacity, visibility: opacity > 0 ? 'visible' : 'hidden', pointerEvents: live ? 'auto' : 'none' }}
+      style={{
+        opacity,
+        visibility: opacity > 0 ? 'visible' : 'hidden',
+        pointerEvents: live ? 'auto' : 'none',
+        '--nudge': callout.nudge ? `${callout.nudge}vw` : undefined,
+      }}
       tabIndex={live ? 0 : -1}
     >
       <span className={styles.bar}>Dispatch № {project.dispatchNumber}</span>
