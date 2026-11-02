@@ -77,8 +77,9 @@
    white type straight on the film, regular turning bold, no fade (per Neama). */
 .topBar {
   position: absolute;
-  top: 0;
-  right: 0;
+  /* Margins (per Neama): the text sits on the page's side margin, not at the edge. */
+  top: clamp(8px, 1.6svh, 20px);
+  right: calc(var(--edge) - 20px);
   z-index: 2;
   display: flex;
   padding-right: env(safe-area-inset-right, 0px);
@@ -252,6 +253,10 @@
   }
   .helloText {
     max-width: 30ch;
+  }
+  .topBar {
+    top: 0;
+    right: 0;
   }
   .topItem {
     padding: 14px 16px;
