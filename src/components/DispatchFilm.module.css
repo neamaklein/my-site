@@ -74,7 +74,7 @@
 }
 
 /* Contact and About me along the top, in the board's language (per Neama):
-   white type straight on the film, regular turning bold, no fade (per Neama). */
+   white type straight on the film, no fade, no divider; on hover only the word turns bold (per Neama). */
 .topBar {
   position: absolute;
   /* Margins (per Neama): the text sits on the page's side margin, not at the edge. */
@@ -89,7 +89,6 @@
   position: relative;
   padding: 18px 20px;
   border: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.22);
   background: none;
   font-family: 'Montserrat', var(--font-body);
   font-size: 15px;
@@ -101,31 +100,14 @@
   transition: color 0.2s ease;
 }
 
-.topItem:first-child {
-  border-left: 0;
-}
 
-.topItem:hover,
 .topItem:focus-visible {
-  color: #fff;
   outline: none;
 }
 
 .topItem:hover .slotName,
 .topItem:focus-visible .slotName {
   font-weight: 700;
-}
-
-.topItem:hover::after,
-.topItem:focus-visible::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
-  background: #fff;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Departures board along the bottom: white type straight on the film
