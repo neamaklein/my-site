@@ -27,8 +27,15 @@ const inOrder = (files) =>
     .sort()
     .map((path) => files[path]);
 
-const images = (files, notes) =>
-  inOrder(files).map((src, index) => ({ kind: 'image', src, note: notes?.[index] ?? '' }));
+// `slot` keeps each folder's pictures apart in the review editor (posters/01,
+// merch/01 and space/01 share a file number).
+const images = (files, notes, slot) =>
+  inOrder(files).map((src, index) => ({
+    kind: 'image',
+    src,
+    note: notes?.[index] ?? '',
+    slot: slot ? `${slot}-${String(index + 1).padStart(2, '0')}` : undefined,
+  }));
 
 // The deck names each poster under it.
 const POSTER_NAMES = ['Bar Tomer', 'Alon Kleinman', 'Hadar Rosenfeld Bardicheski'];
@@ -78,7 +85,7 @@ export const nextoctober = {
     {
       heading: 'Posters In memory of',
       columns: 3,
-      media: images(posters).map((item, index) => ({
+      media: images(posters, undefined, 'posters').map((item, index) => ({
         ...item,
         note: `poster in memory of ${POSTER_NAMES[index]}`,
         caption: POSTER_NAMES[index],
@@ -97,13 +104,13 @@ export const nextoctober = {
     {
       heading: 'Merch',
       columns: 3,
-      media: images(merch, ['hope pin', 'hope legacy bracelet', 'scarf on the wrist', 'scarf with its tag', 'lanyard']),
+      media: images(merch, ['hope pin', 'hope legacy bracelet', 'scarf on the wrist', 'scarf with its tag', 'lanyard'], 'merch'),
     },
     {
       heading: 'Space',
       layout: 'wide',
       ratio: '16 / 9',
-      media: images(space, ['pavilion at the President’s Residence', 'seating and merch counter']),
+      media: images(space, ['pavilion at the President’s Residence', 'seating and merch counter'], 'space'),
     },
   ],
 
