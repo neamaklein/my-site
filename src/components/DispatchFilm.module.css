@@ -220,16 +220,26 @@
   opacity: 1;
 }
 
-/* The slot the camera is at: a thin white bar over it (per Neama). */
-.here::before {
-  content: '';
+/* The loading line along the top of the board (per Neama): a faint track
+   over every slot, a white fill that grows as she scrolls toward that
+   slot's station and stays once it is there. */
+.loadTrack {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   height: 2px;
+  background: rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+
+.loadFill {
+  display: block;
+  height: 100%;
   background: #fff;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  transform-origin: left center;
+  transform: scaleX(0);
 }
 
 .hint {

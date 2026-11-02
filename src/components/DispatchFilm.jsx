@@ -340,7 +340,15 @@ export default function DispatchFilm({ projects }) {
             pointerEvents: boardIn > 0.5 ? 'auto' : 'none',
           }}
         >
-          {stations.map(({ project, on }) => (
+          {stations.map(({ project, on }, index) => {
+            // Per Neama: a line along the top of the board that fills as she
+            // scrolls, one slot at a time: slot n loads from the end of the
+            // station before it to its own station, so the next box is
+            // always loading (it shows there is more to scroll).
+            const here = STATIONS[project.dispatchNumber];
+            const before = index === 0 ? BOARD_FROM : STATIONS[stations[index - 1].project.dispatchNumber][1];
+            const loaded = here ? clamp((time - before) / (here[0] - before)) : 0;
+            return (
             <Link
               key={project.slug}
               to={`/work/${project.slug}`}
@@ -348,13 +356,17 @@ export default function DispatchFilm({ projects }) {
               aria-current={on ? 'location' : undefined}
               data-here={on ? '' : undefined}
             >
+              <span className={styles.loadTrack} aria-hidden="true">
+                <span className={styles.loadFill} style={{ transform: `scaleX(${loaded})` }} />
+              </span>
               <span className={styles.slotNo}>{project.dispatchNumber}</span>
               {/* Per Neama: each slot names the kind of project (its category). */}
               <span className={styles.slotName} data-name={categoryLabel(project.category)}>
                 {categoryLabel(project.category)}
               </span>
             </Link>
-          ))}
+            );
+          })}
         </nav>
 
         {/* Per Neama: the printer label's words, as UI over the film (the
