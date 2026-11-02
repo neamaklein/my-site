@@ -275,9 +275,13 @@
   .helloText {
     max-width: 30ch;
   }
+  /* The same side margin as the page, for the buttons and the board. */
   .topBar {
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: calc(var(--m) - 16px);
+  }
+  .board {
+    padding-inline: calc(var(--m) - 16px);
   }
   .topItem {
     padding: 14px 16px;
