@@ -52,7 +52,8 @@
 
 .helloTitle {
   margin: 0;
-  font-family: 'Montserrat', var(--font-body);
+  /* Per Neama: Helvetica. A system font (no file ships): Helvetica Neue / Helvetica on Apple devices, Arial elsewhere. */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: clamp(40px, 5.4vw, 90px);
   line-height: 1.05;
