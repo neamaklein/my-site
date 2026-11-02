@@ -260,7 +260,21 @@ export default function DispatchFilm({ projects }) {
   const closeContact = useCallback(() => setContact(false), []);
   const [nameCard, setNameCard] = useState(false);
   const closeNameCard = useCallback(() => setNameCard(false), []);
+  const [aboutPending, setAboutPending] = useState(false);
+  const openAbout = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setAboutPending(true);
+    window.scrollTo(0, el.offsetTop + el.offsetHeight - window.innerHeight);
+  }, []);
   const zoomAhead = useRef(null);
+  // About me waits for the film to reach its last frame, then plays the zoom.
+  useEffect(() => {
+    if (aboutPending && atEnd) {
+      setAboutPending(false);
+      setNameCard(true);
+    }
+  }, [aboutPending, atEnd]);
   useEffect(() => {
     if (atEnd && !zoomAhead.current) zoomAhead.current = preloadNameCardZoom(tall);
   }, [atEnd, tall]);
@@ -349,10 +363,19 @@ export default function DispatchFilm({ projects }) {
           </p>
         </div>
 
-        {/* Per Neama: a bright, clear Contact button along the whole film. */}
-        <button type="button" className={styles.contactBtn} onClick={() => setContact(true)}>
-          Contact
-        </button>
+        {/* Per Neama: Contact and About me together along the top, in the
+            board's language (white type on the film, a dark fade under it).
+            About me goes to the film's last frame and plays the zoom onto
+            the name card. */}
+        <div className={styles.topFade} aria-hidden="true" />
+        <nav className={styles.topBar} aria-label="Contact and About me">
+          <button type="button" className={styles.topItem} onClick={() => setContact(true)}>
+            <span className={styles.slotName} data-name="Contact">Contact</span>
+          </button>
+          <button type="button" className={styles.topItem} onClick={openAbout}>
+            <span className={styles.slotName} data-name="About me">About me</span>
+          </button>
+        </nav>
 
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
           SCROLL TO EXPLORE ↓

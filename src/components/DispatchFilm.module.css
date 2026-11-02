@@ -42,7 +42,7 @@
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) clamp(72px, 9svh, 100px) max(24px, calc(100% - 540px));
+  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) clamp(72px, 9svh, 100px) max(24px, calc(100% - 560px));
   /* Per Neama: no fade, the words in white, large. A soft shadow (not a panel) keeps them readable on the light film. */
   color: #fff;
   text-shadow: 0 1px 3px rgba(40, 8, 56, 0.6), 0 2px 26px rgba(40, 8, 56, 0.6);
@@ -52,8 +52,7 @@
 
 .helloTitle {
   margin: 0;
-  /* Per Neama: Helvetica. A system font (no file ships): Helvetica Neue / Helvetica on Apple devices, Arial elsewhere. */
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', var(--font-body);
   font-weight: 700;
   white-space: nowrap;
   font-size: clamp(40px, 5.4vw, 90px);
@@ -71,36 +70,69 @@
   color: #fff;
 }
 
-/* A bright Contact button, top right, along the whole film (per Neama). */
-.contactBtn {
+/* Contact and About me along the top, in the board's language (per Neama):
+   white type straight on the film, regular turning bold, a dark fade under. */
+.topFade {
   position: absolute;
-  top: clamp(14px, 2.4svh, 28px);
-  right: var(--edge);
-  z-index: 2;
-  padding: 14px 28px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--color-frame);
-  color: #fff;
-  font-family: 'Montserrat', var(--font-body);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow:
-    0 8px 24px -6px rgba(82, 20, 106, 0.55),
-    0 0 0 3px rgba(255, 255, 255, 0.85);
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(90px, 14svh, 140px);
+  background: linear-gradient(to bottom, rgba(28, 6, 40, 0.7), rgba(28, 6, 40, 0.4) 45%, rgba(28, 6, 40, 0));
+  pointer-events: none;
 }
 
-.contactBtn:hover,
-.contactBtn:focus-visible {
-  background: #6d2a8a;
-  transform: translateY(-1px);
+.topBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.topItem {
+  position: relative;
+  padding: 18px 20px;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  background: none;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.topItem:first-child {
+  border-left: 0;
+}
+
+.topItem:hover,
+.topItem:focus-visible {
+  color: #fff;
   outline: none;
+}
+
+.topItem:hover .slotName,
+.topItem:focus-visible .slotName {
+  font-weight: 700;
+}
+
+.topItem:hover::after,
+.topItem:focus-visible::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Departures board along the bottom: white type straight on the film
@@ -226,9 +258,9 @@
   .helloText {
     max-width: 30ch;
   }
-  .contactBtn {
-    padding: 11px 20px;
-    font-size: 12px;
+  .topItem {
+    padding: 14px 16px;
+    font-size: 13px;
   }
 }
 
