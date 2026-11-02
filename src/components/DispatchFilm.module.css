@@ -43,9 +43,8 @@
   width: 100%;
   box-sizing: border-box;
   padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) clamp(72px, 9svh, 100px) max(24px, calc(100% - 560px));
-  /* Per Neama: no fade, the words in white, large. A soft shadow (not a panel) keeps them readable on the light film. */
+  /* Per Neama: no fade and no shadow, the words in white, large. */
   color: #fff;
-  text-shadow: 0 1px 3px rgba(40, 8, 56, 0.6), 0 2px 26px rgba(40, 8, 56, 0.6);
   text-align: left;
   pointer-events: none;
 }
@@ -242,7 +241,6 @@
   }
   .hello {
     padding-bottom: 96px;
-    text-shadow: 0 1px 3px rgba(40, 8, 56, 0.7), 0 2px 18px rgba(40, 8, 56, 0.7);
   }
   .helloText {
     max-width: 30ch;
