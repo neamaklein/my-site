@@ -111,7 +111,7 @@
    behind them (desktop; the phone's window runs full width). */
 @media (min-width: 761px) {
   .nudge {
-    right: calc(var(--m, 20px) + 20vw);
+    right: calc(var(--m, 20px) + 18vw);
   }
 }
 
