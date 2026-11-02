@@ -105,11 +105,6 @@
   outline: none;
 }
 
-.topItem:hover .slotName,
-.topItem:focus-visible .slotName {
-  font-weight: 700;
-}
-
 /* Departures board along the bottom: white type straight on the film
    (per Neama), one slot per dispatch; the slot the camera is at is lit
    and barred. */
@@ -157,13 +152,27 @@
   opacity: 0.6;
 }
 
-/* Per Neama: names are regular, and turn bold for the slot the camera is
-   at or the pointer is on. The bold width is held in advance (a hidden
-   bold copy) so the board doesn't shift as a name thickens. */
+/* Per Neama: names are regular and turn bold for the slot the camera is at
+   or the pointer is on, as a soft fade, not a snap. The bold word sits over
+   the regular one and the two cross-fade; a hidden bold copy (::after)
+   holds the bold width in advance, so nothing shifts. */
 .slotName {
+  position: relative;
   display: inline-flex;
   flex-direction: column;
   font-weight: 400;
+  transition: color 0.35s ease;
+}
+
+.slotName::before {
+  content: attr(data-name);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
 .slotName::after {
@@ -176,8 +185,18 @@
 
 .here .slotName,
 .slot:hover .slotName,
-.slot:focus-visible .slotName {
-  font-weight: 700;
+.slot:focus-visible .slotName,
+.topItem:hover .slotName,
+.topItem:focus-visible .slotName {
+  color: transparent;
+}
+
+.here .slotName::before,
+.slot:hover .slotName::before,
+.slot:focus-visible .slotName::before,
+.topItem:hover .slotName::before,
+.topItem:focus-visible .slotName::before {
+  opacity: 1;
 }
 
 .here,
