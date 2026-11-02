@@ -42,10 +42,10 @@
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(96px, 14svh, 150px) max(24px, calc(100% - 680px));
-  /* A soft pool behind the words only, so the rest of the belt stays in full colour. */
-  background: radial-gradient(ellipse 520px 62% at calc(100% - 340px) 66%, rgba(255, 250, 244, 0.94) 0%, rgba(255, 250, 244, 0.9) 45%, rgba(255, 250, 244, 0) 100%);
-  color: var(--color-frame);
+  padding: clamp(110px, 20svh, 200px) var(--edge) clamp(72px, 9svh, 100px) max(24px, calc(100% - 780px));
+  /* Per Neama: no fade, the words in white, large. A soft shadow (not a panel) keeps them readable on the light film. */
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(40, 8, 56, 0.6), 0 2px 26px rgba(40, 8, 56, 0.6);
   text-align: left;
   pointer-events: none;
 }
@@ -54,19 +54,19 @@
   margin: 0;
   font-family: 'Montserrat', var(--font-body);
   font-weight: 700;
-  font-size: clamp(30px, 4.4vw, 64px);
+  font-size: clamp(46px, 6.3vw, 104px);
   line-height: 1.05;
   letter-spacing: -0.01em;
   text-transform: uppercase;
 }
 
 .helloText {
-  max-width: 34ch;
-  margin: 14px 0 0;
+  max-width: 30ch;
+  margin: 20px 0 0;
   font-family: 'Montserrat', var(--font-body);
-  font-size: clamp(16px, 1.5vw, 22px);
+  font-size: clamp(20px, 2vw, 32px);
   line-height: 1.45;
-  color: var(--color-ink);
+  color: #fff;
 }
 
 /* A bright Contact button, top right, along the whole film (per Neama). */
@@ -218,8 +218,8 @@
     padding: 14px 16px;
   }
   .hello {
-    background: radial-gradient(ellipse 90% 62% at 40% 66%, rgba(255, 250, 244, 0.94) 0%, rgba(255, 250, 244, 0.9) 45%, rgba(255, 250, 244, 0) 100%);
     padding-bottom: 96px;
+    text-shadow: 0 1px 3px rgba(40, 8, 56, 0.7), 0 2px 18px rgba(40, 8, 56, 0.7);
   }
   .helloText {
     max-width: 30ch;
