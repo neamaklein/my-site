@@ -45,7 +45,7 @@
   padding: clamp(110px, 20svh, 200px) var(--edge) clamp(96px, 14svh, 150px) clamp(24px, 4vw, 64px);
   background: linear-gradient(to top, rgba(255, 250, 244, 0.94), rgba(255, 250, 244, 0.72) 55%, rgba(255, 250, 244, 0));
   color: var(--color-frame);
-  text-align: right;
+  text-align: left;
   pointer-events: none;
 }
 
@@ -61,7 +61,7 @@
 
 .helloText {
   max-width: 34ch;
-  margin: 14px 0 0 auto;
+  margin: 14px 0 0;
   font-family: 'Montserrat', var(--font-body);
   font-size: clamp(16px, 1.5vw, 22px);
   line-height: 1.45;
