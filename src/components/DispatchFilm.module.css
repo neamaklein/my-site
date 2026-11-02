@@ -219,7 +219,8 @@
 
 .hint {
   position: absolute;
-  left: var(--edge);
+  left: 50%;
+  translate: -50% 0;
   bottom: calc(var(--tag-size) * 1.2 + 36px + var(--edge) + env(safe-area-inset-bottom, 0px));
   margin: 0;
   padding: 6px 10px;
@@ -227,15 +228,14 @@
   font-size: var(--tag-size);
   letter-spacing: var(--tag-tracking);
   text-transform: uppercase;
-  /* Bottom left, in the frame purple: white vanished on the light film. */
-  color: var(--color-frame);
-  text-shadow: 0 1px 12px rgba(255, 250, 244, 0.8);
+  /* Per Neama: in the middle of the frame, a muted white. */
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
 }
 
 @media (max-width: 640px) {
   .hint {
     bottom: calc(var(--edge) + env(safe-area-inset-bottom, 0px));
-    padding-left: 0;
   }
   .slot {
     padding: 14px 16px;
