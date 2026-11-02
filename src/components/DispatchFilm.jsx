@@ -399,13 +399,14 @@ export default function DispatchFilm({ projects }) {
               <button
                 key={spot.label}
                 type="button"
-                className={`${styles.spot} ${spot.card ? styles.card : ''} ${spot.rotate && !spot.card ? styles.pill : ''}`}
+                className={`${styles.spot} ${spot.card ? styles.card : ''} `}
                 style={{
                   left: `${spot.left}%`,
                   top: `${spot.top}%`,
                   width: `${spot.width}%`,
                   height: `${spot.height}%`,
                   rotate: spot.rotate ? `${spot.rotate}deg` : undefined,
+                  '--card-y': spot.card ? `${(spot.card.points[1][1] / spot.card.h) * 100}%` : undefined,
                 }}
                 onClick={() => (spot.card ? setNameCard(true) : setContact(true))}
                 aria-label={spot.label}

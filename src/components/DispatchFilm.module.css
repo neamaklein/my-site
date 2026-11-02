@@ -327,36 +327,29 @@
   transition: box-shadow 0.25s ease;
 }
 
-/* Per Neama: a small dot on every clickable place at the shipping desk
+/* Per Neama: a dot on every clickable place at the shipping desk
    (Instagram, LinkedIn, Contact, the name card), so it shows it can be
-   clicked. On a word it sits just above it; after the Contact pill; on the
-   card, inside its top right. */
+   clicked. Each dot touches the element's top right corner from outside
+   (its edge on the corner point; the card's own corner point for the
+   card), a plain solid white. */
+.spot {
+  --d: 18px;
+}
+
 .spot::after {
   content: '';
   position: absolute;
-  top: -26px;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  translate: -50% 0;
+  top: calc(var(--d) * -0.854);
+  right: calc(var(--d) * -0.854);
+  width: var(--d);
+  height: var(--d);
   border-radius: 50%;
-  /* Per Neama: a plain, solid white dot (no fade, fully opaque), larger. */
   background: #fff;
   pointer-events: none;
 }
 
-.spot.pill::after {
-  top: 50%;
-  left: auto;
-  right: -32px;
-  translate: 0 -50%;
-}
-
 .spot.card::after {
-  top: 14%;
-  left: auto;
-  right: 12%;
-  translate: none;
+  top: calc(var(--card-y, 0%) - var(--d) * 0.854);
 }
 
 /* The name card: no box glow; its halo follows the card's own outline
