@@ -9,6 +9,9 @@
   /* The Hello text's bottom edge and SCROLL TO EXPLORE share one baseline
      (per Neama): --hb is the gap under the text, --hf its font size. */
   --hb: clamp(80px, 11svh, 108px);
+  /* The side margin of the top buttons and the board, one value for both
+     (per Neama: a little nearer the edge than the page margin). */
+  --m: clamp(20px, 5vw, 110px);
   --hf: clamp(18px, 1.8vw, 29px);
   position: sticky;
   top: 0;
@@ -79,7 +82,7 @@
   position: absolute;
   /* Margins (per Neama): the text sits on the page's side margin, not at the edge. */
   top: clamp(8px, 1.6svh, 20px);
-  right: calc(var(--edge) - 20px);
+  right: calc(var(--m) - 20px);
   z-index: 2;
   display: flex;
   padding-right: env(safe-area-inset-right, 0px);
@@ -250,7 +253,7 @@
    width so all seven still fit between the margins. Wide screens only. */
 @media (min-width: 641px) {
   .board {
-    padding-inline: calc(var(--edge) - 12px);
+    padding-inline: calc(var(--m) - 12px);
   }
   .slot {
     padding-inline: 12px;
