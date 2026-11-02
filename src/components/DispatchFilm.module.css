@@ -6,6 +6,10 @@
 }
 
 .stage {
+  /* The Hello text's bottom edge and SCROLL TO EXPLORE share one baseline
+     (per Neama): --hb is the gap under the text, --hf its font size. */
+  --hb: clamp(80px, 11svh, 108px);
+  --hf: clamp(18px, 1.8vw, 29px);
   position: sticky;
   top: 0;
   height: 100svh;
@@ -42,7 +46,7 @@
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) clamp(72px, 9svh, 100px) max(24px, calc(100% - 560px));
+  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) var(--hb) max(24px, calc(100% - 560px));
   /* Per Neama: no fade and no shadow, the words in white, large. */
   color: #fff;
   text-align: left;
@@ -64,7 +68,7 @@
   max-width: 30ch;
   margin: 20px 0 0;
   font-family: 'Montserrat', var(--font-body);
-  font-size: clamp(18px, 1.8vw, 29px);
+  font-size: var(--hf);
   line-height: 1.45;
   color: #fff;
 }
@@ -220,7 +224,9 @@
   position: absolute;
   left: 50%;
   translate: -50% 0;
-  bottom: calc(clamp(56px, 10svh, 96px) + env(safe-area-inset-bottom, 0px));
+  /* Its baseline on the text's last baseline: the text's line box reaches
+     0.3665em below the baseline, this box 9.77px. */
+  bottom: calc(var(--hb) + var(--hf) * 0.3665 - 9.77px + env(safe-area-inset-bottom, 0px));
   margin: 0;
   padding: 6px 10px;
   font-family: var(--font-mono);
