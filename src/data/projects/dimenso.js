@@ -53,7 +53,7 @@ import spatial13 from '../../assets/dimenso/spatial/spatial-13.jpg';
 export const dimenso = {
   slug: 'dimenso',
   dispatchNumber: '01',
-  category: 'BRAND_ID',
+  category: 'SPATIAL_BRANDING',
 
   hero: {
     // Per Neama: no logo-reveal intro and no headline or subtitle; the
