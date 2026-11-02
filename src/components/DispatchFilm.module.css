@@ -16,6 +16,9 @@
   position: sticky;
   top: 0;
   height: 100svh;
+  /* Per Neama: on phones the stage fills the screen as the browser's bars
+     slide away (dvh), instead of leaving a white strip under it (svh). */
+  height: 100dvh;
   overflow: hidden;
   /* clip, not just hidden: a spot cropped off a narrow screen must not
      scroll the stage sideways when it takes focus. */
@@ -295,6 +298,7 @@
   left: 50%;
   top: 50%;
   width: max(100%, calc(100svh * 16 / 9));
+  width: max(100%, calc(100dvh * 16 / 9));
   aspect-ratio: 16 / 9;
   translate: -50% -50%;
   pointer-events: none;
@@ -302,6 +306,7 @@
 
 .frameTall {
   width: max(100%, calc(100svh * 9 / 16));
+  width: max(100%, calc(100dvh * 9 / 16));
   aspect-ratio: 9 / 16;
 }
 
