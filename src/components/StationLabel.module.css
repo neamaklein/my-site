@@ -5,7 +5,9 @@
 .label {
   --pad: clamp(18px, 1.7vw, 26px);
   position: absolute;
-  bottom: calc(clamp(64px, 9svh, 88px) + env(safe-area-inset-bottom, 0px));
+  /* Per Neama: above the board's purple fade (its height, clamp(130px, 22svh,
+     220px), see DispatchFilm.module.css), not over it. */
+  bottom: calc(clamp(130px, 22svh, 220px) + 12px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   width: clamp(250px, 22vw, 330px);
@@ -107,7 +109,7 @@
     --pad: 14px;
     left: 16px;
     right: 16px;
-    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(clamp(130px, 22svh, 220px) + 12px + env(safe-area-inset-bottom, 0px));
     width: auto;
     border-radius: 16px;
   }
