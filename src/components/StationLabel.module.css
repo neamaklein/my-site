@@ -107,6 +107,14 @@
   outline-offset: 3px;
 }
 
+/* Per Neama: windows 1 and 3 sit a little to the left, clear of the desk
+   behind them (desktop; the phone's window runs full width). */
+@media (min-width: 761px) {
+  .nudge {
+    right: calc(var(--m, 20px) + 20vw);
+  }
+}
+
 /* Phones: the film is cropped to its middle; the label runs full width
    above the board. */
 @media (max-width: 760px) {
