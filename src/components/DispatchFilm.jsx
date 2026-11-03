@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import filmWide from '../assets/home/film-wide-h264.mp4';
+import film1080 from '../assets/home/film-1080.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,12 +160,13 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: Neama's updated 1920x1080 film as H.264 (14.5 MB, no audio,
-  // +faststart, a keyframe every second), her export of 2 Nov. The same render
-  // as her HEVC export (film-wide-hevc.mp4, unused now), but H.264 plays in
-  // every browser. It ships with the site (under Cloudflare's 25 MiB per
-  // file), so neama.design serves it, not R2.
-  const src = { small: film720, wide: filmWide }[cut];
+  // Wide screens: the 1080p H.264 (film-1080.mp4), which Cloudflare serves from
+  // R2 with range requests, so it scrubs in every browser. Neama's updated
+  // film (src/assets/home/film-wide-h264.mp4, H.264, 14.5 MB) is NOT used:
+  // neama.design's own static files answer every request with the whole file
+  // (200, no range), and the film then does not scrub. It can replace this one
+  // once it is in the R2 bucket and listed in R2_VIDEOS (only Igor can).
+  const src = { small: film720, wide: film1080 }[cut];
   const { state } = useLocation();
   const navigation = useNavigationType();
 
