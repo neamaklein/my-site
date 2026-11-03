@@ -110,8 +110,13 @@
 /* Per Neama: windows 1 and 3 sit a little to the left, clear of the desk
    behind them (desktop; the phone's window runs full width). */
 @media (min-width: 761px) {
-  .nudge {
+  .right.nudge {
     right: calc(var(--m, 20px) + var(--nudge));
+  }
+
+  /* A window on the left nudged toward the middle (window 2, per Neama). */
+  .left.nudge {
+    left: calc(var(--m, 20px) + var(--nudge));
   }
 }
 
