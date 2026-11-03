@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import film1080 from '../assets/home/film-1080.mp4';
+import filmWide from '../assets/home/film-wide-h264.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
 import poster from '../assets/home/film-poster.jpg';
@@ -160,13 +160,31 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: the 1080p H.264 (film-1080.mp4), which Cloudflare serves from
-  // R2 with range requests, so it scrubs in every browser. Neama's updated
-  // film (src/assets/home/film-wide-h264.mp4, H.264, 14.5 MB) is NOT used:
+  // Wide screens: Neama's updated 1080p H.264 (film-wide-h264.mp4, 14.5 MB).
   // neama.design's own static files answer every request with the whole file
-  // (200, no range), and the film then does not scrub. It can replace this one
-  // once it is in the R2 bucket and listed in R2_VIDEOS (only Igor can).
-  const src = { small: film720, wide: film1080 }[cut];
+  // (200, no range requests), and a film that is scrubbed by scrolling needs to
+  // be sought in, which Safari and Chrome only do on a file that answers ranges.
+  // So the file is fetched whole (14 MB) and played from memory (a blob), where
+  // seeking works without the server. The poster shows until it is in.
+  const [wideSrc, setWideSrc] = useState(null);
+  useEffect(() => {
+    if (cut !== 'wide') return undefined;
+    let url;
+    let gone = false;
+    fetch(filmWide)
+      .then((response) => response.blob())
+      .then((blob) => {
+        if (gone) return;
+        url = URL.createObjectURL(blob);
+        setWideSrc(url);
+      })
+      .catch(() => !gone && setWideSrc(filmWide));
+    return () => {
+      gone = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [cut]);
+  const src = { small: film720, wide: wideSrc }[cut] || undefined;
   const { state } = useLocation();
   const navigation = useNavigationType();
 
