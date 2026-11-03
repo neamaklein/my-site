@@ -11,7 +11,7 @@ export const CALLOUTS = {
   '01': { side: 'right', nudge: 18, from: 9, to: 10.5 },
   '02': { side: 'left', nudge: 3, from: 14, to: 15.5 },
   '03': { side: 'right', nudge: 18, from: 19, to: 20.5 },
-  '04': { side: 'left', from: 24, to: 25.5 },
+  '04': { side: 'left', nudge: 4, from: 24, to: 25.5 },
   '05': { side: 'right', from: 29, to: 30.5 },
   '06': { side: 'left', from: 34, to: 35.5 },
   '07': { side: 'right', from: 39, to: 40.5 },
