@@ -93,9 +93,11 @@ would keep showing. Use a new name (as `film-wide-hevc.mp4` did).
 - **Scroll-driven films need frequent keyframes.** The home film is played
   by scrolling, so the browser jumps around in it constantly. Ask for a
   keyframe every **12 frames** (wide) or **6 frames** (phone): in export
-  apps this is "keyframe interval" or "max keyframe distance". Neama's
-  current HEVC films have one every 45 frames, so scrolling, especially back
-  up, may stutter. This makes the file bigger; it must stay under 25 MiB.
+  apps this is "keyframe interval" or "max keyframe distance". Since 3 Nov
+  2026 both HEVC films have one every 6 frames (the phone one re-encoded
+  from Neama's export with x265, keyint 6, no B-frames, CRF 22, because it
+  had one every 45 and jumped when scrolling on phones). This makes the
+  file bigger; it must stay under 25 MiB.
 - **Fallback, how to do it (only if Neama agrees):** in
   `src/components/DispatchFilm.jsx`, give the `<video>` two `<source>`
   children, HEVC first, H.264 second; the browser plays the first one it
