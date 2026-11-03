@@ -217,12 +217,6 @@ export default function DispatchFilm({ projects }) {
     const tick = () => {
       frame = 0;
       if (!video) return;
-      // One seek at a time: a new one while the last is still decoding only
-      // queues work and makes the picture stall and then jump.
-      if (video.seeking) {
-        frame = requestAnimationFrame(tick);
-        return;
-      }
       const current = video.currentTime;
       const next = still || first ? target : current + (target - current) * 0.25;
       first = false;
