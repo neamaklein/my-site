@@ -22,8 +22,8 @@ PY
 for f in $OUT/assets/film-1080-*.mp4; do
   [ -f "$f" ] && cp scripts/review/film-review.mp4 "$f"
 done
-# The updated wide film (19.8 MB, a keyframe every 3 frames) is over the cap:
-# the review copy has her export as it came (14.5 MB, a keyframe every second).
+# The updated wide film (22 MiB, a keyframe every 3 frames) is over the cap:
+# the review copy has her earlier export (14.5 MB, a keyframe every second).
 for f in $OUT/assets/film-wide-h264-*.mp4; do
   [ -f "$f" ] && cp scripts/review/film-wide-review.mp4 "$f"
 done

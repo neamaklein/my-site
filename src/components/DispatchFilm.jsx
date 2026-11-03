@@ -160,14 +160,14 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens: Neama's updated 1080p H.264 (film-wide-h264.mp4, 19.8 MB),
-  // re-encoded from her export with a keyframe every 3 frames and no B-frames:
-  // each seek then decodes at most 2 frames, so scrolling stays smooth (her
-  // export has one keyframe a second, which stalls).
+  // Wide screens: Neama's updated 1080p H.264 (film-wide-h264.mp4, 22 MiB, her
+  // _7 export of 3 Nov: a keyframe every 3 frames, no audio), which keeps each
+  // seek to a couple of frames, so scrolling is smooth (her earlier export had
+  // one keyframe a second, which stalls).
   // neama.design's own static files answer every request with the whole file
   // (200, no range requests), and a film that is scrubbed by scrolling needs to
   // be sought in, which Safari and Chrome only do on a file that answers ranges.
-  // So the file is fetched whole (20 MB) and played from memory (a blob), where
+  // So the file is fetched whole (22 MiB) and played from memory (a blob), where
   // seeking works without the server. The poster shows until it is in.
   const [wideSrc, setWideSrc] = useState(null);
   useEffect(() => {
