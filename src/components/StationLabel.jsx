@@ -13,8 +13,8 @@ export const CALLOUTS = {
   '03': { side: 'right', nudge: 18, from: 19, to: 20.5 },
   '04': { side: 'left', nudge: 4, from: 24, to: 25.5 },
   '05': { side: 'right', nudge: 3, from: 29, to: 30.5 },
-  '06': { side: 'left', from: 34, to: 35.5 },
-  '07': { side: 'right', from: 39, to: 40.5 },
+  '06': { side: 'left', nudge: 3, from: 34, to: 35.5 },
+  '07': { side: 'right', nudge: 3, from: 39, to: 40.5 },
 };
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
