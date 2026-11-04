@@ -401,7 +401,7 @@ export default function DispatchFilm({ projects }) {
             label's own words. */}
         <div className={styles.hello} style={{ opacity: 1 - clamp((time - 4.2) / 1.2) }} aria-hidden={time > 5.4}>
           <p className={styles.helloTitle}>
-            Hello
+            Hello,
             <br />
             I’m Neama :)
           </p>

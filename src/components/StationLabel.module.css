@@ -127,7 +127,8 @@
     --pad: 14px;
     left: var(--m, 20px);
     right: var(--m, 20px);
-    bottom: calc(clamp(130px, 22svh, 220px) + 12px + env(safe-area-inset-bottom, 0px));
+    /* Per Neama: lower on phones, over the board's fade, so it hides less of the box. */
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
     width: auto;
     border-radius: 16px;
   }
