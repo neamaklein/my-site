@@ -96,9 +96,10 @@ would keep showing. Use a new name (as `film-wide-hevc.mp4` did).
   by scrolling, so the browser jumps around in it constantly. Ask for a
   keyframe every **12 frames** (wide) or **6 frames** (phone): in export
   apps this is "keyframe interval" or "max keyframe distance". Since 3 Nov
-  2026 the wide film has one every 3 frames and the phone one every 6 (re-encoded
-  from Neama's export with x265, keyint 6, no B-frames, CRF 22, because it
-  had one every 45 and jumped when scrolling on phones). This makes the
+  2026 the wide film has one every 3 frames and the phone one every 6 (since
+  4 Nov the phone film is encoded straight from the new vertical render's
+  frames, with the new note: x265, keyint 6, no B-frames, CRF 22, 20 MB;
+  Neama's earlier export had one every 45 and jumped when scrolling). This makes the
   file bigger; it must stay under 25 MiB.
 - **Fallback, how to do it (only if Neama agrees):** in
   `src/components/DispatchFilm.jsx`, give the `<video>` two `<source>`
