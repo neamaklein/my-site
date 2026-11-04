@@ -16,6 +16,10 @@ import styles from './NameCardZoom.module.css';
 // reference: View CV, then where she is based and her focus.
 const ABOUT =
   'When I’m not designing, you’ll find me dancing, doing Pilates, or trying something new in the kitchen. I love traveling and getting lost in richly imagined worlds, whether in books or anime. And my one requirement for a good evening? A glass of wine.';
+// Per Neama: on a phone the first sentence ends after Pilates (her words, the
+// last clause left out).
+const ABOUT_TALL =
+  'When I’m not designing, you’ll find me dancing, doing Pilates. I love traveling and getting lost in richly imagined worlds, whether in books or anime. And my one requirement for a good evening? A glass of wine.';
 
 const PinIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -115,7 +119,7 @@ export default function NameCardZoom({ tall, onClose }) {
           <div className={styles.body}>
             {/* Per Neama (her pick). */}
             <h2 className={styles.title}>Off the grid.</h2>
-            <p className={styles.text}>{ABOUT}</p>
+            <p className={styles.text}>{tall ? ABOUT_TALL : ABOUT}</p>
             {/* TODO(Neama): the CV file to link. */}
             <button type="button" className={styles.cv}>
               View CV <span aria-hidden="true">↗</span>
