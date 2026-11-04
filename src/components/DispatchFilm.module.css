@@ -30,6 +30,10 @@
   display: block;
   width: 100%;
   height: 100%;
+  /* The film keeps the full screen height (lvh) while the stage follows the
+     browser's bars (dvh): the bars slide over its bottom edge instead of the
+     film resizing, which made it jump while scrolling on phones. */
+  height: 100lvh;
   object-fit: cover;
 }
 
@@ -311,8 +315,9 @@
   position: absolute;
   left: 50%;
   top: 50%;
+  top: 50lvh;
   width: max(100%, calc(100svh * 16 / 9));
-  width: max(100%, calc(100dvh * 16 / 9));
+  width: max(100%, calc(100lvh * 16 / 9));
   aspect-ratio: 16 / 9;
   translate: -50% -50%;
   pointer-events: none;
@@ -320,7 +325,7 @@
 
 .frameTall {
   width: max(100%, calc(100svh * 9 / 16));
-  width: max(100%, calc(100dvh * 9 / 16));
+  width: max(100%, calc(100lvh * 9 / 16));
   aspect-ratio: 9 / 16;
 }
 
