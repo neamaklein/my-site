@@ -53,7 +53,7 @@ export const nextoctober = {
   title: {
     tag: 'BRANDING_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'Next October',
-    tagline: 'Branding for an initiative building 1,400 startups in memory of the fallen of October 7th.',
+    tagline: 'An identity for an initiative building 1,400 startups in memory of October 7th.',
   },
 
   meta: [

@@ -65,7 +65,7 @@ export const achoti = {
   title: {
     tag: 'UX/UI_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'ACHOTI',
-    tagline: 'A personal hospital companion, from preparation at home to the right room.',
+    tagline: 'A hospital companion that guides patients from home to the right room.',
   },
 
   meta: [

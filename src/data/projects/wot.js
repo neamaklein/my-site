@@ -58,7 +58,7 @@ export const wot = {
   title: {
     tag: 'PERSONAL_PROJECT · NEAMA KLEIN',
     name: 'Wheel of Time',
-    tagline: '15 covers, one system, one wheel.',
+    tagline: 'A cover system for 15 books, built around the wheel of time.',
   },
 
   meta: [

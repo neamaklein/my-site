@@ -406,7 +406,7 @@ export default function DispatchFilm({ projects }) {
             I’m Neama :)
           </p>
           <p className={styles.helloText}>
-            I’m a designer who plans first: brands, interfaces and spaces, built from concept and type.
+            I’m a designer who starts with the idea and shapes it into brands, digital experiences, and physical spaces.
           </p>
         </div>
 

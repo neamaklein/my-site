@@ -66,7 +66,7 @@ export const dimenso = {
   title: {
     tag: 'BRAND_IN_A_BOX · NEAMA KLEIN & AMIT TAL',
     name: 'DIMENSO',
-    tagline: 'Adobe’s creative lab, where digital ideas gain a dimension.',
+    tagline: 'A creative lab where digital ideas gain a physical dimension.',
   },
 
   meta: [

@@ -30,7 +30,7 @@ export const rockse = {
   title: {
     tag: 'TYPOGRAPHY_COURSE · NEAMA KLEIN',
     name: 'Rocksé',
-    tagline: 'Rosé for men, in a milk carton.',
+    tagline: 'A rosé for men, packed in a milk carton.',
   },
 
   // TODO(Neama): Year and Role aren't in the deck — add them if you want

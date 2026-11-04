@@ -42,7 +42,7 @@ export const spinsip = {
   title: {
     tag: 'BRANDING_COURSE · NEAMA KLEIN',
     name: 'Spin Sip',
-    tagline: 'A pit stop at the Tel Aviv Velodrome: stop, refuel, back in motion.',
+    tagline: 'A velodrome food stand built as a pit stop for people in motion.',
   },
 
   meta: [

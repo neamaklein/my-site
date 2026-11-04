@@ -58,7 +58,7 @@ export const palate = {
   title: {
     tag: 'L2T_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'PALATE',
-    tagline: 'Pantone turns color into flavor.',
+    tagline: 'A juice brand where every flavor is a color code.',
   },
 
   meta: [
