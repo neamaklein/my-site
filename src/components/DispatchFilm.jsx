@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigationType } from 'react-router-dom';
-import filmWideHevc from '../assets/home/film-wide-hevc.mp4';
+import filmWide from '../assets/home/film-wide-h264.mp4';
 import film720 from '../assets/home/film-720.mp4';
 import filmMobileHevc from '../assets/home/film-mobile-hevc.mp4';
-import film1080 from '../assets/home/film-1080.mp4';
-import filmMobile from '../assets/home/film-mobile.mp4';
 import poster from '../assets/home/film-poster.jpg';
 import posterMobile from '../assets/home/film-poster-mobile.jpg';
 import ContactWindows from './ContactWindows.jsx';
 import NameCardZoom, { preloadNameCardZoom } from './NameCardZoom.jsx';
-import StationLabel, { CALLOUTS, calloutIn } from './StationLabel.jsx';
+import StationLabel, { CALLOUTS, calloutIn, categoryLabel } from './StationLabel.jsx';
 import styles from './DispatchFilm.module.css';
 
 // Home page: Neama's Creative Dispatch film (Blender render), played by
@@ -162,11 +160,34 @@ export default function DispatchFilm({ projects }) {
         : 'wide',
   );
   const tall = cut === 'tall';
-  // Wide screens and upright phones: Neama's HEVC films, as she made them,
-  // with the earlier H.264 cut as a fallback for browsers that can't play
-  // HEVC (per Neama). Other small screens: the 720p copy.
-  const hevc = tall ? filmMobileHevc : filmWideHevc;
-  const h264 = tall ? filmMobile : film1080;
+  // Wide screens: Neama's updated 1080p H.264 (film-wide-h264.mp4, 22 MiB, her
+  // _7 export of 3 Nov: a keyframe every 3 frames, no audio), which keeps each
+  // seek to a couple of frames, so scrolling is smooth (her earlier export had
+  // one keyframe a second, which stalls).
+  // neama.design's own static files answer every request with the whole file
+  // (200, no range requests), and a film that is scrubbed by scrolling needs to
+  // be sought in, which Safari and Chrome only do on a file that answers ranges.
+  // So the file is fetched whole (22 MiB) and played from memory (a blob), where
+  // seeking works without the server. The poster shows until it is in.
+  const [wideSrc, setWideSrc] = useState(null);
+  useEffect(() => {
+    if (cut !== 'wide') return undefined;
+    let url;
+    let gone = false;
+    fetch(filmWide)
+      .then((response) => response.blob())
+      .then((blob) => {
+        if (gone) return;
+        url = URL.createObjectURL(blob);
+        setWideSrc(url);
+      })
+      .catch(() => !gone && setWideSrc(filmWide));
+    return () => {
+      gone = true;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [cut]);
+  const src = { small: film720, wide: wideSrc }[cut] || undefined;
   const { state } = useLocation();
   const navigation = useNavigationType();
 
@@ -196,6 +217,12 @@ export default function DispatchFilm({ projects }) {
     const tick = () => {
       frame = 0;
       if (!video) return;
+      // One seek at a time: a new one while the last is still decoding only
+      // queues work and makes the picture stall and then jump.
+      if (video.seeking) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
       const current = video.currentTime;
       const next = still || first ? target : current + (target - current) * 0.25;
       first = false;
@@ -261,7 +288,29 @@ export default function DispatchFilm({ projects }) {
   const closeContact = useCallback(() => setContact(false), []);
   const [nameCard, setNameCard] = useState(false);
   const closeNameCard = useCallback(() => setNameCard(false), []);
+  const [aboutPending, setAboutPending] = useState(false);
+  const openAbout = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setAboutPending(true);
+    window.scrollTo(0, el.offsetTop + el.offsetHeight - window.innerHeight);
+  }, []);
+  // Work: the walk's first project (its station), where the board is up.
+  const openWork = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const t = (STATIONS['01'][0] + STATIONS['01'][1]) / 2;
+    const range = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: el.offsetTop + (range * t) / (DURATION - 0.05), behavior: 'smooth' });
+  }, []);
   const zoomAhead = useRef(null);
+  // About waits for the film to reach its last frame, then plays the zoom.
+  useEffect(() => {
+    if (aboutPending && atEnd) {
+      setAboutPending(false);
+      setNameCard(true);
+    }
+  }, [aboutPending, atEnd]);
   useEffect(() => {
     if (atEnd && !zoomAhead.current) zoomAhead.current = preloadNameCardZoom(tall);
   }, [atEnd, tall]);
@@ -281,15 +330,16 @@ export default function DispatchFilm({ projects }) {
         <video
           ref={videoRef}
           className={styles.video}
-          src={cut === 'small' ? film720 : undefined}
+          // Upright phones: Neama's 1080×1920 HEVC only (per Neama: the few
+          // devices that can't play HEVC are accepted).
+          src={tall ? undefined : src}
           poster={tall ? posterMobile : poster}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
         >
-          {cut !== 'small' && <source src={hevc} type='video/mp4; codecs="hvc1"' />}
-          {cut !== 'small' && <source src={h264} type="video/mp4" />}
+          {tall && <source src={filmMobileHevc} type='video/mp4; codecs="hvc1"' />}
         </video>
 
         {projects.map((project) => {
@@ -297,6 +347,13 @@ export default function DispatchFilm({ projects }) {
           const opacity = callout ? calloutIn(time, callout) : 0;
           return opacity > 0 ? <StationLabel key={project.slug} project={project} opacity={opacity} /> : null;
         })}
+
+        {/* Per Neama: a dark fade under the board, so the names read. */}
+        <div
+          className={styles.boardFade}
+          style={{ opacity: boardIn, visibility: boardIn > 0 ? 'visible' : 'hidden' }}
+          aria-hidden="true"
+        />
 
         {/* Per Neama: a departures board along the bottom, as a printed
             sign: every dispatch by number and name, the one the camera is
@@ -311,7 +368,15 @@ export default function DispatchFilm({ projects }) {
             pointerEvents: boardIn > 0.5 ? 'auto' : 'none',
           }}
         >
-          {stations.map(({ project, on }) => (
+          {stations.map(({ project, on }, index) => {
+            // Per Neama: a line along the top of the board that fills as she
+            // scrolls, one slot at a time: slot n loads from the end of the
+            // station before it to its own station, so the next box is
+            // always loading (it shows there is more to scroll).
+            const here = STATIONS[project.dispatchNumber];
+            const before = index === 0 ? BOARD_FROM : STATIONS[stations[index - 1].project.dispatchNumber][1];
+            const loaded = here ? clamp((time - before) / (here[0] - before)) : 0;
+            return (
             <Link
               key={project.slug}
               to={`/work/${project.slug}`}
@@ -319,12 +384,47 @@ export default function DispatchFilm({ projects }) {
               aria-current={on ? 'location' : undefined}
               data-here={on ? '' : undefined}
             >
+              <span className={styles.loadTrack} aria-hidden="true">
+                <span className={styles.loadFill} style={{ transform: `scaleX(${loaded})` }} />
+              </span>
               <span className={styles.slotNo}>{project.dispatchNumber}</span>
-              <span className={styles.slotName} data-name={project.title.name}>
-                {project.title.name}
+              {/* Per Neama: each slot names the kind of project (its category). */}
+              <span className={styles.slotName} data-name={categoryLabel(project.category)}>
+                {categoryLabel(project.category)}
               </span>
             </Link>
-          ))}
+            );
+          })}
+        </nav>
+
+        {/* Per Neama: the printer label's words, as UI over the film (the
+            label itself is too small to read), on a light fade (bottom right). They are the
+            label's own words. */}
+        <div className={styles.hello} style={{ opacity: 1 - clamp((time - 4.2) / 1.2) }} aria-hidden={time > 5.4}>
+          <p className={styles.helloTitle}>
+            Hello
+            <br />
+            I’m Neama :)
+          </p>
+          <p className={styles.helloText}>
+            I’m a visual designer who loves bringing ideas to life with color, typography, and space.
+          </p>
+        </div>
+
+        {/* Per Neama: Contact, Work and About together along the top, in the
+            board's language (white type on the film, no fade).
+            About me goes to the film's last frame and plays the zoom onto
+            the name card. */}
+        <nav className={styles.topBar} aria-label="Contact, Work and About">
+          <button type="button" className={styles.topItem} onClick={() => setContact(true)}>
+            <span className={styles.slotName} data-name="Contact">Contact</span>
+          </button>
+          <button type="button" className={styles.topItem} onClick={openWork}>
+            <span className={styles.slotName} data-name="Work">Work</span>
+          </button>
+          <button type="button" className={styles.topItem} onClick={openAbout}>
+            <span className={styles.slotName} data-name="About">About</span>
+          </button>
         </nav>
 
         <p className={styles.hint} style={{ opacity: 1 - clamp(time / 1.5) }} aria-hidden="true">
@@ -339,7 +439,7 @@ export default function DispatchFilm({ projects }) {
               <button
                 key={spot.label}
                 type="button"
-                className={`${styles.spot} ${spot.card ? styles.card : ''}`}
+                className={`${styles.spot} ${spot.card ? styles.card : ''} `}
                 style={{
                   left: `${spot.left}%`,
                   top: `${spot.top}%`,

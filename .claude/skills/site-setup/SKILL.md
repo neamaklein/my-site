@@ -42,8 +42,9 @@ Neama asks  ->  you edit files  ->  commit + push to the working branch
   The copies in `src/assets/` are still used by the other builds.
 - **Home film now (since 25 Oct 2026):** wide screens play Neama's
   `film-wide-hevc.mp4`, upright phones `film-mobile-hevc.mp4`, other small
-  screens `film-720.mp4` (H.264). Since 2 Nov 2026 both HEVC films have an
-  H.264 fallback (`film-1080.mp4`, `film-mobile.mp4`), per Neama.
+  screens `film-720.mp4` (H.264). Since 3 Nov 2026 wide screens play her
+  H.264 `film-wide-h264.mp4` instead (fetched whole, played from memory), and
+  phones the HEVC only (per Neama, no fallback).
 - **Contact form:** "Send a message" posts to `/api/contact`
   (`worker/index.js`). Cloudflare Turnstile (invisible) blocks bots; the
   message is emailed to `neama.klein@gmail.com` from `contact@neama.design`,
@@ -95,7 +96,7 @@ would keep showing. Use a new name (as `film-wide-hevc.mp4` did).
   by scrolling, so the browser jumps around in it constantly. Ask for a
   keyframe every **12 frames** (wide) or **6 frames** (phone): in export
   apps this is "keyframe interval" or "max keyframe distance". Since 3 Nov
-  2026 both HEVC films have one every 6 frames (the phone one re-encoded
+  2026 the wide film has one every 3 frames and the phone one every 6 (re-encoded
   from Neama's export with x265, keyint 6, no B-frames, CRF 22, because it
   had one every 45 and jumped when scrolling on phones). This makes the
   file bigger; it must stay under 25 MiB.

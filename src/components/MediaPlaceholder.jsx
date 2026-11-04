@@ -10,8 +10,8 @@ import styles from './MediaPlaceholder.module.css';
 // image: silent, on repeat, no controls. `offset` ({x, y} in px) nudges it
 // from its place and `css` adds inline styles (both from Neama's edits in
 // the review copy).
-export default function MediaPlaceholder({ kind = 'image', note, ratio, src, size, loop = false, offset, css }) {
-  const { override, size: editedSize, editProps } = useEditableMedia(useMediaKey(src, note));
+export default function MediaPlaceholder({ kind = 'image', note, ratio, src, size, loop = false, offset, css, slot }) {
+  const { override, size: editedSize, editProps } = useEditableMedia(useMediaKey(src, note, slot));
   const style = {
     ...sizeStyle(editedSize || size),
     ...(offset ? { '--offset': `${offset.x}px ${offset.y}px` } : {}),

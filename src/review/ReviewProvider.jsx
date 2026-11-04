@@ -31,8 +31,13 @@ export const ReviewScope = ScopeContext.Provider;
 
 // Stable slot key from the original file name (minus Vite's content hash)
 // or, for placeholders without a file, from their note.
-export function useMediaKey(src, note) {
+//
+// `slot` (optional) names the place itself, for files that share a number
+// across folders (posters/01, merch/01, space/01 would otherwise be one key
+// and an upload in one would show in all three).
+export function useMediaKey(src, note, slot) {
   const scope = useContext(ScopeContext);
+  if (slot) return `${scope}__${slot}`;
   const base = src
     ? src
         .split('/')

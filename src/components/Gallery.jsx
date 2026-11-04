@@ -31,6 +31,7 @@ function Media({ item, ratio }) {
       loop={item.loop}
       offset={item.offset}
       css={item.css}
+      slot={item.slot}
     />
   );
   if (!item.caption) return media;

@@ -5,7 +5,9 @@
 .label {
   --pad: clamp(18px, 1.7vw, 26px);
   position: absolute;
-  bottom: calc(clamp(64px, 9svh, 88px) + env(safe-area-inset-bottom, 0px));
+  /* Per Neama: above the board's purple fade (its height, clamp(130px, 22svh,
+     220px), see DispatchFilm.module.css), not over it. */
+  bottom: calc(clamp(130px, 22svh, 220px) + 12px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   width: clamp(250px, 22vw, 330px);
@@ -18,11 +20,11 @@
 }
 
 .left {
-  left: clamp(20px, 6vw, 96px);
+  left: var(--m, 20px);
 }
 
 .right {
-  right: clamp(20px, 6vw, 96px);
+  right: var(--m, 20px);
 }
 
 .bar {
@@ -54,6 +56,10 @@
 }
 
 .name {
+  /* One system for every window (per Neama): the name always has two
+     lines of room, the line under it four, so the same things sit at the
+     same heights in every window and the button is always at the bottom. */
+  min-height: 2.04em;
   margin-top: 6px;
   font:
     700 clamp(26px, 2.5vw, 38px) / 1.02 'Montserrat',
@@ -64,6 +70,7 @@
 }
 
 .tagline {
+  min-height: 5.6em;
   margin-top: 6px;
   font:
     400 clamp(14px, 1.05vw, 16px) / 1.4 'Montserrat',
@@ -100,14 +107,27 @@
   outline-offset: 3px;
 }
 
+/* Per Neama: windows 1 and 3 sit a little to the left, clear of the desk
+   behind them (desktop; the phone's window runs full width). */
+@media (min-width: 761px) {
+  .right.nudge {
+    right: calc(var(--m, 20px) + var(--nudge));
+  }
+
+  /* A window on the left nudged toward the middle (window 2, per Neama). */
+  .left.nudge {
+    left: calc(var(--m, 20px) + var(--nudge));
+  }
+}
+
 /* Phones: the film is cropped to its middle; the label runs full width
    above the board. */
 @media (max-width: 760px) {
   .label {
     --pad: 14px;
-    left: 16px;
-    right: 16px;
-    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    left: var(--m, 20px);
+    right: var(--m, 20px);
+    bottom: calc(clamp(130px, 22svh, 220px) + 12px + env(safe-area-inset-bottom, 0px));
     width: auto;
     border-radius: 16px;
   }
@@ -122,11 +142,13 @@
   }
 
   .name {
+    min-height: 1.02em;
     margin-top: 4px;
     font-size: 22px;
   }
 
   .tagline {
+    min-height: 2.8em;
     margin-top: 4px;
     font-size: 13px;
   }
