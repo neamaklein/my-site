@@ -141,6 +141,11 @@ function CardHalo({ w, h, r, blur, points }) {
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 
+// The screen height the scroll is measured against: the film's own box, which
+// keeps the full screen height on phones while the browser's bars slide in and
+// out (window.innerHeight changes then, and the film would skip frames).
+const screenHeight = (video) => video?.offsetHeight || window.innerHeight;
+
 // 0 → 1 → 0 across [from, to] seconds, with half-second fades.
 function windowed(t, [from, to], fade = 0.5) {
   if (t <= from || t >= to) return 0;
@@ -199,7 +204,7 @@ export default function DispatchFilm({ projects }) {
     const el = trackRef.current;
     if (!station || !el) return;
     const t = (station[0] + station[1]) / 2;
-    const range = el.offsetHeight - window.innerHeight;
+    const range = el.offsetHeight - screenHeight(videoRef.current);
     window.scrollTo(0, el.offsetTop + (range * t) / (DURATION - 0.05));
   }, [state, navigation]);
 
@@ -227,7 +232,7 @@ export default function DispatchFilm({ projects }) {
     const onScroll = () => {
       const el = trackRef.current;
       if (!el || !video) return;
-      const range = el.offsetHeight - window.innerHeight;
+      const range = el.offsetHeight - screenHeight(video);
       const p = range > 0 ? clamp(-el.getBoundingClientRect().top / range) : 0;
       target = p * ((video.duration || DURATION) - 0.05);
       if (!frame) frame = requestAnimationFrame(tick);
@@ -287,14 +292,14 @@ export default function DispatchFilm({ projects }) {
     const el = trackRef.current;
     if (!el) return;
     setAboutPending(true);
-    window.scrollTo(0, el.offsetTop + el.offsetHeight - window.innerHeight);
+    window.scrollTo(0, el.offsetTop + el.offsetHeight - screenHeight(videoRef.current));
   }, []);
   // Work: the walk's first project (its station), where the board is up.
   const openWork = useCallback(() => {
     const el = trackRef.current;
     if (!el) return;
     const t = (STATIONS['01'][0] + STATIONS['01'][1]) / 2;
-    const range = el.offsetHeight - window.innerHeight;
+    const range = el.offsetHeight - screenHeight(videoRef.current);
     window.scrollTo({ top: el.offsetTop + (range * t) / (DURATION - 0.05), behavior: 'smooth' });
   }, []);
   const zoomAhead = useRef(null);
