@@ -1,3 +1,4 @@
 .container {
-  padding: 0 var(--inset);
+  /* Per Neama: the opening text starts on the same line as every section below it. */
+  padding: 0 var(--edge);
 }
