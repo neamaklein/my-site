@@ -1,0 +1,328 @@
+/* Over the film's last frame: the film dims and softens behind two
+   windows that float side by side (stacked on phones). */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: var(--edge);
+  background: rgba(40, 14, 48, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: dim 0.3s ease both;
+}
+
+.windows {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(16px, 2vw, 28px);
+  width: min(1040px, 100%);
+  /* Per Neama: both windows the same height. */
+  align-items: stretch;
+}
+
+/* Back to the site: a round icon button above the windows, on their
+   left edge. */
+.back {
+  grid-column: 1 / -1;
+  justify-self: start;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #ecdfd0;
+  color: var(--color-frame);
+  box-shadow: 0 12px 30px -12px rgba(40, 14, 48, 0.45);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.back svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.back:hover,
+.back:focus-visible {
+  background: var(--color-frame);
+  color: #fff;
+  outline: none;
+}
+
+.window {
+  /* One inset for the bar and the body (per Neama: the bar's label lines
+     up with the title and everything under it). */
+  --pad: clamp(24px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* A light beige, the film's walls in daylight (per Neama: not white). */
+  background: #ecdfd0;
+  /* Per Neama: round corners, no outline around the window. */
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -24px rgba(40, 14, 48, 0.45);
+  animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.window + .window {
+  animation-delay: 0.08s;
+}
+
+/* The window's bar: the film's purple sign, its label in white. All
+   the windows' type is Montserrat (per Neama). */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 calc(var(--pad) - 9px) 0 var(--pad);
+  background: var(--color-frame);
+  color: #fff;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: var(--tag-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  font:
+    400 22px/1 'Montserrat',
+    var(--font-body);
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+  outline: none;
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad);
+}
+
+.title {
+  margin: 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--color-frame);
+}
+
+.lead {
+  margin: 16px 0 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.rows {
+  display: grid;
+  gap: 10px;
+  /* The taller window sets the height: the rows settle at the bottom, the
+     last one ending on the send button's line. */
+  margin: auto 0 0;
+  padding: clamp(24px, 3vw, 36px) 0 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(82, 20, 106, 0.08);
+  color: var(--color-frame);
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.row svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.row:hover,
+.row:focus-visible {
+  background: var(--color-frame);
+  color: #fff;
+  outline: none;
+}
+
+.rowText {
+  display: grid;
+  gap: 2px;
+}
+
+.rowDetail {
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 13px;
+  text-transform: none;
+  opacity: 0.75;
+}
+
+.rowLabel {
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arrow {
+  font-size: 16px;
+}
+
+.form {
+  display: grid;
+  align-content: start;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 16px;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-family: 'Montserrat', var(--font-body);
+  font-size: var(--tag-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-frame);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid rgba(82, 20, 106, 0.18);
+  border-radius: 14px;
+  background: #f7f0e8;
+  font:
+    400 15px/1.4 'Montserrat',
+    var(--font-body);
+  color: var(--color-ink);
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--color-frame);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(82, 20, 106, 0.14);
+}
+
+.send {
+  padding: 16px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--color-frame);
+  color: #fff;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.send:hover,
+.send:focus-visible {
+  background: #3c0e4e;
+  outline: none;
+}
+
+@keyframes dim {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .back,
+  .window {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .layer {
+    padding: 16px;
+    align-items: start;
+  }
+
+  /* Stacked, the windows can outgrow the screen: they scroll, with room
+     around them so the soft shadows aren't cut square. */
+  .windows {
+    grid-template-columns: 1fr;
+    max-height: 100%;
+    overflow: auto;
+    margin: -24px;
+    padding: 24px;
+    box-sizing: border-box;
+    width: calc(100% + 48px);
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Holds the invisible Turnstile check; takes no space in the layout. */
+.check {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
