@@ -28,23 +28,27 @@ export const rockse = {
   },
 
   title: {
-    tag: 'TYPOGRAPHY_COURSE · BY NEAMA KLEIN',
+    tag: 'TYPOGRAPHY_COURSE · NEAMA KLEIN',
     name: 'Rocksé',
-    tagline: 'men’s wine',
+    tagline: 'Rosé for men, in a milk carton.',
   },
 
   // TODO(Neama): Year and Role aren't in the deck — add them if you want
   // the same 4-column meta row as DIMENSO.
   meta: [
-    { label: 'Course', value: 'Advanced Typography' },
+    { label: 'Origin', value: 'Advanced Typography course' },
+    { label: 'Year', value: '2025' },
     { label: 'Category', value: 'Packaging' },
   ],
 
   strategy: {
     heading: 'Strategy',
     paragraphs: [
-      { lead: 'Rocksé', text: " is a bold, direct, raw, and intelligent brand. It doesn't try to please everyone, instead, it targets an audience that appreciates underground culture aesthetics - rock, tattoos, and grunge - and seeks material authenticity over a beautified product." },
-      'The project was developed as part of an advanced typography course, where each participant was required to select a beverage and adapt its packaging to a mandatory milk carton format. I chose rosé wine a product traditionally marketed with a delicate, feminine, and romantic stigma.',
+      'In an advanced typography course, each participant chose a beverage and adapted it to a mandatory milk carton format. I chose rosé, a wine usually marketed as delicate, feminine, and romantic.',
+      {
+        lead: 'Rocksé',
+        text: ' goes the other way: bold, direct, and raw. It doesn’t try to please everyone. It speaks to an audience of rock, tattoos, and grunge, who prefer material authenticity over a beautified product.',
+      },
     ],
   },
 
@@ -69,12 +73,14 @@ export const rockse = {
   galleries: [
     {
       heading: 'Brand Assets',
+      text: ['Rough typography and two colors: Dirty Rose and Black Ink.'],
       // Edge to edge: the stickers on black are the page's dark moment.
       layout: 'bleed',
       media: [{ kind: 'image', note: 'stickers, picks and tin', src: stickers }],
     },
     {
       heading: 'Dieline',
+      text: ['The milk carton, unfolded.'],
       columns: 2,
       media: [
         { kind: 'image', note: 'dieline — Dirty Rose', src: dielineRose },
@@ -83,6 +89,7 @@ export const rockse = {
     },
     {
       heading: 'Product',
+      text: ['Carton in hand: a rosé that doesn’t apologize.'],
       columns: 2,
       media: [
         { kind: 'image', note: 'carton in hand', src: productHand },

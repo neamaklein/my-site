@@ -63,21 +63,23 @@ export const achoti = {
   },
 
   title: {
-    tag: '01 · INTRODUCTION · UX/UI · HEALTHCARE',
+    tag: 'UX/UI_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'ACHOTI',
-    tagline: 'Hospital Navigation & Support System',
+    tagline: 'A personal hospital companion, from preparation at home to the right room.',
   },
 
   meta: [
-    { label: 'Course', value: 'UX/UI' },
-    { label: 'Team', value: 'Neama Klein · Amit Tal' },
-    { label: 'Category', value: 'UX/UI · Healthcare · Digital Companion' },
+    { label: 'Origin', value: 'UX/UI course' },
     { label: 'Year', value: '2026' },
+    { label: 'Category', value: 'UX/UI' },
+    { label: 'Team', value: 'Neama Klein · Amit Tal' },
   ],
 
   strategy: {
+    heading: 'Strategy',
     paragraphs: [
       'A personal hospital companion that turns a stressful medical journey into one continuous, reassuring experience — from preparation at home to the exact room inside the hospital.',
+      'In Hebrew, patients call the ward nurse “achoti,” my sister. The app is that nurse, walking beside you down every corridor.',
     ],
   },
 
@@ -120,7 +122,7 @@ export const achoti = {
   galleries: [
     {
       eyebrow: '02 · The Challenge',
-      heading: 'The Hospital Experience is Not Only Medical',
+      heading: 'The Hospital Experience Is Not Only Medical',
       text: [
         'Patients and families must juggle appointments, preparation instructions, documents, complex corridors, and the constant stress of what happens next. Uncertainty and fragmented information define the journey.',
       ],
@@ -135,7 +137,7 @@ export const achoti = {
       eyebrow: '03 · The Solution',
       heading: 'A Continuous Digital Companion',
       text: [
-        'ACHOTI unites every phase of the medical visit into one reassuring narrative: clear preparation at home, contextual guidance upon arrival, and seamless indoor wayfinding from doorstep to consultation.',
+        'ACHOTI unites every phase of a medical visit into one reassuring narrative: clear preparation at home, contextual guidance on arrival, and indoor wayfinding from the front door to the consultation room.',
       ],
       columns: 2,
       maxRowHeight: '70svh',
@@ -165,7 +167,7 @@ export const achoti = {
       ].map(([src, caption]) => ({ ...image(src, 'wireframe', caption), captionBelow: true })),
     },
     {
-      eyebrow: '05 · Character Design / Companion System',
+      eyebrow: '05 · Character Design · Companion System',
       heading: 'A Human Presence Across the Entire Journey',
       text: [
         'The companion is a recurring product cue. Poses communicate context and emotion, while the wider character family keeps the visual language inclusive and consistent.',
@@ -243,7 +245,7 @@ export const achoti = {
       eyebrow: '10 · Final Experience',
       heading: 'From “Where Do I Go?” to “I Know What Happens Next.”',
       text: [
-        'A human visual language and contextual guidance turn hospital navigation into a calmer, more understandable experience.',
+        'Human visuals and contextual guidance make the hospital easier to understand.',
       ],
       columns: 4,
       maxRowHeight: '70svh',

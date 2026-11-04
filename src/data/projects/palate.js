@@ -56,17 +56,28 @@ export const palate = {
   },
 
   title: {
-    tag: 'NEW_BRAND · L2T_NEAMA KLEIN_AMIT TAL',
+    tag: 'L2T_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'PALATE',
-    tagline: 'saturate your senses',
+    tagline: 'Pantone turns color into flavor.',
   },
 
   meta: [
-    { label: 'Brand', value: 'Pantone' },
-    { label: 'Concept', value: 'New brand' },
-    { label: 'Team', value: 'Neama Klein · Amit Tal' },
+    { label: 'Origin', value: 'L2T course' },
+    { label: 'Year', value: '2026' },
     { label: 'Category', value: 'Spatial branding' },
+    { label: 'Team', value: 'Neama Klein · Amit Tal' },
   ],
+
+  strategy: {
+    heading: 'Strategy',
+    paragraphs: [
+      {
+        lead: 'PALATE',
+        text: ' is a Pantone sub-brand of juices and smoothies where every flavor is a shade with its own Pantone code. Dragon Fruit is 18-2043.',
+      },
+      'Each bottle is built like a lab sample, with a periodic-table symbol (Df, Or, Kw), a hex code, and a foil seal. Saturate your senses: in color and in flavor.',
+    ],
+  },
   // Per Neama: the meta labels in the mono.
   metaMonoLabels: true,
 
@@ -97,6 +108,7 @@ export const palate = {
   galleries: [
     {
       heading: 'Merch',
+      text: ['Every bottle is a color sample, and the Take Your Palate pack is the lab kit.'],
       // The cups and capsules moved up to open the page (per Neama).
       columns: 2,
       ratio: '1 / 1',
@@ -105,6 +117,7 @@ export const palate = {
     },
     {
       heading: 'Coming Soon',
+      text: ['The fruit becomes the symbol, and the percentages are the recipe. Launching at Habima Square.'],
       // The billboard leads, large; the two poster frames tight beneath.
       layout: 'lead',
       columns: 2,
@@ -115,6 +128,7 @@ export const palate = {
     },
     {
       heading: 'Guerrilla',
+      text: ['One more teaser on the street, before the pop-up opens.'],
       // Renders are PALATE's one sticky moment; this scrolls normally.
       layout: 'lead',
       columns: 2,
@@ -123,6 +137,7 @@ export const palate = {
     },
     {
       heading: 'Plans',
+      text: ['The launch pavilion, planned as an open lab.'],
       // Per Neama: two columns, drawings side by side.
       columns: 2,
       ratio: '1920 / 985',
@@ -138,6 +153,7 @@ export const palate = {
     },
     {
       heading: 'Renders',
+      text: ['The pavilion in the square.'],
       // Per Neama: four renders, as large as the page allows.
       layout: 'wide',
       ratio: '1845 / 929',

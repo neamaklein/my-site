@@ -223,9 +223,21 @@ function DeviceVideo({ item, device }) {
   );
 }
 
+// `text`: the section's own copy, above its media (every layout).
+function Copy({ text, dir, lang }) {
+  if (!text?.length) return null;
+  return (
+    <div className={styles.text} dir={dir} lang={lang}>
+      {text.map((paragraph) => (
+        <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+      ))}
+    </div>
+  );
+}
+
 // One large media and the rest in tight rows beneath. Clicking a small one
 // swaps it with the large one (per Neama), so any of them can be seen big.
-function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast, gap }) {
+function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast, gap, text, textDir, textLang }) {
   const [order, setOrder] = useState(() => media.map((_, i) => i));
   useEffect(() => setOrder(media.map((_, i) => i)), [media]);
   const [first, ...rest] = order.map((i) => media[i]).filter(Boolean);
@@ -239,6 +251,7 @@ function Lead({ heading, eyebrow, media, columns, ratio, leadBleed, fillLast, ga
   return (
     <section className={styles.wrap}>
       <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
+      <Copy text={text} dir={textDir} lang={textLang} />
       <div
         className={`${styles.lead} ${leadBleed ? styles.leadFull : ''}`}
         style={gap !== undefined ? { '--lead-gap': `${gap}px` } : undefined}
@@ -321,6 +334,7 @@ export default function Gallery({
     return (
       <section className={styles.wrap}>
         <SectionLabel heading={heading} eyebrow={eyebrow} className={styles.topLabel} />
+        <Copy text={text} dir={textDir} lang={textLang} />
         <div className={styles.stack}>
           {media.map((item, index) => (
             <div className={`${styles.card} ${styles.wideCard}`} key={index}>
@@ -368,6 +382,7 @@ export default function Gallery({
     return (
       <section className={`${styles.wrap} ${styles.bleedWrap}`}>
         <SectionLabel heading={heading} className={`${styles.topLabel} ${styles.bleedLabel}`} />
+        <Copy text={text} dir={textDir} lang={textLang} />
         <div className={styles.bleed}>
           {media.map((item, index) => (
             <Media key={index} item={item} ratio={ratio} />
@@ -388,6 +403,9 @@ export default function Gallery({
         leadBleed={leadBleed}
         fillLast={fillLast}
         gap={gap}
+        text={text}
+        textDir={textDir}
+        textLang={textLang}
       />
     );
   }

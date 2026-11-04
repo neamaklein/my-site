@@ -224,6 +224,16 @@
   display: grid;
 }
 
+/* The copy of a full-width section keeps the page's side margin. */
+.bleedWrap > .text {
+  padding: 0 var(--edge);
+  max-width: none;
+}
+
+.bleedWrap > .text p {
+  max-width: 680px;
+}
+
 /* One large image, then the rest tight beneath it: the gap inside the
    row is smaller than the page gutter, so it reads as one group. */
 .lead {

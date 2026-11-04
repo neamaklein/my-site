@@ -64,16 +64,15 @@ export const dimenso = {
   },
 
   title: {
-    tag: 'DISPATCHED_2026 · ROLE: BRAND_in_a_ box',
+    tag: 'BRAND_IN_A_BOX · NEAMA KLEIN & AMIT TAL',
     name: 'DIMENSO',
-    tagline: 'A spatial identity for a measurement-obsessed architecture studio — every line drawn to scale.',
+    tagline: 'Adobe’s creative lab, where digital ideas gain a dimension.',
   },
 
   meta: [
-    { label: 'Course', value: 'Brand in a Box' },
+    { label: 'Origin', value: 'Brand in a Box course' },
     { label: 'Year', value: '2026' },
-    { label: 'Category', value: 'Brand ID' },
-    { label: 'Role', value: 'Brand Designer' },
+    { label: 'Category', value: 'Spatial branding' },
     // Per Neama (the YouTube credit: Amit Tal & Neama Klein); her name first.
     { label: 'Team', value: 'Neama Klein · Amit Tal' },
   ],
@@ -83,8 +82,9 @@ export const dimenso = {
     paragraphs: [
       {
         lead: 'Dimensō',
-        text: ' is a hybrid Creative Lab platform designed to bridge the gap between the flexibility of Open Source technology and a premium, high-end user experience. It functions as a centralized creative hub, unifying the world’s most advanced AI engines into a single, intuitive interface.',
+        text: ' is an Adobe sub-brand: a hybrid creative lab that unifies the world’s most advanced AI engines in one interface, bridging the flexibility of open-source technology with a premium user experience.',
       },
+      'The name comes from “dimension,” and the identity is built around it: rulers, measurement lines, and system states (“Rendering…”, “Saving file…”) that turn the creative process itself into a graphic language.',
     ],
   },
 
@@ -152,6 +152,7 @@ export const dimenso = {
   galleries: [
     {
       heading: 'Space Design',
+      text: ['Each zone in the pavilion works like a tool in the interface: Creative Hub, Creative Lab, Interactive, Cafe Bar, and 360 Room, each with its own icon, color, and role.'],
       // Per Neama: the first image edge to edge, a full screen; the other
       // four at half the width, two by two. Full-resolution files from the
       // portfolio Figma (the deck crops were 512px).
@@ -168,6 +169,7 @@ export const dimenso = {
     },
     {
       heading: 'Social & Invitation',
+      text: ['The digital presence speaks in system states, before anyone reaches the pavilion.'],
       // Per Neama: the two phone videos side by side (her uploads), no
       // third slot; one height, no taller than most of the screen.
       columns: 2,
@@ -191,6 +193,7 @@ export const dimenso = {
     },
     {
       heading: 'Marketing Campaign',
+      text: ['Beyond The Frame: Adobe’s editing tools step off the screen and into the street.'],
       // Was a 2×2 grid in Figma; now one large and three in a tight row,
       // for scale contrast, all edge to edge (per Neama).
       layout: 'lead',
@@ -209,6 +212,7 @@ export const dimenso = {
       // video, each named above it. The names are descriptive labels, not
       // from her files — rename freely.
       heading: 'Plans',
+      text: ['Two floors and a front elevation: how the zoning works in practice.'],
       columns: 1,
       media: [
         { kind: 'image', note: 'ground floor plan', src: planGround, caption: 'Ground Floor Plan' },
@@ -218,6 +222,7 @@ export const dimenso = {
     },
     {
       heading: 'Walkthrough Video',
+      text: ['A walk through the pavilion, from the entrance to the 360 Room.'],
       // Per Neama: the full walkthrough (1:30, silent) playing on the
       // MacBook from the Figma. It loads only as you near it and plays
       // while it is on screen. `screen` is the display area of the frame
@@ -236,7 +241,7 @@ export const dimenso = {
   // each twice (01/02, 03/11, 04/05, 06/12, 07/10, 08/09, 13/14 are the
   // same picture); each now shows once, and the strip loops.
   spatialRenders: {
-    note: 'Interior renders — physical application of the Dimenso identity (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
+    note: 'Interior renders: the Dimensō identity in physical space (360 Room, Creative Hub, Creative Lab, Interactive, Cafe Bar).',
     images: [spatial01, spatial03, spatial04, spatial06, spatial07, spatial08, spatial13],
   },
 

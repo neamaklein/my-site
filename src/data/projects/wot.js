@@ -56,21 +56,33 @@ export const wot = {
   },
 
   title: {
-    tag: 'PERSONAL_PROJECT · BY NEAMA KLEIN',
+    tag: 'PERSONAL_PROJECT · NEAMA KLEIN',
     name: 'Wheel of Time',
-    // TODO(Neama): a line of your own goes here.
-    tagline: '',
+    tagline: '15 covers, one system, one wheel.',
   },
 
   meta: [
-    { label: 'Project', value: 'Personal' },
+    { label: 'Origin', value: 'Personal project' },
+    { label: 'Year', value: '2025' },
     { label: 'Category', value: 'Book covers' },
-    { label: 'Books', value: '15' },
   ],
+
+  strategy: {
+    heading: 'Strategy',
+    paragraphs: [
+      {
+        before: 'The existing ',
+        lead: 'Wheel of Time',
+        text: ' covers don’t do justice to the world inside the books, so I redesigned all 15.',
+      },
+      'The system rests on three constants: a pattern that repeats across every book, a fixed grid and typography, and one central character per cover. The pattern is the wheel itself: in the series, time doesn’t move in a straight line. It turns.',
+    ],
+  },
 
   galleries: [
     {
       heading: 'The Series',
+      text: ['All 15 books, side by side: one system.'],
       // Per Neama: one large, the rest small in rows of three, close
       // together; a small one clicked swaps into the large place.
       layout: 'lead',
@@ -83,12 +95,14 @@ export const wot = {
     {
       // Per Neama: the characters sheet (her upload) as its own section,
       // above Cover & Back, under her heading, across the full width.
-      heading: 'דמויות',
+      heading: 'Characters',
+      text: ['One character for each book.'],
       columns: 1,
       media: [{ kind: 'image', note: 'the characters', src: characters }],
     },
     {
       heading: 'Cover & Back',
+      text: ['The fixed grid, from front cover to spine.'],
       // Per Neama: one large, the rest small under it, like The Series.
       // The Great Hunt (her annotated cover & back) leads; a small one
       // clicked swaps into the large place.
@@ -108,6 +122,7 @@ export const wot = {
     },
     {
       heading: 'Pattern',
+      text: ['The wheel: time that comes back around.'],
       // Per Neama: no sticky scrolling, and only The Eye of the World
       // (The Shadow Rising and Winter's Heart aren't needed); no taller
       // than most of the screen.

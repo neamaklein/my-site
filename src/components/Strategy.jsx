@@ -10,8 +10,11 @@ export default function Strategy({ heading, paragraphs, dir, lang }) {
         {paragraphs.map((paragraph) => {
           const text = typeof paragraph === 'string' ? paragraph : paragraph.text;
           const lead = typeof paragraph === 'string' ? null : paragraph.lead;
+          // `before`: words ahead of the bold lead ("The existing **Wheel of Time** covers...").
+          const before = typeof paragraph === 'string' ? null : paragraph.before;
           return (
-            <p key={`${lead || ''}${text.slice(0, 40)}`}>
+            <p key={`${before || ''}${lead || ''}${text.slice(0, 40)}`}>
+              {before}
               {lead && <strong>{lead}</strong>}
               {text}
             </p>

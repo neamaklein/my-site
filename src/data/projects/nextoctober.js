@@ -51,22 +51,26 @@ export const nextoctober = {
   },
 
   title: {
-    tag: 'BRANDING_COURSE _3RD YEAR · BY NEAMA KLEIN & AMIT TAL',
+    tag: 'BRANDING_COURSE · NEAMA KLEIN & AMIT TAL',
     name: 'Next October',
-    tagline: 'memory to legacy',
+    tagline: 'Branding for an initiative building 1,400 startups in memory of the fallen of October 7th.',
   },
 
   meta: [
-    { label: 'Course', value: 'Branding, 3rd year' },
-    { label: 'Team', value: 'Neama Klein · Amit Tal' },
+    { label: 'Origin', value: 'Branding course, 3rd year' },
+    { label: 'Year', value: '2026' },
     { label: 'Category', value: 'Branding' },
+    { label: 'Team', value: 'Neama Klein · Amit Tal' },
   ],
 
   strategy: {
     heading: 'Strategy',
     paragraphs: [
-      { lead: 'Next October', text: ' is a national initiative and technological movement founded by Izhar Shay, a former Israeli Minister of Science and Technology, in memory of his son, Yaron, who fell in battle on October 7th. The initiative’s vision is to transform profound loss into a powerful catalyst for growth. Its mission is to establish and support 1,400 new startups, one for every individual lost, ensuring that the legacy of the fallen becomes a living part of Israel’s innovation ecosystem. By pairing tech companies with bereaved families, the initiative turns personal grief into collective creation.' },
-      'Next October perceives the pain of memory as a living engine for entrepreneurship, growth, and hope for Israeli society. By bridging the legacy of the fallen with technological and social innovation, it ensures that their light continues to guide and build our tomorrow. This is a profound transition from memory to legacy—transforming loss into a constructive force that shapes our future.',
+      {
+        lead: 'Next October',
+        text: ' is a national initiative founded by Izhar Shay in memory of his son, Yaron, who fell on October 7th. Its goal: 1,400 new startups, one for every life lost, built together with bereaved families and tech companies.',
+      },
+      'The branding is built around one transition: from memory to legacy. Loss that becomes a force that builds.',
     ],
   },
 
@@ -83,7 +87,8 @@ export const nextoctober = {
 
   galleries: [
     {
-      heading: 'Posters In memory of',
+      heading: 'Posters: In memory of',
+      text: ['Each poster carries one name.'],
       columns: 3,
       media: images(posters, undefined, 'posters').map((item, index) => ({
         ...item,
@@ -92,10 +97,9 @@ export const nextoctober = {
       })),
     },
     {
-      heading: 'SAVE THE DATE/',
+      heading: 'Save the Date',
       text: [
-        'Digital invitation for the Next October summit held at the President’s Residence in Jerusalem. Hosted by the President of Israel, this high-profile event marked the one-year anniversary of October 7th, focusing on the profound transition from mourning to active rebuilding through innovation and entrepreneurship.',
-        'My design objective was to create a visual gateway that balanced the formal dignity of a state ceremony with the forward-thinking, optimistic energy of the Next October brand. By integrating the signature Active Choice Blue and Optimism Golden-Orange, I aimed to symbolize the bridge between memory and hope, ensuring the layout resonated with bereaved families and high-tech leaders alike.',
+        'I designed the invitation to the Next October summit at the President’s Residence to balance the dignity of a state ceremony with the energy of the brand. Legacy blue and Memory orange connect remembrance and hope.',
       ],
       columns: 1,
       maxRowHeight: '80vh',
@@ -103,11 +107,13 @@ export const nextoctober = {
     },
     {
       heading: 'Merch',
+      text: ['A pin, a bracelet, a scarf, and a lanyard: memory carried every day.'],
       columns: 3,
       media: images(merch, ['hope pin', 'hope legacy bracelet', 'scarf on the wrist', 'scarf with its tag', 'lanyard'], 'merch'),
     },
     {
       heading: 'Space',
+      text: ['The pavilion.'],
       layout: 'wide',
       ratio: '16 / 9',
       media: images(space, ['pavilion at the President’s Residence', 'seating and merch counter'], 'space'),

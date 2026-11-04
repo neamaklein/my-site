@@ -40,25 +40,25 @@ export const spinsip = {
   },
 
   title: {
-    tag: 'BRANDING_COURSE · BY NEAMA KLEIN',
+    tag: 'BRANDING_COURSE · NEAMA KLEIN',
     name: 'Spin Sip',
-    tagline: 'Branding & Spatial Food Experience for the Tel Aviv Velodrome.',
+    tagline: 'A pit stop at the Tel Aviv Velodrome: stop, refuel, back in motion.',
   },
 
   meta: [
-    { label: 'Course', value: 'Branding' },
-    { label: 'Category', value: 'Branding & spatial' },
+    { label: 'Origin', value: 'Branding course' },
+    { label: 'Year', value: '2025' },
+    { label: 'Category', value: 'Branding' },
   ],
 
   strategy: {
     heading: 'Strategy',
     paragraphs: [
-      'The brief was to develop a complete visual language for a food stand located inside the Tel Aviv Velodrome, based on research of the space, its atmosphere, and the movement culture surrounding it. The challenge was to translate the feeling of speed, flow, energy, and continuous motion into a branded culinary experience.',
+      'The brief was a complete visual language for a food stand inside the Tel Aviv Velodrome, grounded in research into the space, its atmosphere, and the movement culture around it.',
       {
         lead: 'Spin Sip',
-        text: ' is a fast-paced pit stop for light bites and quick drinks, designed for people constantly in motion. Inspired by the endless looping movement of the velodrome track, the project transforms a short stop into a moment of recharge - quick fuel, minimal pause, and immediate return to motion.',
+        text: ' is a pit stop for light bites and quick drinks, made for people who never stop moving. The endless loop of the track became the identity: dynamic forms, flowing lines, and bold typography.',
       },
-      'The identity system combines dynamic forms, flowing lines, bold typography, and a streamlined spatial experience that reflects the rhythm and intensity of movement.',
     ],
   },
 
@@ -87,6 +87,7 @@ export const spinsip = {
   galleries: [
     {
       heading: 'Posters',
+      text: ['Posters that move like the track.'],
       columns: 3,
       // Per Neama: round corners.
       rounded: true,
@@ -94,6 +95,7 @@ export const spinsip = {
     },
     {
       heading: 'In Use',
+      text: ['The stand in use: a short stop inside constant motion.'],
       // Per Neama: one large, two under it. The menu is her upload.
       layout: 'lead',
       columns: 2,
