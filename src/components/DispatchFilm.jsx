@@ -166,9 +166,8 @@ export default function DispatchFilm({ projects }) {
   );
   const tall = cut === 'tall';
   // Wide screens: Neama's updated 1080p H.264 (film-wide-h264.mp4, 22 MiB, her
-  // _7 export of 3 Nov: a keyframe every 3 frames, no audio), which keeps each
-  // seek to a couple of frames, so scrolling is smooth (her earlier export had
-  // one keyframe a second, which stalls).
+  // _10 export of 4 Nov: no audio, +faststart, a keyframe every 2 s; her _7
+  // export had one every 3 frames, which scrubs more smoothly).
   // neama.design's own static files answer every request with the whole file
   // (200, no range requests), and a film that is scrubbed by scrolling needs to
   // be sought in, which Safari and Chrome only do on a file that answers ranges.
