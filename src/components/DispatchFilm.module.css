@@ -286,14 +286,16 @@
   .slot {
     padding: 14px 16px;
   }
-  /* Per Neama: on phones the introduction sits in the middle of the screen. */
+  /* Per Neama: on phones the introduction sits in the middle, across (its place
+     down the screen is as before). */
   .hello {
-    top: 50%;
-    bottom: auto;
-    translate: 0 -50%;
-    padding: 0 var(--m, 20px);
+    padding: clamp(110px, 20svh, 200px) var(--m, 20px) 96px;
+    text-align: center;
   }
   .helloText {
+    margin-left: auto;
+    margin-right: auto;
+  }  .helloText {
     max-width: 30ch;
   }
   /* The same side margin as the page, for the buttons and the board. */
