@@ -1,0 +1,383 @@
+/* The scroll length sets the pace: about a screen of scrolling for every
+   two and a half seconds of film. */
+.track {
+  position: relative;
+  height: 1900vh;
+}
+
+.stage {
+  /* The Hello text's bottom edge and SCROLL TO EXPLORE share one baseline
+     (per Neama): --hb is the gap under the text, --hf its font size. */
+  --hb: clamp(80px, 11svh, 108px);
+  /* The side margin of the top buttons and the board, one value for both
+     (per Neama: a little nearer the edge than the page margin). */
+  --m: clamp(20px, 5vw, 110px);
+  --hf: clamp(18px, 1.8vw, 29px);
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* Per Neama: on phones the stage fills the screen as the browser's bars
+     slide away (dvh), instead of leaving a white strip under it (svh). */
+  height: 100dvh;
+  overflow: hidden;
+  /* clip, not just hidden: a spot cropped off a narrow screen must not
+     scroll the stage sideways when it takes focus. */
+  overflow: clip;
+  background: #f3e6da;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* The film keeps the full screen height (lvh) while the stage follows the
+     browser's bars (dvh): the bars slide over its bottom edge instead of the
+     film resizing, which made it jump while scrolling on phones. */
+  height: 100lvh;
+  object-fit: cover;
+}
+
+/* A dark fade under the board (per Neama: it was barely readable). */
+.boardFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(130px, 22svh, 220px);
+  background: linear-gradient(to top, rgba(28, 6, 40, 0.82), rgba(28, 6, 40, 0.5) 45%, rgba(28, 6, 40, 0));
+  pointer-events: none;
+}
+
+/* The printer label's words as UI, over the film, on a light fade (per
+   Neama: on the label they are too small to read). */
+.hello {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(110px, 20svh, 200px) clamp(20px, 3vw, 48px) var(--hb) max(24px, calc(100% - 560px));
+  /* Per Neama: no fade and no shadow, the words in white, large. */
+  color: #fff;
+  text-align: left;
+  pointer-events: none;
+}
+
+.helloTitle {
+  margin: 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: clamp(36px, 4.8vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.helloText {
+  max-width: 30ch;
+  margin: 20px 0 0;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: var(--hf);
+  line-height: 1.45;
+  color: #fff;
+}
+
+/* Contact and About me along the top, in the board's language (per Neama):
+   white type straight on the film, no fade, no divider; on hover only the word turns bold (per Neama). */
+.topBar {
+  position: absolute;
+  /* Margins (per Neama): the text sits on the page's side margin, not at the edge. */
+  top: clamp(8px, 1.6svh, 20px);
+  right: calc(var(--m) - 20px);
+  z-index: 2;
+  display: flex;
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+.topItem {
+  position: relative;
+  padding: 18px 20px;
+  border: 0;
+  background: none;
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+
+.topItem:focus-visible {
+  outline: none;
+}
+
+/* Departures board along the bottom: white type straight on the film
+   (per Neama), one slot per dispatch; the slot the camera is at is lit
+   and barred. */
+.board {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.board::-webkit-scrollbar {
+  display: none;
+}
+
+.slot {
+  position: relative;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: baseline;
+  /* Per Neama: the same space around every name, so the gap between any two
+     is equal: each slot grows by the same amount and holds its name in the
+     middle (the divider then sits halfway between names). */
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  font-family: 'Montserrat', var(--font-body);
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.88);
+  /* Straight on the film, with no panel (per Neama): a soft shadow keeps
+     the white legible over the light walls. */
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  transition: color 0.2s ease;
+}
+
+.slot:first-child {
+  border-left: 0;
+}
+
+.slotNo {
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* Per Neama: names are regular and turn bold for the slot the camera is at
+   or the pointer is on, as a soft fade, not a snap. The bold word sits over
+   the regular one and the two cross-fade; a hidden bold copy (::after)
+   holds the bold width in advance, so nothing shifts. */
+.slotName {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  font-weight: 400;
+  transition: color 0.35s ease;
+}
+
+.slotName::before {
+  content: attr(data-name);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.slotName::after {
+  content: attr(data-name);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 700;
+}
+
+.here .slotName,
+.slot:hover .slotName,
+.slot:focus-visible .slotName,
+.topItem:hover .slotName,
+.topItem:focus-visible .slotName {
+  color: transparent;
+}
+
+.here .slotName::before,
+.slot:hover .slotName::before,
+.slot:focus-visible .slotName::before,
+.topItem:hover .slotName::before,
+.topItem:focus-visible .slotName::before {
+  opacity: 1;
+}
+
+.here,
+.slot:hover,
+.slot:focus-visible {
+  color: #fff;
+  outline: none;
+}
+
+.here .slotNo {
+  opacity: 1;
+}
+
+/* The loading line along the top of the board (per Neama): a faint track
+   over every slot, a white fill that grows as she scrolls toward that
+   slot's station and stays once it is there. */
+.loadTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+
+.loadFill {
+  display: block;
+  height: 100%;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  /* Its baseline on the text's last baseline: the text's line box reaches
+     0.3665em below the baseline, this box 9.77px. */
+  bottom: calc(var(--hb) + var(--hf) * 0.3665 - 9.77px + env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  /* The size of Contact and About me (per Neama). */
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  /* Per Neama: in the middle of the frame, low, a muted white. */
+  color: rgba(255, 255, 255, 0.72);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Per Neama: the board's first and last names keep the page's side margin
+   (not hugging the screen's edges); the names scale a little with the
+   width so all seven still fit between the margins. Wide screens only. */
+@media (min-width: 641px) {
+  .board {
+    padding-inline: calc(var(--m) - 12px);
+  }
+  .slot {
+    padding-inline: 12px;
+    font-size: clamp(11px, 1.05vw, 15px);
+  }
+}
+
+@media (max-width: 640px) {
+  .hint {
+    font-size: 13px;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+  .slot {
+    padding: 14px 16px;
+  }
+  /* Per Neama: on phones the introduction block sits in the middle across the
+     screen, its text still aligned left. */
+  .hello {
+    left: 50%;
+    right: auto;
+    width: max-content;
+    max-width: calc(100% - 2 * var(--m, 20px));
+    translate: -50% 0;
+    padding: clamp(110px, 20svh, 200px) 0 96px;
+    text-align: left;
+  }
+  .helloText {
+    max-width: 25ch;
+  }
+  /* The same side margin as the page, for the buttons and the board. */
+  /* Per Neama: on phones the three buttons sit in the middle, with room
+     above them (not against the edge). */
+  .topBar {
+    top: 14px;
+    left: 0;
+    right: 0;
+    justify-content: center;
+  }
+  .board {
+    padding-inline: calc(var(--m) - 16px);
+  }
+  .topItem {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
+
+/* The 16:9 film frame as object-fit: cover lays it on the stage. */
+.frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  top: 50lvh;
+  width: max(100%, calc(100svh * 16 / 9));
+  width: max(100%, calc(100lvh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.frameTall {
+  width: max(100%, calc(100svh * 9 / 16));
+  width: max(100%, calc(100lvh * 9 / 16));
+  aspect-ratio: 9 / 16;
+}
+
+.spot {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  /* Rounded all round, so the glow follows Contact's pill and sits softly
+     around the words. */
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: box-shadow 0.25s ease;
+}
+
+/* The name card: no box glow; its halo follows the card's own outline
+   (per Neama). */
+.spot.card:hover,
+.spot.card:focus-visible {
+  box-shadow: none;
+}
+
+.halo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.card:hover .halo,
+.card:focus-visible .halo {
+  opacity: 1;
+}
+
+/* Per Neama: a soft halo, not a drawn line. */
+.spot:hover,
+.spot:focus-visible {
+  box-shadow:
+    0 0 12px 3px rgba(255, 255, 255, 0.7),
+    0 0 32px 10px rgba(255, 255, 255, 0.35);
+  outline: none;
+}

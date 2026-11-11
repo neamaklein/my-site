@@ -1,0 +1,30 @@
+.wrap {
+  padding: 72px 0 28px;
+}
+
+/* The tag line stays in the shipping voice: one of the page's moments. */
+.tag {
+  display: block;
+  color: var(--color-frame);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-name);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  margin: 0;
+  padding: 20px 0 16px;
+}
+
+.tagline {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-subhead);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-secondary);
+  max-width: 28ch;
+  margin: 0;
+}
